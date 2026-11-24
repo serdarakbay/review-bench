@@ -3,6 +3,7 @@
 import dataclasses
 import json
 import random
+import re
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
@@ -68,6 +69,42 @@ def with_tests_from(tasks: list[Task], hf_name: str, exclude: list[str]) -> list
 
     rows = {r["task_id"]: r for r in load_dataset(hf_name, split="test")}
     return replace_tests(tasks, rows, exclude)
+
+
+def mbpp_prompt(text: str, first_test: str) -> str:
+    """evalplus MBPP+ prompt: the task sentence and one example assert in a docstring.
+
+    The assert fixes the function name and call signature, as in the official MBPP+ setup.
+    """
+    return f'"""\n{text}\n{first_test}\n"""\n'
+
+
+def mbpp_entry_point(test: str) -> str:
+    """Function name called by an MBPP+ test script (`assertion(name(*inp), exp, atol)`)."""
+    names = set(re.findall(r"assertion\((\w+)\(\*inp\)", test))
+    if len(names) != 1:
+        raise ValueError(f"expected one entry point, found {sorted(names)}")
+    return names.pop()
+
+
+def load_mbppplus(hf_name: str, exclude: list[str]) -> list[Task]:
+    """MBPP+ tasks as Task objects; task ids are 'Mbpp/<n>' as in evalplus."""
+    from datasets import load_dataset
+
+    tasks = []
+    for r in load_dataset(hf_name, split="test"):
+        task_id = f"Mbpp/{r['task_id']}"
+        if task_id in exclude:
+            continue
+        imports = "\n".join(r["test_imports"])
+        tasks.append(Task(
+            task_id=task_id,
+            prompt=mbpp_prompt(r["prompt"], r["test_list"][0]),
+            canonical_solution=r["code"],
+            test=(imports + "\n\n" if imports else "") + r["test"],
+            entry_point=mbpp_entry_point(r["test"]),
+        ))
+    return tasks
 
 
 def verify_canonical(tasks: list[Task], timeout_s: float, workers: int = 4) -> dict[str, RunResult]:

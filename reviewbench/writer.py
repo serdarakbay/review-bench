@@ -8,6 +8,7 @@ Two stages, so paid/limited writer calls are never repeated:
 """
 
 import json
+import random
 import re
 import threading
 from concurrent.futures import ThreadPoolExecutor
@@ -59,7 +60,8 @@ class ClaudeWriter:
         self.timeout_s = cfg.get("timeout_s", 300)
         self.concurrency = int(cfg.get("concurrency", 1))
         self.exe = find_claude_exe(cfg.get("cli_path"))
-        self.template = (ROOT / "prompts" / f"{WRITER_PROMPT}.txt").read_text(encoding="utf-8")
+        self.prompt = cfg.get("prompt", WRITER_PROMPT)
+        self.template = (ROOT / "prompts" / f"{self.prompt}.txt").read_text(encoding="utf-8")
 
     def write(self, task_prompt: str) -> dict:
         text = self.template.replace("{task_prompt}", task_prompt.strip("\n"))
@@ -94,7 +96,6 @@ def generate_solutions(
     on_done: Callable[[dict], None] | None = None, sleep=None,
 ) -> dict[str, dict]:
     """Ask the writer for every task not yet cached. Returns task_id -> cached row."""
-    import random
     import time
 
     sleep = sleep or time.sleep
@@ -106,7 +107,7 @@ def generate_solutions(
 
         def do(task: Task) -> None:
             row = {"task_id": task.task_id, "writer": writer.name, "model": writer.model,
-                   "prompt": WRITER_PROMPT,
+                   "prompt": getattr(writer, "prompt", WRITER_PROMPT),
                    "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds")}
             for attempt in range(max_retries + 1):
                 try:
@@ -158,3 +159,11 @@ def build_natural_samples(tasks: list[Task], cached: dict[str, dict], timeout_s:
             "writer_model": row["model"],
         })
     return samples, stats
+
+
+def balance(samples: list[dict], seed: int) -> list[dict]:
+    """All buggy samples plus the same number of correct ones, drawn with a fixed seed (order kept)."""
+    buggy = [s for s in samples if s["is_buggy"]]
+    correct = [s for s in samples if not s["is_buggy"]]
+    keep = {s["sample_id"] for s in random.Random(seed).sample(correct, min(len(buggy), len(correct)))}
+    return [s for s in samples if s["is_buggy"] or s["sample_id"] in keep]

@@ -26,3 +26,10 @@ def test_syntax_error_fails():
 def test_infinite_loop_times_out():
     r = run_program("while True:\n    pass\n", timeout_s=1)
     assert r.timed_out and not r.passed and r.returncode is None
+
+
+def test_plain_script_tests_run_without_check_call():
+    # MBPP+ style: the test script calls the function by name; no check() is appended.
+    script = "assert add(2, 3) == 5\n"
+    assert run_tests("def add(a, b):\n    return a + b\n", script, "add").passed
+    assert not run_tests("def add(a, b):\n    return a - b\n", script, "add").passed

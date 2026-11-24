@@ -1,0 +1,6 @@
+Write a Python function for the following task. The example assertion shows the function name and how it is called.
+
+{task_prompt}
+
+Return the complete function, including any imports it needs, in a single ```python code block.
+Do not include tests or example usage.

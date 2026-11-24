@@ -51,15 +51,19 @@ def build_dataset(force: bool = typer.Option(False, "--force", help="Overwrite a
 @app.command("build-natural")
 def build_natural(
     force: bool = typer.Option(False, "--force", help="Overwrite an existing natural dataset file."),
-    limit: int = typer.Option(0, help="Only the first N HumanEval tasks (0 = all 164)."),
+    limit: int = typer.Option(0, help="Only the first N tasks (0 = all)."),
+    source: str = typer.Option("humaneval", help="Task source: humaneval (config 'natural') or mbpp (config 'natural_mbpp')."),
 ) -> None:
-    """Claude writes HumanEval solutions; failing ones become natural-bug samples (data/natural_v1.jsonl)."""
-    from reviewbench.dataset import load_humaneval, write_jsonl
+    """Claude writes solutions; failing ones become natural-bug samples (output path from config)."""
+    from reviewbench.dataset import load_humaneval, load_mbppplus, write_jsonl
     from reviewbench.dataset import with_tests_from
-    from reviewbench.writer import ClaudeWriter, build_natural_samples, generate_solutions
+    from reviewbench.writer import ClaudeWriter, balance, build_natural_samples, generate_solutions
 
+    if source not in ("humaneval", "mbpp"):
+        console.print(f"[red]unknown source {source!r}[/] (humaneval or mbpp)")
+        raise typer.Exit(1)
     cfg = load_config()
-    ncfg = cfg["natural"]
+    ncfg = cfg["natural" if source == "humaneval" else "natural_mbpp"]
     out, raw_path = ROOT / ncfg["output"], ROOT / ncfg["raw"]
     if out.exists() and not force:
         console.print(f"[red]{out} already exists.[/] Use --force to overwrite.")
@@ -69,7 +73,10 @@ def build_natural(
         console.print("[red]claude CLI not found.[/]")
         raise typer.Exit(1)
 
-    tasks = load_humaneval(cfg)
+    if source == "mbpp":
+        tasks = load_mbppplus(ncfg["hf_name"], ncfg.get("exclude", []))
+    else:
+        tasks = load_humaneval(cfg)
     if limit:
         tasks = tasks[:limit]
 
@@ -86,9 +93,11 @@ def build_natural(
         test_tasks = with_tests_from(tasks, ncfg["tests_hf_name"], ncfg.get("exclude", []))
     timeout_s = ncfg.get("test_timeout_s", cfg["sandbox"]["timeout_s"])
     samples, stats = build_natural_samples(test_tasks, cached, timeout_s)
+    if ncfg.get("balance"):
+        samples = balance(samples, cfg["seed"])  # all bugs + as many correct samples, seeded
     write_jsonl(samples, out, force=force)
-    console.print(f"{out.relative_to(ROOT)}: {len(samples)} samples | {stats} | "
-                  f"tests: {ncfg.get('tests_hf_name', cfg['dataset']['hf_name'])}")
+    tests = ncfg.get("tests_hf_name") or ncfg.get("hf_name") or cfg["dataset"]["hf_name"]
+    console.print(f"{out.relative_to(ROOT)}: {len(samples)} samples | {stats} | tests: {tests}")
 
 
 @app.command("run")

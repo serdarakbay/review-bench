@@ -3,6 +3,7 @@
 Never exec() untrusted code in the main process.
 """
 
+import re
 import subprocess
 import sys
 import tempfile
@@ -45,8 +46,13 @@ def run_program(source: str, timeout_s: float = DEFAULT_TIMEOUT_S) -> RunResult:
 
 
 def build_test_program(code: str, test: str, entry_point: str) -> str:
-    """Combine a full solution (function code) with HumanEval's check() tests."""
-    return f"{code}\n\n{test}\n\ncheck({entry_point})\n"
+    """Combine a full solution (function code) with its tests.
+
+    HumanEval tests define check(candidate), which is then called; MBPP+ tests are a
+    plain script that calls the function by name, so nothing is appended.
+    """
+    call = f"\n\ncheck({entry_point})" if re.search(r"^def check\(", test, re.MULTILINE) else ""
+    return f"{code}\n\n{test}{call}\n"
 
 
 def run_tests(code: str, test: str, entry_point: str, timeout_s: float = DEFAULT_TIMEOUT_S) -> RunResult:

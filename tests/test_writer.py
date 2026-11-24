@@ -84,3 +84,32 @@ def test_replace_tests_keeps_prompt_and_drops_excluded():
     out = replace_tests(tasks, rows, exclude=["T/1"])
     assert [t.task_id for t in out] == ["T/0"]  # T/1 excluded, T/2 unknown to the new suite
     assert out[0].test == "NEW" and out[0].prompt == PROMPT
+
+
+def test_balance_keeps_all_bugs_and_as_many_correct():
+    from reviewbench.writer import balance
+
+    samples = [{"sample_id": f"s{i}", "is_buggy": i < 3} for i in range(10)]
+    out = balance(samples, seed=42)
+    assert sum(s["is_buggy"] for s in out) == 3 and len(out) == 6
+    assert out == balance(samples, seed=42)  # deterministic
+    assert [s["sample_id"] for s in out] == sorted((s["sample_id"] for s in out), key=lambda x: int(x[1:]))
+
+
+def test_mbpp_prompt_and_entry_point():
+    import pytest
+    from reviewbench.dataset import mbpp_entry_point, mbpp_prompt
+
+    assert mbpp_prompt("Add two numbers.", "assert add(1, 2) == 3") == '"""\nAdd two numbers.\nassert add(1, 2) == 3\n"""\n'
+    test = "for i, (inp, exp) in enumerate(zip(inputs, results)):\n    assertion(add(*inp), exp, 0)\n"
+    assert mbpp_entry_point(test) == "add"
+    with pytest.raises(ValueError):
+        mbpp_entry_point("assert add(1, 2) == 3")
+
+
+def test_assemble_code_for_mbpp_task():
+    from reviewbench.dataset import mbpp_prompt
+
+    task = Task("Mbpp/1", mbpp_prompt("Add.", "assert add(1, 2) == 3"), "", "assert add(1, 2) == 3\n", "add")
+    code = "def add(a, b):\n    return a + b\n"
+    assert assemble_code(task, code) == code  # docstring prompt has no imports to prepend

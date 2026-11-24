@@ -45,3 +45,17 @@ natural:
     effort: low
     timeout_s: 300
     concurrency: 2
+
+natural_mbpp:            # python -m reviewbench build-natural --source mbpp
+  hf_name: evalplus/mbppplus          # 378 tasks; prompt = task sentence + first example assert (evalplus format)
+  output: data/natural_mbpp_v1.jsonl
+  raw: data/natural_mbpp_v1_raw.jsonl
+  test_timeout_s: 60                  # slowest canonical run: 33.5 s with 6 parallel runs
+  exclude: [Mbpp/590]                 # canonical fails its own test (float precision)
+  balance: true                       # all natural bugs + the same number of passing solutions (seed)
+  writer:
+    model: claude-sonnet-5-5
+    effort: low
+    timeout_s: 300
+    concurrency: 2
+    prompt: writer_mbpp_v1
