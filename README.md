@@ -11,8 +11,66 @@ local model replace a paid one?
 
 ## Results
 
-_Pending._ Numbers will be filled in from the finished runs in `results/` only; nothing here is
-estimated. Generate the report yourself with `python -m reviewbench report <run dirs...>`.
+All numbers come from logged calls (runs `ollama-full-v1`, `gemini-full-v1`, `claude-full-v1`,
+`natural-plus-v1`; 2,178 calls, 0 API errors). Brackets are Wilson 95% CIs. Significance = exact McNemar
+on the same samples, Holm-adjusted across the comparisons in each report. Reproduce with
+`python -m reviewbench report <run dirs...>`.
+
+### Synthetic bugs (`samples_v1`: 100 buggy + 100 correct)
+
+| reviewer | prompt | catch rate | localization (±1 line) | false alarm | F1 | parse fail | mean latency |
+|---|---|---|---|---|---|---|---|
+| Claude Sonnet 5.5 | neutral | 100% [96–100] | 95% [89–98] | 10% [6–17] | 0.952 | 0% | 6.4 s |
+| Claude Sonnet 5.5 | adversarial | 100% [96–100] | 94% [88–97] | 7% [3–14] | 0.966 | 0% | 6.6 s |
+| Gemini 3.8 Flash | neutral | 100% [96–100] | 97% [92–99] | 13% [8–21] | 0.939 | 0% | 3.7 s |
+| Gemini 3.8 Flash | adversarial | 100% [96–100] | 96% [90–98] | 13% [8–21] | 0.939 | 0% | 4.5 s |
+| Qwen 3.5 9B (local) | neutral | 93% [86–97] | 91% [84–96] | 35% [26–45] | 0.816 | 2.5% | 11.1 s |
+| Qwen 3.5 9B (local) | adversarial | 90% [83–94] | 91% [83–95] | 40% [31–50] | 0.783 | 2.0% | 11.9 s |
+
+Cost for the 400 calls per reviewer: Gemini $0.57 (billed), Claude $3.06 API list-price equivalent (run on
+a subscription, not billed per call), Qwen $0 (local).
+
+![catch and false-alarm rates, synthetic](docs/img/synthetic_rates.png)
+![catch rate by bug type](docs/img/synthetic_bug_types.png)
+![quality vs cost](docs/img/synthetic_cost_f1.png)
+
+- **The free local model does not replace the paid ones.** Qwen's false-alarm rate is significantly higher
+  than Claude's and Gemini's under both prompts (all four comparisons p < 0.001). With the adversarial
+  prompt it also catches significantly fewer bugs (p = 0.027).
+- **Claude and Gemini are indistinguishable here.** Both catch every injected bug; their false-alarm
+  difference is not significant.
+- **No prompt effect.** Adversarial vs neutral is not significant for any reviewer, on catches or on false
+  alarms. The hypothesis "adversarial raises catches and false alarms" is not supported.
+- **Ceiling effect.** Single-mutation bugs are too easy for the strong reviewers, so this set cannot rank
+  them on catch rate.
+- **Part of the "false alarms" are real defects.** Of the 16 canonical solutions Gemini flagged, 7 have a
+  verified defect the HumanEval tests miss (e.g. `valid_date('01-31-2000')` returns `False`). See
+  [docs/false_alarm_review.md](docs/false_alarm_review.md).
+
+### Natural bugs (`natural_plus_v1`: Claude-written solutions, HumanEval+ tests)
+
+Claude Sonnet passed 163 of 164 tasks on the original HumanEval tests, so the stricter HumanEval+ tests
+are used: 7 solutions fail (labelled buggy), 156 pass. Manual review shows only **2 of the 7 are Claude
+bugs**; 3 are bugs in the HumanEval+ reference itself and 2 are arguable
+([docs/natural_bugs_review.md](docs/natural_bugs_review.md)).
+
+| reviewer | prompt | false alarm on Claude's correct code (n=156) | flagged the 2 real Claude bugs |
+|---|---|---|---|
+| Claude Sonnet 5.5 | neutral | 1.3% [0–5] | 0 of 2 |
+| Claude Sonnet 5.5 | adversarial | 1.3% [0–5] | 0 of 2 |
+| Gemini 3.8 Flash | neutral | 0.6% [0–4] | 1 of 2 (exact cause named) |
+| Gemini 3.8 Flash | adversarial | 0.0% [0–2] | 1 of 2 (right region, imprecise reason) |
+| Qwen 3.5 9B | neutral | 27.6% [21–35] | 2 of 2 (wrong reasons) |
+| Qwen 3.5 9B | adversarial | 16.0% [11–23] | 1 of 2 (wrong reason) |
+
+![catch and false-alarm rates, natural](docs/img/natural_rates.png)
+
+- **Claude did not find its own bugs; Gemini found one with the right cause.** This points toward
+  "a different model reviews better", but it rests on 2 bugs: a qualitative observation, not a result.
+- **On Claude's correct code, Claude and Gemini almost never raise false alarms; Qwen does** (p < 0.001 in
+  all four comparisons).
+- For Qwen, the neutral prompt gives significantly *more* false alarms than the adversarial one
+  (p = 0.007), the opposite of the hypothesis.
 
 ## What is measured
 
@@ -39,9 +97,9 @@ are broken down by bug type and by prompt.
    `off_by_one`, `comparison_flip`, `arith_op`, `bool_op`, `wrong_return`, `remove_branch`. Mutants that
    still pass the tests (equivalent mutants) are discarded. The edit is spliced into the original source,
    so a buggy sample differs from the correct one only on the bug line.
-2. **Natural bugs** (`data/natural_v1.jsonl`). Claude writes solutions to HumanEval tasks; failing
-   solutions become buggy samples, passing ones extra correct samples. This is the realistic
-   "review Claude's code" setting.
+2. **Natural bugs** (`data/natural_plus_v1.jsonl`). Claude writes solutions to HumanEval tasks;
+   solutions that fail the stricter HumanEval+ tests become buggy samples, passing ones extra correct
+   samples. This is the realistic "review Claude's code" setting.
 3. **Reviewers** see only the task description and the line-numbered code — never the tests or the bug
    type — and answer `{"verdict": "BUG"|"OK", "line": int|null, "explanation": str}`. Two prompts:
    `neutral_v1` ("is it correct?") and `adversarial_v1` ("this code may contain a bug, try hard to find it").
@@ -77,10 +135,10 @@ A reviewer whose auth is missing is skipped with a message.
 ```powershell
 python -m pytest -q
 python -m reviewbench build-dataset                      # -> data/samples_v1.jsonl (refuses to overwrite without --force)
-python -m reviewbench build-natural                      # -> data/natural_v1.jsonl (Claude as writer)
+python -m reviewbench build-natural                      # -> data/natural_plus_v1.jsonl (Claude as writer, HumanEval+ tests)
 python -m reviewbench run --reviewers ollama --limit 5   # smoke run
 python -m reviewbench run --reviewers ollama,gemini,claude --run-id my-run
-python -m reviewbench run --reviewers claude --dataset data/natural_v1.jsonl --run-id natural
+python -m reviewbench run --reviewers claude --dataset data/natural_plus_v1.jsonl --run-id natural
 python -m reviewbench report results/my-run              # terminal table + report.md + plots
 ```
 
