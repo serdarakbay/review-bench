@@ -17,6 +17,7 @@ class GeminiReviewer:
         self.price_out = cfg.get("usd_per_mtok_output", 0.0)
         self.prompt = prompt
         self.concurrency = int(cfg.get("concurrency", 1))
+        self.max_cost_usd = cfg.get("max_cost_usd")  # per-run budget, enforced by the runner
         self._client = None
 
     def is_available(self) -> tuple[bool, str]:

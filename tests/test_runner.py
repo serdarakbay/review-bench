@@ -130,6 +130,42 @@ def test_daily_quota_stops_that_reviewer_only(tmp_path):
     assert len([r for r in rows if r["reviewer"] == "gemini"]) == 1  # skipped calls are not logged
 
 
+class Paid:
+    name, model = "gemini", "g-1"
+
+    def __init__(self, cost, cap):
+        self.prompt = Prompt("neutral", "v1", "")
+        self.cost, self.max_cost_usd = cost, cap
+        self.calls = 0
+
+    def review(self, task_prompt, code):
+        self.calls += 1
+        return ReviewResult("OK", None, "", "{}", 0.1, cost_usd=self.cost)
+
+
+def test_budget_cap_stops_reviewer(tmp_path):
+    samples = [dict(SAMPLES[0], sample_id=f"S{i}") for i in range(10)]
+    hits = []
+    r = Paid(cost=0.4, cap=1.0)
+    rows = run_reviews(samples, [r], tmp_path / "r", on_quota=lambda n, m: hits.append(m))
+    assert r.calls == 3  # 0.4 + 0.4 < 1.0, third call brings it to 1.2, then stop
+    assert len(rows) == 3 and hits and "budget" in hits[0]
+
+
+def test_budget_cap_counts_earlier_sessions(tmp_path):
+    samples = [dict(SAMPLES[0], sample_id=f"S{i}") for i in range(10)]
+    run_reviews(samples[:2], [Paid(cost=0.5, cap=1.0)], tmp_path / "r")  # spends 1.0
+    later = Paid(cost=0.5, cap=1.0)
+    assert run_reviews(samples, [later], tmp_path / "r") == [] and later.calls == 0
+
+
+def test_no_cap_means_no_limit(tmp_path):
+    samples = [dict(SAMPLES[0], sample_id=f"S{i}") for i in range(5)]
+    r = Paid(cost=10.0, cap=None)
+    run_reviews(samples, [r], tmp_path / "r")
+    assert r.calls == 5
+
+
 def test_failed_call_logged_with_error(tmp_path):
     r = Flaky([ValueError("bad key")])
     rows = run_reviews(SAMPLES[:1], [r], tmp_path / "r", sleep=lambda s: None)

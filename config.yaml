@@ -26,6 +26,7 @@ reviewers:
     usd_per_mtok_input: 0.75  # paid-tier list price, for cost comparison (free tier is not charged)
     usd_per_mtok_output: 3.75 # includes thinking tokens; price rises on 2027-01-01
     concurrency: 2
+    max_cost_usd: 2.0         # hard budget per run directory (list-price estimate); runner stops gemini here
   claude:
     model: claude-sonnet-5-5  # full id, not the alias: the logged model must not change silently
     effort: low               # lowest; Sonnet still thinks briefly on some calls (~80 tokens), logged as thinking=true

@@ -47,6 +47,18 @@ def completed_calls(calls_path: Path) -> set[CallKey]:
     return done
 
 
+def cost_by_reviewer(calls_path: Path) -> dict[str, float]:
+    """Total logged cost per reviewer name in a run (all sessions)."""
+    totals: dict[str, float] = {}
+    if calls_path.exists():
+        with open(calls_path, encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    r = json.loads(line)
+                    totals[r["reviewer"]] = totals.get(r["reviewer"], 0.0) + (r.get("cost_usd") or 0.0)
+    return totals
+
+
 # Long-window quotas (daily free-tier limit, subscription usage limit): retrying
 # in seconds cannot help and only burns more quota.
 _QUOTA_TEXT = ("per day", "perday", "usage limit", "limit reached")
@@ -111,17 +123,34 @@ def run_reviews(
 
     When a reviewer hits a long-window quota (e.g. a daily limit), its remaining
     calls in this run are skipped without logging; resuming the run later does them.
+
+    Budget: a reviewer with `max_cost_usd` stops once its total cost in this run
+    directory (earlier sessions included) reaches the cap. It can overshoot by at
+    most `concurrency` calls that were already in flight.
     """
     run_dir.mkdir(parents=True, exist_ok=True)
     calls_path = run_dir / "calls.jsonl"
     done = completed_calls(calls_path)
+    spent = cost_by_reviewer(calls_path)
     written: list[dict] = []
     lock = threading.Lock()
-    exhausted: set[str] = set()  # reviewer names out of quota
+    exhausted: set[str] = set()  # reviewer names out of quota or budget
+
+    def stop(name: str, message: str) -> None:
+        with lock:
+            first = name not in exhausted
+            exhausted.add(name)
+        if first and on_quota:
+            on_quota(name, message)
 
     with open(calls_path, "a", encoding="utf-8", newline="\n") as out:
 
         def do_call(reviewer: Reviewer, s: dict) -> None:
+            cap = getattr(reviewer, "max_cost_usd", None)
+            with lock:
+                over_budget = cap is not None and spent.get(reviewer.name, 0.0) >= cap
+            if over_budget:
+                stop(reviewer.name, f"budget max_cost_usd={cap} reached (spent ${spent[reviewer.name]:.4f})")
             if reviewer.name in exhausted:
                 return
             record = _record(s, reviewer, run_dir.name)
@@ -129,11 +158,7 @@ def run_reviews(
                 res = review_with_retries(reviewer, s["task_prompt"], s["code"], max_retries, base_delay_s, sleep)
             except Exception as e:
                 if is_quota_exhausted(e):
-                    with lock:
-                        first = reviewer.name not in exhausted
-                        exhausted.add(reviewer.name)
-                    if first and on_quota:
-                        on_quota(reviewer.name, str(e)[:300])
+                    stop(reviewer.name, str(e)[:300])
                 record.update(verdict=None, reported_line=None, explanation=None, raw_response=None,
                               latency_s=None, input_tokens=None, output_tokens=None, cost_usd=0.0,
                               thinking=None, error=f"{type(e).__name__}: {e}"[:1000])
@@ -143,6 +168,7 @@ def run_reviews(
                               input_tokens=res.input_tokens, output_tokens=res.output_tokens,
                               cost_usd=res.cost_usd, thinking=res.thinking, error=None)
             with lock:
+                spent[reviewer.name] = spent.get(reviewer.name, 0.0) + (record["cost_usd"] or 0.0)
                 out.write(json.dumps(record, ensure_ascii=False) + "\n")
                 out.flush()  # an interrupted run keeps every finished call
                 written.append(record)
