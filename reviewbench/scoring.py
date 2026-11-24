@@ -37,7 +37,10 @@ def wilson_ci(k: int, n: int, z: float = Z95) -> tuple[float, float] | None:
     denom = 1 + z * z / n
     center = (p + z * z / (2 * n)) / denom
     half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / denom
-    return max(0.0, center - half), min(1.0, center + half)
+    # Exact bounds at the edges (float rounding would give e.g. 0.9999999 for k == n).
+    lo = 0.0 if k == 0 else max(0.0, center - half)
+    hi = 1.0 if k == n else min(1.0, center + half)
+    return lo, hi
 
 
 def _scored(calls: list[dict]) -> list[dict]:
@@ -107,6 +110,45 @@ def group_by(calls: list[dict], keys: tuple[str, ...]) -> dict[tuple, list[dict]
     for c in calls:
         groups[tuple(c[k] for k in keys)].append(c)
     return dict(sorted(groups.items(), key=lambda kv: tuple(str(x) for x in kv[0])))
+
+
+def mcnemar_exact(b: int, c: int) -> float:
+    """Two-sided exact McNemar p-value from the discordant counts b and c.
+
+    b = samples where A has the event and B does not, c = the reverse. Under H0
+    the discordant pairs split 50/50, so this is a binomial test on min(b, c).
+    """
+    n = b + c
+    if n == 0:
+        return 1.0
+    tail = sum(math.comb(n, k) for k in range(min(b, c) + 1)) / 2**n
+    return min(1.0, 2 * tail)
+
+
+def holm(p_values: list[float]) -> list[float]:
+    """Holm-Bonferroni adjusted p-values (same order as the input)."""
+    m = len(p_values)
+    order = sorted(range(m), key=lambda i: p_values[i])
+    adjusted = [0.0] * m
+    running = 0.0
+    for rank, i in enumerate(order):
+        running = max(running, min(1.0, (m - rank) * p_values[i]))
+        adjusted[i] = running
+    return adjusted
+
+
+def paired_counts(a: list[dict], b: list[dict], buggy: bool) -> tuple[int, int, int]:
+    """Compare two reviewers on the SAME samples: (n_pairs, b, c) for the event verdict == BUG.
+
+    buggy=True compares catches on buggy samples; buggy=False compares false alarms
+    on correct samples. Samples where either call failed (API error) are dropped.
+    """
+    a_by = {x["sample_id"]: x for x in _scored(a) if x["is_buggy"] == buggy}
+    b_by = {x["sample_id"]: x for x in _scored(b) if x["is_buggy"] == buggy}
+    common = a_by.keys() & b_by.keys()
+    only_a = sum(a_by[s]["verdict"] == "BUG" and b_by[s]["verdict"] != "BUG" for s in common)
+    only_b = sum(a_by[s]["verdict"] != "BUG" and b_by[s]["verdict"] == "BUG" for s in common)
+    return len(common), only_a, only_b
 
 
 def by_bug_type(calls: list[dict]) -> dict[str, dict]:

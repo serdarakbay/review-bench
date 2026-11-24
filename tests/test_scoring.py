@@ -1,9 +1,32 @@
 import pytest
 
 from reviewbench.scoring import (
-    Rate, by_bug_type, catch_rate, f1, false_alarm_rate, group_by, localization,
-    parse_failure_rate, precision, summarize, wilson_ci,
+    Rate, by_bug_type, catch_rate, f1, false_alarm_rate, group_by, holm, localization, mcnemar_exact,
+    paired_counts, parse_failure_rate, precision, summarize, wilson_ci,
 )
+
+
+def test_mcnemar_exact_known_values():
+    assert mcnemar_exact(0, 0) == 1.0
+    assert mcnemar_exact(5, 5) == 1.0
+    assert mcnemar_exact(0, 6) == pytest.approx(2 / 64)  # 0.03125
+    assert mcnemar_exact(1, 9) == pytest.approx(2 * 11 / 1024)
+    assert mcnemar_exact(9, 1) == mcnemar_exact(1, 9)
+
+
+def test_holm():
+    assert holm([0.01, 0.04, 0.03]) == pytest.approx([0.03, 0.06, 0.06])
+    assert holm([0.5, 0.9]) == pytest.approx([1.0, 1.0])
+    assert holm([]) == []
+
+
+def test_paired_counts_uses_common_samples_and_skips_errors():
+    a = [dict(call(True, "BUG"), sample_id="s1"), dict(call(True, "OK"), sample_id="s2"),
+         dict(call(True, "BUG"), sample_id="s3"), dict(call(False, "BUG"), sample_id="c1")]
+    b = [dict(call(True, "OK"), sample_id="s1"), dict(call(True, "BUG"), sample_id="s2"),
+         dict(call(True, None, error="x"), sample_id="s3"), dict(call(False, "OK"), sample_id="c1")]
+    assert paired_counts(a, b, buggy=True) == (2, 1, 1)  # s3 dropped: b errored
+    assert paired_counts(a, b, buggy=False) == (1, 1, 0)
 
 
 def call(is_buggy, verdict, bug_line=None, reported_line=None, bug_type=None, error=None, **kw):
@@ -33,6 +56,8 @@ def test_wilson_ci_known_values():
     lo, hi = wilson_ci(0, 10)
     assert lo == 0.0 and hi == pytest.approx(0.2775, abs=1e-4)
     assert wilson_ci(0, 0) is None
+    for n in (1, 7, 100, 333):
+        assert wilson_ci(n, n)[1] == 1.0 and wilson_ci(0, n)[0] == 0.0
 
 
 def test_rate_empty():

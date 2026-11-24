@@ -149,15 +149,20 @@ def _fmt(rate) -> str:
 
 
 @app.command("report")
-def report(run_dir: Path = typer.Argument(..., help="results/<run_id> directory.")) -> None:
-    """Print metrics (with Wilson 95% CI) per reviewer/prompt and per bug type. report.md + plots: week 3."""
-    from reviewbench.dataset import read_jsonl
+def report(
+    run_dirs: list[Path] = typer.Argument(..., help="One or more results/<run_id> directories."),
+    out: Path = typer.Option(None, help="Output dir for report.md + plots "
+                                        "(default: the run dir, or results/report for several)."),
+) -> None:
+    """Metrics with Wilson 95% CI in the terminal; report.md, plots and McNemar comparisons on disk."""
+    from reviewbench.report import load_calls, write_report
     from reviewbench.scoring import GROUP_KEYS, by_bug_type, group_by, summarize
 
-    calls = read_jsonl(run_dir / "calls.jsonl")
+    calls = load_calls(run_dirs)
     groups = group_by(calls, GROUP_KEYS)
+    title = ", ".join(d.name for d in run_dirs)
 
-    t = Table(title=f"{run_dir.name}: {len(calls)} calls (rates with Wilson 95% CI)")
+    t = Table(title=f"{title}: {len(calls)} calls (rates with Wilson 95% CI)")
     for col in ("reviewer/model", "prompt", "catch rate", "localization", "false alarm", "precision", "F1",
                 "parse fail", "errors", "latency", "cost"):
         t.add_column(col)
@@ -177,6 +182,10 @@ def report(run_dir: Path = typer.Argument(..., help="results/<run_id> directory.
         for bug_type, m in by_bug_type(group).items():
             bt.add_row(bug_type, _fmt(m["catch_rate"]), _fmt(m["localization"]))
         console.print(bt)
+
+    out_dir = out or (run_dirs[0] if len(run_dirs) == 1 else ROOT / "results" / "report")
+    path = write_report(run_dirs, out_dir)
+    console.print(f"wrote {path} (+ rates.png, bug_types.png, cost_f1.png)")
 
 
 if __name__ == "__main__":
