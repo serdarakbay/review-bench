@@ -18,6 +18,7 @@ class OllamaReviewer:
         self.num_ctx = cfg.get("num_ctx")
         self.timeout_s = cfg.get("timeout_s", 600)
         self.prompt = prompt
+        self.concurrency = int(cfg.get("concurrency", 1))
 
     def is_available(self) -> tuple[bool, str]:
         """(ok, reason). Checks the server is up and the model is pulled."""

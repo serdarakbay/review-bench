@@ -19,3 +19,15 @@ reviewers:
     think: false        # Qwen3.5 thinking mode off; any <think> block is stripped anyway
     num_ctx: 8192
     timeout_s: 600
+    concurrency: 1
+  gemini:
+    model: gemini-3.8-flash   # gemini-2.5-flash is deprecated (checked docs 2026-11-24)
+    thinking_level: low       # lowest level this model allows; thinking cannot be fully off
+    usd_per_mtok_input: 0.75  # paid-tier list price, for cost comparison (free tier is not charged)
+    usd_per_mtok_output: 3.75 # includes thinking tokens; price rises on 2027-01-01
+    concurrency: 2
+  claude:
+    model: claude-sonnet-5-5  # full id, not the alias: the logged model must not change silently
+    effort: low               # lowest; Sonnet still thinks briefly on some calls (~80 tokens), logged as thinking=true
+    timeout_s: 300
+    concurrency: 2
