@@ -1,6 +1,7 @@
 """Gemini reviewer via the google-genai SDK. Auth: GEMINI_API_KEY (free tier works)."""
 
 import os
+import threading
 import time
 
 from reviewbench.reviewers.base import Prompt, ReviewResult, parse_review
@@ -27,12 +28,17 @@ class GeminiReviewer:
             return False, "google-genai is not installed (pip install -r requirements.txt)"
         return True, ""
 
-    def client(self):
-        if self._client is None:
-            from google import genai
+    _client_lock = threading.Lock()
 
-            self._client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
-        return self._client
+    def client(self):
+        # Locked: two threads creating clients at once made one overwrite the other,
+        # and the dropped client closed its connection mid-request.
+        with self._client_lock:
+            if self._client is None:
+                from google import genai
+
+                self._client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+            return self._client
 
     def config(self):
         from google.genai import types

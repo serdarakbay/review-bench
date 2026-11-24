@@ -47,7 +47,19 @@ def completed_calls(calls_path: Path) -> set[CallKey]:
     return done
 
 
+# Long-window quotas (daily free-tier limit, subscription usage limit): retrying
+# in seconds cannot help and only burns more quota.
+_QUOTA_TEXT = ("per day", "perday", "usage limit", "limit reached")
+
+
+def is_quota_exhausted(e: Exception) -> bool:
+    text = str(e).lower()
+    return any(marker in text for marker in _QUOTA_TEXT)
+
+
 def is_retryable(e: Exception) -> bool:
+    if is_quota_exhausted(e):
+        return False
     if isinstance(e, (TimeoutError, ConnectionError, subprocess.TimeoutExpired, urllib.error.URLError)):
         return True
     text = str(e).lower()
@@ -93,21 +105,35 @@ def run_reviews(
     max_retries: int = 5,
     base_delay_s: float = 2.0,
     sleep: Callable[[float], None] = time.sleep,
+    on_quota: Callable[[str, str], None] | None = None,
 ) -> list[dict]:
-    """Review every sample with every reviewer. Returns the records written in this call."""
+    """Review every sample with every reviewer. Returns the records written in this call.
+
+    When a reviewer hits a long-window quota (e.g. a daily limit), its remaining
+    calls in this run are skipped without logging; resuming the run later does them.
+    """
     run_dir.mkdir(parents=True, exist_ok=True)
     calls_path = run_dir / "calls.jsonl"
     done = completed_calls(calls_path)
     written: list[dict] = []
     lock = threading.Lock()
+    exhausted: set[str] = set()  # reviewer names out of quota
 
     with open(calls_path, "a", encoding="utf-8", newline="\n") as out:
 
         def do_call(reviewer: Reviewer, s: dict) -> None:
+            if reviewer.name in exhausted:
+                return
             record = _record(s, reviewer, run_dir.name)
             try:
                 res = review_with_retries(reviewer, s["task_prompt"], s["code"], max_retries, base_delay_s, sleep)
             except Exception as e:
+                if is_quota_exhausted(e):
+                    with lock:
+                        first = reviewer.name not in exhausted
+                        exhausted.add(reviewer.name)
+                    if first and on_quota:
+                        on_quota(reviewer.name, str(e)[:300])
                 record.update(verdict=None, reported_line=None, explanation=None, raw_response=None,
                               latency_s=None, input_tokens=None, output_tokens=None, cost_usd=0.0,
                               thinking=None, error=f"{type(e).__name__}: {e}"[:1000])

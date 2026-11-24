@@ -98,7 +98,11 @@ def run(
         console.print(f"  {r['reviewer']}/{r['prompt_name']} {r['sample_id']:<30} {truth:<10} -> {status} "
                       f"({r['latency_s']}s)")
 
-    written = run_reviews(samples, active, run_dir, on_call=show)
+    def quota(name: str, message: str) -> None:
+        console.print(f"[red]{name}: quota exhausted, skipping its remaining calls "
+                      f"(resume later with --run-id {run_id}).[/] {message}")
+
+    written = run_reviews(samples, active, run_dir, on_call=show, on_quota=quota)
     console.print(f"{len(written)} calls written to {(run_dir / 'calls.jsonl').relative_to(ROOT)}")
 
 
