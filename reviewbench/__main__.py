@@ -102,5 +102,44 @@ def run(
     console.print(f"{len(written)} calls written to {(run_dir / 'calls.jsonl').relative_to(ROOT)}")
 
 
+def _fmt(rate) -> str:
+    """'62.0% [52.1-71.0] (62/100)' for a Rate, '-' if empty."""
+    if rate.value is None:
+        return "-"
+    lo, hi = rate.ci
+    return f"{rate.value:.1%} [{lo:.0%}-{hi:.0%}] ({rate.k}/{rate.n})"
+
+
+@app.command("report")
+def report(run_dir: Path = typer.Argument(..., help="results/<run_id> directory.")) -> None:
+    """Print metrics (with Wilson 95% CI) per reviewer/prompt and per bug type. report.md + plots: week 3."""
+    from reviewbench.dataset import read_jsonl
+    from reviewbench.scoring import GROUP_KEYS, by_bug_type, group_by, summarize
+
+    calls = read_jsonl(run_dir / "calls.jsonl")
+    groups = group_by(calls, GROUP_KEYS)
+
+    t = Table(title=f"{run_dir.name}: {len(calls)} calls (rates with Wilson 95% CI)")
+    for col in ("reviewer/model", "prompt", "catch rate", "localization", "false alarm", "precision", "F1",
+                "parse fail", "errors", "latency", "cost"):
+        t.add_column(col)
+    for (reviewer, model, pname, pver), group in groups.items():
+        s = summarize(group)
+        t.add_row(f"{reviewer}/{model}", f"{pname}_{pver}", _fmt(s["catch_rate"]), _fmt(s["localization"]),
+                  _fmt(s["false_alarm_rate"]), _fmt(s["precision"]),
+                  "-" if s["f1"] is None else f"{s['f1']:.3f}", _fmt(s["parse_failure_rate"]),
+                  str(s["n_errors"]), "-" if s["mean_latency_s"] is None else f"{s['mean_latency_s']:.1f}s",
+                  f"${s['cost_usd']:.2f}")
+    console.print(t)
+
+    for (reviewer, model, pname, pver), group in groups.items():
+        bt = Table(title=f"{reviewer}/{model} {pname}_{pver}: by bug type")
+        for col in ("bug_type", "catch rate", "localization"):
+            bt.add_column(col)
+        for bug_type, m in by_bug_type(group).items():
+            bt.add_row(bug_type, _fmt(m["catch_rate"]), _fmt(m["localization"]))
+        console.print(bt)
+
+
 if __name__ == "__main__":
     app()
