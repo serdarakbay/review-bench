@@ -4,6 +4,8 @@ dataset:
   hf_name: openai/openai_humaneval
   split: test
   output: data/samples_v1.jsonl
+  n_tasks: 100          # each task -> 1 correct + 1 buggy sample
+  max_mutant_tries: 5   # mutants tested per (task, operator) before giving up
 
 sandbox:
   timeout_s: 10
