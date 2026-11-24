@@ -162,6 +162,7 @@ def report(
     run_dirs: list[Path] = typer.Argument(..., help="One or more results/<run_id> directories."),
     out: Path = typer.Option(None, help="Output dir for report.md + plots "
                                         "(default: the run dir, or results/report for several)."),
+    adjudication: Path = typer.Option(None, help="JSON sample_id -> manual class; adds an adjudicated view."),
 ) -> None:
     """Metrics with Wilson 95% CI in the terminal; report.md, plots and McNemar comparisons on disk."""
     from reviewbench.report import load_calls, write_report
@@ -193,7 +194,10 @@ def report(
         console.print(bt)
 
     out_dir = out or (run_dirs[0] if len(run_dirs) == 1 else ROOT / "results" / "report")
-    path = write_report(run_dirs, out_dir)
+    import json
+
+    adj = json.loads(adjudication.read_text(encoding="utf-8")) if adjudication else None
+    path = write_report(run_dirs, out_dir, adj)
     console.print(f"wrote {path} (+ rates.png, bug_types.png, cost_f1.png)")
 
 

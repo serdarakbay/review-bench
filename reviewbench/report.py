@@ -242,7 +242,40 @@ def build_markdown(calls: list[dict], groups: dict[tuple, list[dict]], comps: li
     return "\n".join(lines)
 
 
-def write_report(run_dirs: list[Path], out_dir: Path) -> Path:
+ADJUDICATION_MEANING = {
+    "claude_bug": "the writer's output contradicts the docstring: `BUG` is right",
+    "reference_bug": "the writer follows the docstring, the test oracle does not: `OK` is right",
+    "arguable": "the docstring does not settle it",
+}
+
+
+def adjudicated_markdown(groups: dict[tuple, list[dict]], adjudication: dict[str, str]) -> str:
+    """Per-sample verdict table for manually adjudicated samples (too few for rates)."""
+    ids = [s for s in adjudication if not s.startswith("_")]
+    order = {"claude_bug": 0, "reference_bug": 1, "arguable": 2}
+    ids.sort(key=lambda s: (order.get(adjudication[s], 9), s))
+    keys = list(groups)
+    verdict = {(k, c["sample_id"]): c for k in keys for c in groups[k] if c.get("error") is None}
+    lines = [
+        "## Adjudicated view (manual, qualitative)",
+        "",
+        "The labels above come from the tests. Here each labelled-buggy sample is also shown with my manual "
+        "class (see `docs/natural_bugs_review.md`). It is judgement, not ground truth, and too few samples for "
+        "rates. `B` = reviewer said BUG, `.` = OK, `?` = parse error, blank = no call.",
+        "",
+        *[f"- **{cls}**: {meaning}" for cls, meaning in ADJUDICATION_MEANING.items()],
+        "",
+        "| sample | class | " + " | ".join(label(k) for k in keys) + " |",
+        "|---|---|" + "---|" * len(keys),
+    ]
+    marks = {"BUG": "B", "OK": ".", "PARSE_ERROR": "?"}
+    for sid in ids:
+        cells = [marks.get(verdict[(k, sid)]["verdict"], "?") if (k, sid) in verdict else "" for k in keys]
+        lines.append(f"| {sid} | {adjudication[sid]} | " + " | ".join(cells) + " |")
+    return "\n".join(lines) + "\n"
+
+
+def write_report(run_dirs: list[Path], out_dir: Path, adjudication: dict[str, str] | None = None) -> Path:
     calls = load_calls(run_dirs)
     groups = group_by(calls, GROUP_KEYS)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -251,6 +284,8 @@ def write_report(run_dirs: list[Path], out_dir: Path) -> Path:
     plot_bug_types(groups, out_dir / plots[1])
     plot_cost_f1(groups, out_dir / plots[2])
     md = build_markdown(calls, groups, comparisons(groups), [d.name for d in run_dirs], plots)
+    if adjudication:
+        md += "\n" + adjudicated_markdown(groups, adjudication)
     path = out_dir / "report.md"
     path.write_text(md, encoding="utf-8")
     return path

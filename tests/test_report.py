@@ -43,3 +43,18 @@ def test_write_report_creates_markdown_and_plots(tmp_path):
     assert "gemini-m / neutral_v1 | 100.0%" in md
     for png in ("rates.png", "bug_types.png", "cost_f1.png"):
         assert (tmp_path / "out" / png).stat().st_size > 1000
+
+
+def test_adjudicated_view_lists_samples_by_class(tmp_path):
+    calls = [call("gemini", "neutral", "b0", True, "BUG"), call("gemini", "neutral", "b1", True, "OK"),
+             call("ollama", "neutral", "b0", True, "OK")]
+    run = tmp_path / "run"
+    run.mkdir()
+    (run / "calls.jsonl").write_text("\n".join(json.dumps(c) for c in calls), encoding="utf-8")
+    adj = {"_note": "x", "b1": "reference_bug", "b0": "claude_bug"}
+    md = write_report([run], tmp_path / "out", adj).read_text(encoding="utf-8")
+    section = md.split("## Adjudicated view")[1]
+    assert section.index("| b0 | claude_bug |") < section.index("| b1 | reference_bug |")
+    assert "| b0 | claude_bug | B | . |" in section  # gemini BUG, ollama OK
+    assert "| b1 | reference_bug | . |  |" in section  # ollama has no call for b1
+    assert "_note" not in section

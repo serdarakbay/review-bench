@@ -1,0 +1,10 @@
+{
+  "_note": "Manual adjudication of the buggy samples in data/natural_plus_v1.jsonl (see natural_bugs_review.md). Judgement, not ground truth; used only for the separate 'adjudicated view' in reports.",
+  "HumanEval/76#natural": "claude_bug",
+  "HumanEval/132#natural": "claude_bug",
+  "HumanEval/91#natural": "reference_bug",
+  "HumanEval/99#natural": "reference_bug",
+  "HumanEval/141#natural": "reference_bug",
+  "HumanEval/116#natural": "arguable",
+  "HumanEval/151#natural": "arguable"
+}
