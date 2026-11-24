@@ -1,0 +1,9 @@
+seed: 42
+
+dataset:
+  hf_name: openai/openai_humaneval
+  split: test
+  output: data/samples_v1.jsonl
+
+sandbox:
+  timeout_s: 10
