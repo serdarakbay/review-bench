@@ -33,6 +33,32 @@ reappear in HumanEval+). Natural-bug catch rates must be read with this in mind:
 | HumanEval/116 `sort_array` | `[-2, -3, -4, -5, -6]` | `[-6, -5, -4, -3, -2]` | `[-4, -2, -6, -5, -3]` | arguable: Claude matches the docstring example; the docstring also says "non-negative" |
 | HumanEval/151 `double_the_difference` | `[True, True, False, False, True, False, ...]` | `0` | `3` | arguable: "ignore numbers that are not integers" — is `True` an integer? (`bool` is an `int` in Python) |
 
-## Reviewer verdicts
+## Reviewer verdicts (run `natural-plus-v1`)
 
-_Pending: filled in from run `natural-plus-v1` when it finishes._
+`B` = BUG, `.` = OK, `?` = parse error. Columns: reviewer / prompt (neu = neutral_v1, adv = adversarial_v1).
+
+| sample | class | claude neu | claude adv | gemini neu | gemini adv | qwen neu | qwen adv |
+|---|---|---|---|---|---|---|---|
+| HumanEval/76 | claude bug | . | . | . | B | B | B |
+| HumanEval/132 | claude bug | . | . | B | . | B | ? |
+| HumanEval/91 | reference bug | . | . | . | . | . | . |
+| HumanEval/99 | reference bug | . | . | . | . | B | B |
+| HumanEval/141 | reference bug | . | . | . | . | B | . |
+| HumanEval/116 | arguable | . | B | B | . | B | B |
+| HumanEval/151 | arguable | . | . | . | . | . | B |
+
+Reasons given for the `B` verdicts on the two Claude bugs (from `explanation`, checked by hand):
+
+- **132, gemini neutral:** names the failing input `'[][][]'` and the wrong pairing that causes it — the
+  right bug, at the right place.
+- **76, gemini adversarial:** points at the `x <= 0` path of the loop; the actual failure is
+  `(0, 0)`, so it is the right region with an imprecise reason.
+- **76 and 132, qwen:** the reasons (negative `n`, an early `break`) do not describe the actual failure.
+
+What this shows, qualitatively (2 real bugs are far too few for rates or tests):
+
+- **Claude, reviewing code Claude wrote, flagged neither of its own two bugs** under either prompt.
+- **Gemini found one of them with the exact cause.**
+- **Qwen flags many samples**, which gives it the highest catch rate here but mostly for wrong reasons
+  and with a false-alarm rate of 16–28% on Claude's correct solutions (vs 0–1.3% for Claude and Gemini).
+- On the 3 reference-bug samples, Claude and Gemini said `OK` every time, which by the docstring is right.
