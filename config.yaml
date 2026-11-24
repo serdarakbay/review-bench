@@ -9,3 +9,13 @@ dataset:
 
 sandbox:
   timeout_s: 10
+
+prompts: [neutral_v1, adversarial_v1]
+
+reviewers:
+  ollama:
+    url: http://localhost:11434
+    model: qwen3.5:9b
+    think: false        # Qwen3.5 thinking mode off; any <think> block is stripped anyway
+    num_ctx: 8192
+    timeout_s: 600

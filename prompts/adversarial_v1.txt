@@ -1,0 +1,14 @@
+You are reviewing a Python function.
+
+Task description:
+{task_prompt}
+
+Code (each line is prefixed with its line number):
+{code}
+
+This code may contain a bug. Try hard to find it.
+Check edge cases and examine every line carefully.
+If after careful review you find no bug, answer OK.
+
+Answer with only a JSON object and no other text:
+{"verdict": "BUG" or "OK", "line": <line number of the bug, or null if OK>, "explanation": "<one or two sentences>"}

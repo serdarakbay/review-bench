@@ -1,0 +1,12 @@
+You are reviewing a Python function.
+
+Task description:
+{task_prompt}
+
+Code (each line is prefixed with its line number):
+{code}
+
+Review this code. Is it correct, i.e. does it do what the task description asks for all valid inputs?
+
+Answer with only a JSON object and no other text:
+{"verdict": "BUG" or "OK", "line": <line number of the bug, or null if OK>, "explanation": "<one or two sentences>"}
