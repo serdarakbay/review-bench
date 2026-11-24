@@ -260,8 +260,8 @@ def adjudicated_markdown(groups: dict[tuple, list[dict]], adjudication: dict[str
         "## Adjudicated view (manual, qualitative)",
         "",
         "The labels above come from the tests. Here each labelled-buggy sample is also shown with my manual "
-        "class (see `docs/natural_bugs_review.md`). It is judgement, not ground truth, and too few samples for "
-        "rates. `B` = reviewer said BUG, `.` = OK, `?` = parse error, blank = no call.",
+        f"class. {adjudication.get('_note', '')} `B` = reviewer said BUG, `.` = OK, `?` = parse error, "
+        "blank = no call.",
         "",
         *[f"- **{cls}**: {meaning}" for cls, meaning in ADJUDICATION_MEANING.items()],
         "",
