@@ -32,3 +32,12 @@ reviewers:
     effort: low               # lowest; Sonnet still thinks briefly on some calls (~80 tokens), logged as thinking=true
     timeout_s: 300
     concurrency: 2
+
+natural:
+  output: data/natural_v1.jsonl       # samples (failing -> natural bug, passing -> correct)
+  raw: data/natural_v1_raw.jsonl      # cached writer outputs (never re-paid)
+  writer:
+    model: claude-sonnet-5-5          # same model as the claude reviewer (same-model question)
+    effort: low
+    timeout_s: 300
+    concurrency: 2

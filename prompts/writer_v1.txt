@@ -1,0 +1,6 @@
+Complete the following Python function so that it does what its docstring says.
+
+{task_prompt}
+
+Return the complete function, including any imports it needs, in a single ```python code block.
+Do not include tests or example usage.

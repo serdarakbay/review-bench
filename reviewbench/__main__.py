@@ -48,6 +48,40 @@ def build_dataset(force: bool = typer.Option(False, "--force", help="Overwrite a
     console.print(table)
 
 
+@app.command("build-natural")
+def build_natural(
+    force: bool = typer.Option(False, "--force", help="Overwrite an existing natural dataset file."),
+    limit: int = typer.Option(0, help="Only the first N HumanEval tasks (0 = all 164)."),
+) -> None:
+    """Claude writes HumanEval solutions; failing ones become natural-bug samples (data/natural_v1.jsonl)."""
+    from reviewbench.dataset import load_humaneval, write_jsonl
+    from reviewbench.writer import ClaudeWriter, build_natural_samples, generate_solutions
+
+    cfg = load_config()
+    ncfg = cfg["natural"]
+    out, raw_path = ROOT / ncfg["output"], ROOT / ncfg["raw"]
+    if out.exists() and not force:
+        console.print(f"[red]{out} already exists.[/] Use --force to overwrite.")
+        raise typer.Exit(1)
+    writer = ClaudeWriter(ncfg["writer"])
+    if not writer.exe:
+        console.print("[red]claude CLI not found.[/]")
+        raise typer.Exit(1)
+
+    tasks = load_humaneval(cfg)
+    if limit:
+        tasks = tasks[:limit]
+
+    def show(row: dict) -> None:
+        console.print(f"  {row['task_id']:<15} -> {row['error'] or 'ok'} ({row.get('latency_s')}s)")
+
+    console.print(f"writer {writer.model}: {len(tasks)} tasks (cached ones are skipped)")
+    cached = generate_solutions(tasks, writer, raw_path, on_done=show)
+    samples, stats = build_natural_samples(tasks, cached, cfg["sandbox"]["timeout_s"])
+    write_jsonl(samples, out, force=force)
+    console.print(f"{out.relative_to(ROOT)}: {len(samples)} samples | {stats}")
+
+
 @app.command("run")
 def run(
     reviewers: str = typer.Option("ollama", help="Comma-separated reviewer names."),

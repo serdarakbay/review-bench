@@ -34,6 +34,52 @@ class ClaudeCliError(RuntimeError):
     pass
 
 
+def claude_command(exe: str, model: str, effort: str) -> list[str]:
+    """Isolated, non-interactive claude call with JSON output (shared by reviewer and writer)."""
+    return [
+        exe, "-p",
+        "--model", model,
+        "--output-format", "json",
+        "--setting-sources", "",
+        "--settings", json.dumps({"alwaysThinkingEnabled": False}),
+        "--effort", effort,
+        "--tools", "",
+        "--strict-mcp-config",
+        "--no-session-persistence",
+        "--system-prompt", SYSTEM_PROMPT,
+    ]
+
+
+def call_claude(cmd: list[str], text: str, timeout_s: float) -> tuple[dict, float]:
+    """Run the CLI with `text` on stdin in an empty temp dir. Returns (parsed JSON, latency_s)."""
+    start = time.perf_counter()
+    with tempfile.TemporaryDirectory(prefix="rb_claude_") as tmp:
+        proc = subprocess.run(
+            cmd,
+            input=text,  # stdin: no command-line length/quoting limits
+            cwd=tmp,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=timeout_s,
+        )
+    latency = time.perf_counter() - start
+    try:
+        data = json.loads(proc.stdout)
+    except json.JSONDecodeError:
+        raise ClaudeCliError(f"exit {proc.returncode}: {(proc.stderr or proc.stdout)[-500:]}")
+    if data.get("is_error") or proc.returncode != 0:
+        raise ClaudeCliError(f"exit {proc.returncode}: {str(data.get('result'))[-500:]}")
+    return data, latency
+
+
+def usage_tokens(u: dict) -> tuple[int, int]:
+    """(input tokens incl. cache, thinking tokens) from the CLI usage block."""
+    input_tokens = sum(u.get(k) or 0 for k in ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens"))
+    thinking_tokens = (u.get("output_tokens_details") or {}).get("thinking_tokens") or 0
+    return input_tokens, thinking_tokens
+
+
 class ClaudeReviewer:
     name = "claude"
 
@@ -51,45 +97,13 @@ class ClaudeReviewer:
         return True, ""
 
     def command(self) -> list[str]:
-        return [
-            self.exe, "-p",
-            "--model", self.model,
-            "--output-format", "json",
-            "--setting-sources", "",
-            "--settings", json.dumps({"alwaysThinkingEnabled": False}),
-            "--effort", self.effort,
-            "--tools", "",
-            "--strict-mcp-config",
-            "--no-session-persistence",
-            "--system-prompt", SYSTEM_PROMPT,
-        ]
+        return claude_command(self.exe, self.model, self.effort)
 
     def review(self, task_prompt: str, code: str) -> ReviewResult:
-        start = time.perf_counter()
-        with tempfile.TemporaryDirectory(prefix="rb_claude_") as tmp:
-            proc = subprocess.run(
-                self.command(),
-                input=self.prompt.render(task_prompt, code),  # stdin: no command-line length/quoting limits
-                cwd=tmp,
-                capture_output=True,
-                text=True,
-                encoding="utf-8",
-                timeout=self.timeout_s,
-            )
-        latency = time.perf_counter() - start
-        try:
-            data = json.loads(proc.stdout)
-        except json.JSONDecodeError:
-            raise ClaudeCliError(f"exit {proc.returncode}: {(proc.stderr or proc.stdout)[-500:]}")
-        if data.get("is_error") or proc.returncode != 0:
-            raise ClaudeCliError(f"exit {proc.returncode}: {str(data.get('result'))[-500:]}")
-
+        data, latency = call_claude(self.command(), self.prompt.render(task_prompt, code), self.timeout_s)
         raw = data.get("result") or ""
         u = data.get("usage", {})
-        input_tokens = (u.get("input_tokens") or 0) + (u.get("cache_creation_input_tokens") or 0) + (
-            u.get("cache_read_input_tokens") or 0
-        )
-        thinking_tokens = (u.get("output_tokens_details") or {}).get("thinking_tokens") or 0
+        input_tokens, thinking_tokens = usage_tokens(u)
         verdict, line, explanation = parse_review(raw)
         return ReviewResult(
             verdict=verdict,
