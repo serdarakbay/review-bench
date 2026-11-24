@@ -24,7 +24,7 @@ The user-facing tool (`review` command for daily use) is a thin layer added LAST
 ## Tech stack (do not change without asking)
 - Python 3.11+, `venv` + `requirements.txt`.
 - CLI: `typer`. Output tables: `rich`. Plots: `matplotlib`. Data: plain JSONL + `pandas` for reports.
-- Dataset: HumanEval (`openai_humaneval` via HuggingFace `datasets`) — 164 tasks, each with prompt, canonical solution, tests.
+- Dataset: HumanEval (`openai/openai_humaneval` via HuggingFace `datasets`; the bare name no longer resolves) — 164 tasks, each with prompt, canonical solution, tests.
 - Tests: `pytest`.
 - Secrets from `.env` via `python-dotenv`. `.env` is in `.gitignore`. Never print or log keys.
 
@@ -33,15 +33,15 @@ All reviewers implement one interface:
 ```python
 class Reviewer(Protocol):
     name: str            # e.g. "gemini", "claude", "ollama"
-    model: str           # e.g. "gemini-2.5-flash", "qwen2.5-coder:7b"
+    model: str           # full model id from config.yaml, e.g. "gemini-3.8-flash", "qwen3.5:9b"
     def review(self, task_prompt: str, code: str) -> ReviewResult: ...
 ```
 | name | how | auth |
 |---|---|---|
-| `claude` | `claude -p` CLI (uses user's subscription) via subprocess; fallback to Anthropic SDK if `ANTHROPIC_API_KEY` set | subscription / key |
-| `gemini` | `google-genai` SDK | `GEMINI_API_KEY` (free tier) |
+| `claude` | `claude -p` CLI (user's subscription) via subprocess, calling `claude.exe` directly (the npm `.cmd` shim mangles quoted args). Isolated: no setting sources, no tools, no MCP, empty temp cwd, minimal system prompt, prompt on stdin. Anthropic SDK fallback: not implemented yet | subscription |
+| `gemini` | `google-genai` SDK. Free tier is 20 requests/day, so the project uses the paid tier with prepaid credits; `max_cost_usd` in config caps spend per run directory | `GEMINI_API_KEY` |
 | `ollama` | HTTP `http://localhost:11434/api/chat`, model `qwen3.5:9b` (already installed on the user's PC). Qwen3.5 has a thinking mode: send `"think": false` in the request and strip any `<think>...</think>` block before JSON parsing. Log thinking on/off in the call record | none, local |
-| `codex` | `codex exec` CLI via subprocess (user's ChatGPT sign-in). **Added in week 2**, only if `codex login status` works | ChatGPT login |
+| `codex` | `codex exec` CLI via subprocess (user's ChatGPT sign-in). Skipped: not installed (checked week 2) | ChatGPT login |
 
 **Auto-selection:** if no paid key/CLI is available, free reviewers (gemini, ollama) are used automatically. A reviewer whose auth is missing is skipped with a clear message, not a crash.
 
@@ -56,7 +56,8 @@ Check current model names in official docs before hardcoding them. Model names l
 - Reviewer must answer JSON:
   `{"verdict": "BUG" | "OK", "line": <int|null>, "explanation": "<short>"}`
 - Parse robustly (strip ```json fences, find first JSON object). If parsing fails → `verdict = "PARSE_ERROR"`, counted separately, never silently treated as OK.
-- temperature = 0 where supported.
+- temperature = 0 where supported (`claude -p` has no temperature flag).
+- Thinking at the lowest level each model allows: ollama off, gemini `thinking_level: low`, claude `--effort low` (Sonnet still thinks briefly on some calls). Logged per call as `thinking`.
 
 ## Dataset
 Two sources of samples, each sample = (task, code, is_buggy, bug_type, bug_line):
@@ -115,6 +116,16 @@ results/           # run outputs (gitignored)
 tests/             # pytest
 ```
 
+## Decisions (the why; values live in config.yaml)
+- **Mutations are spliced into the source text** by AST byte offsets, never `ast.unparse` of the file: buggy and correct samples must differ only on the bug line, or reviewers could spot formatting instead of bugs.
+- **Paired dataset:** each of 100 tasks gives one correct + one buggy sample, so catch rate and false alarms are measured on the same tasks. The least-used operator is tried first, which balances bug types.
+- **Reviewer input:** task description and code as separate sections; code lines are prefixed with numbers so localization measures finding the bug, not counting lines.
+- **No forced JSON schema** for any reviewer (the CLI cannot force one); PARSE_ERROR stays in the denominators as "not flagged".
+- **Concurrency is per reviewer name**, shared by its prompt variants, so a local backend is never queued and latency stays honest.
+- **Quota stops, it does not retry:** daily-limit, usage-limit and 402 (no prepaid credits) errors are not retried; that reviewer stops for the run and resume picks it up later.
+- **Statistics:** Wilson 95% CI on every rate; exact McNemar on the same samples for catch and false alarm, only for prompt-effect pairs and same-prompt reviewer pairs, Holm-adjusted across the report.
+- **Natural bugs** (Claude Sonnet as writer, same model as the claude reviewer) live in `data/natural_v1.jsonl`, separate from `samples_v1`; their bug line is unknown, so localization is not scored for them. Writer outputs are cached in `data/natural_v1_raw.jsonl`.
+
 ## Working rules
 - **Keep it simple.** Smallest code that works. No frameworks (no LangChain). No abstractions beyond the Reviewer interface.
 - Work in small steps. After each step: run `pytest`, show the user what changed and how to run it.
@@ -136,3 +147,5 @@ tests/             # pytest
 - HumanEval may be in models' training data.
 - Only two prompt variants; results can depend on prompt wording.
 - Small sample (~200); report confidence intervals (Wilson 95%) next to every rate.
+- "Correct" means "passes the HumanEval tests"; some canonical solutions disagree with their docstring, so some false alarms may be real findings.
+- Thinking levels and temperature control are not identical across reviewers (see the prompt contract).
