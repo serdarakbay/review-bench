@@ -16,6 +16,7 @@ class OllamaReviewer:
         self.url = cfg["url"].rstrip("/")
         self.think = bool(cfg.get("think", False))
         self.num_ctx = cfg.get("num_ctx")
+        self.num_predict = cfg.get("num_predict")
         self.timeout_s = cfg.get("timeout_s", 600)
         self.prompt = prompt
         self.concurrency = int(cfg.get("concurrency", 1))
@@ -35,6 +36,8 @@ class OllamaReviewer:
         options = {"temperature": 0}
         if self.num_ctx:
             options["num_ctx"] = self.num_ctx
+        if self.num_predict:
+            options["num_predict"] = self.num_predict
         return {
             "model": self.model,
             "stream": False,

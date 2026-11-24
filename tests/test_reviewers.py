@@ -72,6 +72,11 @@ def test_prompts_do_not_leak_bug_types_or_tests():
 CFG = {"url": "http://localhost:11434", "model": "qwen3.5:9b", "think": False, "num_ctx": 8192}
 
 
+def test_ollama_request_body_with_output_cap():
+    r = OllamaReviewer(dict(CFG, num_predict=8192), Prompt.load("neutral_v1"))
+    assert r.request_body("T", "c")["options"]["num_predict"] == 8192
+
+
 def test_ollama_request_body():
     r = OllamaReviewer(CFG, Prompt.load("neutral_v1"))
     body = r.request_body("TASK", "def f():\n    pass\n")

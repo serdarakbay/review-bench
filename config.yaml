@@ -18,6 +18,7 @@ reviewers:
     model: qwen3.5:9b
     think: false        # Qwen3.5 thinking mode off; any <think> block is stripped anyway
     num_ctx: 8192
+    num_predict: 8192   # output cap: some prompts make Qwen loop forever; max seen before the cap was 7777
     timeout_s: 600
     concurrency: 1
   gemini:
