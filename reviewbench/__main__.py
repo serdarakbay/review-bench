@@ -55,6 +55,7 @@ def build_natural(
 ) -> None:
     """Claude writes HumanEval solutions; failing ones become natural-bug samples (data/natural_v1.jsonl)."""
     from reviewbench.dataset import load_humaneval, write_jsonl
+    from reviewbench.dataset import with_tests_from
     from reviewbench.writer import ClaudeWriter, build_natural_samples, generate_solutions
 
     cfg = load_config()
@@ -77,9 +78,17 @@ def build_natural(
 
     console.print(f"writer {writer.model}: {len(tasks)} tasks (cached ones are skipped)")
     cached = generate_solutions(tasks, writer, raw_path, on_done=show)
-    samples, stats = build_natural_samples(tasks, cached, cfg["sandbox"]["timeout_s"])
+
+    # The writer always sees the original HumanEval prompt; only the tests may come from
+    # a stricter suite (HumanEval+), which exposes bugs the original tests miss.
+    test_tasks = tasks
+    if ncfg.get("tests_hf_name"):
+        test_tasks = with_tests_from(tasks, ncfg["tests_hf_name"], ncfg.get("exclude", []))
+    timeout_s = ncfg.get("test_timeout_s", cfg["sandbox"]["timeout_s"])
+    samples, stats = build_natural_samples(test_tasks, cached, timeout_s)
     write_jsonl(samples, out, force=force)
-    console.print(f"{out.relative_to(ROOT)}: {len(samples)} samples | {stats}")
+    console.print(f"{out.relative_to(ROOT)}: {len(samples)} samples | {stats} | "
+                  f"tests: {ncfg.get('tests_hf_name', cfg['dataset']['hf_name'])}")
 
 
 @app.command("run")

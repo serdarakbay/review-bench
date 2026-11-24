@@ -34,7 +34,10 @@ reviewers:
     concurrency: 2
 
 natural:
-  output: data/natural_v1.jsonl       # samples (failing -> natural bug, passing -> correct)
+  output: data/natural_plus_v1.jsonl  # samples (failing -> natural bug, passing -> correct)
+  tests_hf_name: evalplus/humanevalplus  # stricter tests; HumanEval's own tests found only 1 failing solution
+  test_timeout_s: 30                 # HumanEval+ tests are large (slowest canonical run: 9.3 s)
+  exclude: [HumanEval/32]            # its HumanEval+ test fails on the canonical solution (broken in this version)
   raw: data/natural_v1_raw.jsonl      # cached writer outputs (never re-paid)
   writer:
     model: claude-sonnet-5-5          # same model as the claude reviewer (same-model question)

@@ -1,5 +1,6 @@
 """Load HumanEval, verify canonical solutions, build the benchmark sample set."""
 
+import dataclasses
 import json
 import random
 from concurrent.futures import ThreadPoolExecutor
@@ -50,6 +51,23 @@ def load_humaneval(cfg: dict | None = None) -> list[Task]:
         )
         for row in ds
     ]
+
+
+def replace_tests(tasks: list[Task], rows: dict[str, dict], exclude: list[str]) -> list[Task]:
+    """Same tasks (prompt unchanged) with tests and entry point taken from `rows`; drops `exclude` and unknown ids."""
+    return [
+        dataclasses.replace(t, test=rows[t.task_id]["test"], entry_point=rows[t.task_id]["entry_point"])
+        for t in tasks
+        if t.task_id in rows and t.task_id not in exclude
+    ]
+
+
+def with_tests_from(tasks: list[Task], hf_name: str, exclude: list[str]) -> list[Task]:
+    """Swap in the tests of another HumanEval-format dataset (e.g. evalplus/humanevalplus)."""
+    from datasets import load_dataset
+
+    rows = {r["task_id"]: r for r in load_dataset(hf_name, split="test")}
+    return replace_tests(tasks, rows, exclude)
 
 
 def verify_canonical(tasks: list[Task], timeout_s: float, workers: int = 4) -> dict[str, RunResult]:

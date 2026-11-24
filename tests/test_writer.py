@@ -73,3 +73,14 @@ def test_generate_solutions_caches_and_resumes(tmp_path):
     assert len(cached) == 3 and w2.calls == 1  # only the failed task is asked again
     rows = [json.loads(line) for line in raw.read_text(encoding="utf-8").splitlines()]
     assert len(rows) == 4 and sum(r["error"] is not None for r in rows) == 1
+
+
+def test_replace_tests_keeps_prompt_and_drops_excluded():
+    from reviewbench.dataset import replace_tests
+
+    tasks = [Task("T/0", PROMPT, "", TEST, "total"), Task("T/1", PROMPT, "", TEST, "total"),
+             Task("T/2", PROMPT, "", TEST, "total")]
+    rows = {"T/0": {"test": "NEW", "entry_point": "total"}, "T/1": {"test": "NEW", "entry_point": "total"}}
+    out = replace_tests(tasks, rows, exclude=["T/1"])
+    assert [t.task_id for t in out] == ["T/0"]  # T/1 excluded, T/2 unknown to the new suite
+    assert out[0].test == "NEW" and out[0].prompt == PROMPT
