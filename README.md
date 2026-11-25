@@ -181,6 +181,20 @@ python -m reviewbench report results/natural-mbpp-v1 --adjudication docs/natural
 
 Re-running `run` with the same `--run-id` continues where it stopped.
 
+### Reviewing your own code
+
+```powershell
+python -m reviewbench review path	oile.py
+python -m reviewbench review path	oile.py --reviewer gemini --task "Return the median of a non-empty list"
+```
+
+`review` sends one whole file (numbered lines) and prints the verdict, the reported line and the
+explanation. Without `--reviewer` it picks the available reviewer with the best F1 in the benchmark runs
+listed under `review.results` in `config.yaml`, counting only calls with the same prompt (`neutral_v1` by
+default) and the model now in config; if none match, it uses the `review.fallback` order. Without
+`--task` the reviewer is told to infer the intent from the code. One reviewer, one verdict, one line:
+a file with several bugs gets only the first one the reviewer reports.
+
 ## Known limitations
 
 - Injected bugs are small and synthetic; HumanEval functions are short.
@@ -208,6 +222,7 @@ reviewbench/
   runner.py     resume, retries, per-reviewer concurrency, budget cap, JSONL logging
   scoring.py    metrics, Wilson CI, McNemar, Holm
   report.py     report.md + plots
+  review.py     review command: rank reviewers by benchmark F1, pick the best available
 prompts/        neutral_v1, adversarial_v1, writer_v1, writer_mbpp_v1
 config.yaml     models, prices, budgets, concurrency
 tests/          pytest

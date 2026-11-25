@@ -210,5 +210,77 @@ def report(
     console.print(f"wrote {path} (+ rates.png, bug_types.png, cost_f1.png)")
 
 
+@app.command("review")
+def review(
+    file: Path = typer.Argument(..., exists=True, dir_okay=False, help="Python file to review."),
+    reviewer: str = typer.Option("", help="Reviewer name (default: best F1 in review.results)."),
+    task: str = typer.Option("", help="What the code should do (default: reviewer infers it from the code)."),
+    prompt: str = typer.Option("", help="Prompt key (default: review.prompt in config.yaml)."),
+) -> None:
+    """Review one file with one reviewer; the default reviewer is chosen from benchmark results."""
+    from reviewbench.report import load_calls
+    from reviewbench.review import NO_TASK, pick_reviewer, rank_reviewers
+    from reviewbench.reviewers import build_reviewer
+    from reviewbench.reviewers.base import PARSE_ERROR, Prompt
+
+    cfg = load_config()
+    rcfg = cfg["review"]
+    p = Prompt.load(prompt or rcfg["prompt"])
+    key = f"{p.name}_{p.version}"
+
+    if reviewer:
+        try:
+            chosen = build_reviewer(reviewer, cfg, p)
+        except KeyError as e:
+            console.print(f"[red]{e.args[0]}[/]")
+            raise typer.Exit(1)
+        ok, why = chosen.is_available()
+        if not ok:
+            console.print(f"[red]{reviewer} is not available:[/] {why}")
+            raise typer.Exit(1)
+        reason = "chosen with --reviewer"
+    else:
+        built = {}
+        for name in cfg["reviewers"]:
+            try:
+                r = build_reviewer(name, cfg, p)
+            except KeyError:
+                continue
+            ok, why = r.is_available()
+            if ok:
+                built[name] = r
+            else:
+                console.print(f"[yellow]skip {name}:[/] {why}")
+        dirs = [ROOT / d for d in rcfg["results"] if (ROOT / d / "calls.jsonl").exists()]
+        models = {name: c["model"] for name, c in cfg["reviewers"].items()}
+        ranking = rank_reviewers(load_calls(dirs), key, models)
+        picked = pick_reviewer(ranking, list(built), rcfg["fallback"])
+        if not picked:
+            console.print("[red]No reviewer available.[/]")
+            raise typer.Exit(1)
+        chosen, reason = built[picked[0]], picked[1]
+
+    console.print(f"reviewer {chosen.name}/{chosen.model}, prompt {key} ({reason})")
+    code = file.read_text(encoding="utf-8")
+    try:
+        result = chosen.review(task or NO_TASK, code)
+    except Exception as e:  # network, quota, CLI failure: report, do not crash with a traceback
+        console.print(f"[red]review failed:[/] {type(e).__name__}: {e}")
+        raise typer.Exit(1)
+
+    if result.verdict == PARSE_ERROR:
+        console.print("[red]PARSE_ERROR[/]: the reviewer did not answer in the expected JSON. Raw response:")
+        console.print(result.raw_response, markup=False)
+        raise typer.Exit(1)
+    color = "red" if result.verdict == "BUG" else "green"
+    console.print(f"[bold {color}]{result.verdict}[/]" + (f" at line {result.line}" if result.line else ""))
+    lines = code.splitlines()
+    if result.line and 1 <= result.line <= len(lines):
+        console.print(f"  {result.line} | {lines[result.line - 1]}", markup=False, highlight=False)
+    console.print(result.explanation, markup=False)
+    cost = f", ${result.cost_usd:.4f}" if result.cost_usd else ""
+    console.print(f"[dim]{result.latency_s:.1f}s{cost}[/]")
+
+
 if __name__ == "__main__":
     app()
