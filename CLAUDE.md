@@ -41,6 +41,7 @@ class Reviewer(Protocol):
 | `claude` | `claude -p` CLI (user's subscription) via subprocess, calling `claude.exe` directly (the npm `.cmd` shim mangles quoted args). Isolated: no setting sources, no tools, no MCP, empty temp cwd, minimal system prompt, prompt on stdin. Anthropic SDK fallback: not implemented yet | subscription |
 | `gemini` | `google-genai` SDK. Free tier is 20 requests/day, so the project uses the paid tier with prepaid credits; `max_cost_usd` in config caps spend per run directory | `GEMINI_API_KEY` |
 | `ollama` | HTTP `http://localhost:11434/api/chat`, model `qwen3.5:9b` (already installed on the user's PC). Qwen3.5 has a thinking mode: send `"think": false` in the request and strip any `<think>...</think>` block before JSON parsing. Log thinking on/off in the call record | none, local |
+| `gemini-lite`, `gemini-argon` | same Gemini adapter (`adapter: gemini` in config), models `gemini-3.5-flash-lite` and `gemini-4-argon`; Argon runs the neutral prompt only (credit) | `GEMINI_API_KEY` |
 | `codex` | `codex exec` CLI via subprocess (user's ChatGPT sign-in). Skipped: not installed (checked week 2) | ChatGPT login |
 
 **Auto-selection:** if no paid key/CLI is available, free reviewers (gemini, ollama) are used automatically. A reviewer whose auth is missing is skipped with a clear message, not a crash.

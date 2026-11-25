@@ -12,8 +12,10 @@ local model replace a paid one?
 ## Results
 
 All numbers come from logged calls (runs `ollama-full-v1`, `gemini-full-v1`, `claude-full-v1`,
-`natural-plus-v1`, `natural-mbpp-v1`; 2,730 calls, 0 API errors). Brackets are Wilson 95% CIs. Significance = exact McNemar
-on the same samples, Holm-adjusted across the comparisons in each report. Reproduce with
+`gemini-lite-full-v1`, `gemini-argon-full-v1`, `natural-plus-v1`, `natural-mbpp-v1`; 4,095 calls, 0 API
+errors). Brackets are Wilson 95% CIs. Significance = exact McNemar on the same samples, Holm-adjusted
+across the 40 comparisons in each report (adding reviewers adds comparisons, so the adjustment gets
+stricter). Gemini 4 Argon ran with the neutral prompt only, to fit the remaining API credit. Reproduce with
 `python -m reviewbench report <run dirs...>`.
 
 ### Synthetic bugs (`samples_v1`: 100 buggy + 100 correct)
@@ -24,21 +26,29 @@ on the same samples, Holm-adjusted across the comparisons in each report. Reprod
 | Claude Sonnet 5.5 | adversarial | 100% [96–100] | 94% [88–97] | 7% [3–14] | 0.966 | 0% | 6.6 s |
 | Gemini 3.8 Flash | neutral | 100% [96–100] | 97% [92–99] | 13% [8–21] | 0.939 | 0% | 3.7 s |
 | Gemini 3.8 Flash | adversarial | 100% [96–100] | 96% [90–98] | 13% [8–21] | 0.939 | 0% | 4.5 s |
+| Gemini 4 Argon | neutral | 100% [96–100] | 97% [92–99] | 10% [6–17] | 0.952 | 0% | 7.0 s |
+| Gemini 3.5 Flash-Lite | neutral | 96% [90–98] | 96% [90–98] | 28% [20–37] | 0.857 | 0.5% | 0.7 s |
+| Gemini 3.5 Flash-Lite | adversarial | 98% [93–99] | 96% [90–98] | 29% [21–39] | 0.863 | 0% | 0.7 s |
 | Qwen 3.5 9B (local) | neutral | 93% [86–97] | 91% [84–96] | 35% [26–45] | 0.816 | 2.5% | 11.1 s |
 | Qwen 3.5 9B (local) | adversarial | 90% [83–94] | 91% [83–95] | 40% [31–50] | 0.783 | 2.0% | 11.9 s |
 
-Cost for the 400 calls per reviewer: Gemini $0.57 (billed), Claude $3.06 API list-price equivalent (run on
-a subscription, not billed per call), Qwen $0 (local).
+Cost for the 400 calls per reviewer: Gemini Flash $0.57 (billed), Claude $3.06 API list-price equivalent
+(run on a subscription, not billed per call), Qwen $0 (local), Flash-Lite $0.13 (billed). Argon: $0.35 for
+200 calls at its introductory price (it doubles on 2026-12-01).
 
 ![catch and false-alarm rates, synthetic](docs/img/synthetic_rates.png)
 ![catch rate by bug type](docs/img/synthetic_bug_types.png)
 ![quality vs cost](docs/img/synthetic_cost_f1.png)
 
 - **The free local model does not replace the paid ones.** Qwen's false-alarm rate is significantly higher
-  than Claude's and Gemini's under both prompts (all four comparisons p < 0.001). With the adversarial
-  prompt it also catches significantly fewer bugs (p = 0.027).
-- **Claude and Gemini are indistinguishable here.** Both catch every injected bug; their false-alarm
-  difference is not significant.
+  than Claude's and Gemini Flash's under both prompts (all four comparisons p ≤ 0.002). It also catches
+  fewer bugs (90–93% vs 100%), but that difference is not significant after Holm adjustment.
+- **Claude, Gemini Flash and Gemini Argon are indistinguishable here.** All catch every injected bug; no
+  false-alarm difference between them is significant. The larger Argon model gives no gain over Flash.
+- **The small cheap model sits between the strong ones and Qwen.** Flash-Lite is the fastest (0.7 s) and
+  cheapest paid reviewer and catches 96–98% of bugs, but raises false alarms on 28–29% of correct code:
+  significantly more than Claude, Flash and Argon (p ≤ 0.046). Its false-alarm rate is not significantly
+  different from Qwen's on this set.
 - **No prompt effect.** Adversarial vs neutral is not significant for any reviewer, on catches or on false
   alarms. The hypothesis "adversarial raises catches and false alarms" is not supported.
 - **Ceiling effect.** Single-mutation bugs are too easy for the strong reviewers, so this set cannot rank
@@ -60,6 +70,9 @@ bugs**; 3 are bugs in the HumanEval+ reference itself and 2 are arguable
 | Claude Sonnet 5.5 | adversarial | 1.3% [0–5] | 0 of 2 |
 | Gemini 3.8 Flash | neutral | 0.6% [0–4] | 1 of 2 (exact cause named) |
 | Gemini 3.8 Flash | adversarial | 0.0% [0–2] | 1 of 2 (right region, imprecise reason) |
+| Gemini 4 Argon | neutral | 0.0% [0–2] | 0 of 2 |
+| Gemini 3.5 Flash-Lite | neutral | 13.5% [9–20] | 2 of 2 (reasons not reviewed by hand) |
+| Gemini 3.5 Flash-Lite | adversarial | 11.5% [7–18] | 2 of 2 (reasons not reviewed by hand) |
 | Qwen 3.5 9B | neutral | 27.6% [21–35] | 2 of 2 (wrong reasons) |
 | Qwen 3.5 9B | adversarial | 16.0% [11–23] | 1 of 2 (wrong reason) |
 
@@ -68,10 +81,11 @@ bugs**; 3 are bugs in the HumanEval+ reference itself and 2 are arguable
 - **Claude did not find its own bugs; Gemini found one with the right cause.** This pointed toward
   "a different model reviews better", but it rests on 2 bugs, and it does not repeat on the larger MBPP+
   set below.
-- **On Claude's correct code, Claude and Gemini almost never raise false alarms; Qwen does** (p < 0.001 in
-  all four comparisons).
+- **On Claude's correct code, Claude and Gemini Flash/Argon almost never raise false alarms; Flash-Lite and
+  Qwen do.** Flash-Lite's 12–14% is significantly higher than Claude, Flash and Argon (p ≤ 0.013) and
+  significantly lower than Qwen's neutral 28% (p = 0.014).
 - For Qwen, the neutral prompt gives significantly *more* false alarms than the adversarial one
-  (p = 0.007), the opposite of the hypothesis.
+  (p = 0.016), the opposite of the hypothesis.
 
 ### Natural bugs (`natural_mbpp_v1`: Claude-written solutions, MBPP+ tests)
 
@@ -87,21 +101,26 @@ reference (the test oracle), and 21 are not settled by the one-sentence task
 | Claude Sonnet 5.5 | adversarial | 17% [9–31] | 5 of 10 | 0 of 15 | 0% [0–8] |
 | Gemini 3.8 Flash | neutral | 11% [5–23] | 4 of 10 | 0 of 15 | 4.3% [1–15] |
 | Gemini 3.8 Flash | adversarial | 9% [3–20] | 4 of 10 | 0 of 15 | 2.2% [0–11] |
+| Gemini 4 Argon | neutral | 13% [6–26] | 4 of 10 | 0 of 15 | 0% [0–8] |
+| Gemini 3.5 Flash-Lite | neutral | 17% [9–31] | 3 of 10 | 3 of 15 | 15.2% [8–28] |
+| Gemini 3.5 Flash-Lite | adversarial | 20% [11–33] | 4 of 10 | 1 of 15 | 15.2% [8–28] |
 | Qwen 3.5 9B | neutral | 35% [23–49] | 6 of 10 | 2 of 15 | 28.3% [17–43] |
 | Qwen 3.5 9B | adversarial | 35% [23–49] | 5 of 10 | 5 of 15 | 15.2% [8–28] |
 
-Cost for the 184 calls per reviewer: Gemini $0.35 (billed), Claude $1.27 API list-price equivalent
-(subscription), Qwen $0 (local). Qwen had 3.3% parse failures; the others none.
+Cost for the 184 calls per reviewer: Gemini Flash $0.35 (billed), Claude $1.27 API list-price equivalent
+(subscription), Qwen $0 (local), Flash-Lite $0.04 (billed); Argon $0.09 for 92 calls. Qwen had 3.3% parse
+failures, Flash-Lite 2–3%, the others none.
 
 ![catch and false-alarm rates, natural MBPP+](docs/img/natural_mbpp_rates.png)
 
 - **Same-model review did about as well as different-model review.** Claude flagged 4–5 of its own 10 real
-  bugs, Gemini 4. No Claude–Gemini difference is significant (catch or false alarm, either prompt).
+  bugs, Gemini Flash 4, Gemini Argon 4. No Claude–Gemini difference is significant (catch or false alarm,
+  either prompt). A larger different-family model did not beat the same-model reviewer.
 - **Low test-label catch rates mostly reflect the test oracle, not the reviewers.** Claude and Gemini
   never flagged a sample where the MBPP+ reference is the one that is wrong; they side with the task.
 - **Qwen flags more, but separates buggy from correct code poorly.** Under the neutral prompt it flags 35%
   of buggy and 28% of correct samples; its false-alarm rate is significantly higher than Claude's
-  (p = 0.004) and Gemini's (p = 0.017). Under the adversarial prompt the differences are not significant
+  (p = 0.010), Gemini Flash's (p = 0.037) and Argon's (p = 0.010). Under the adversarial prompt the differences are not significant
   after Holm adjustment.
 - 10 real bugs are still few: these are qualitative counts, not rates with tight intervals.
 
@@ -148,6 +167,8 @@ are broken down by bug type and by prompt.
 |---|---|---|
 | `ollama` | `qwen3.5:9b`, local, thinking off | free |
 | `gemini` | `gemini-3.8-flash`, thinking `low` | paid API (prepaid credits, budget cap) |
+| `gemini-lite` | `gemini-3.5-flash-lite`, thinking `minimal` (same adapter as `gemini`) | paid API |
+| `gemini-argon` | `gemini-4-argon`, thinking `low` (same adapter as `gemini`) | paid API |
 | `claude` | `claude-sonnet-5-5` via `claude -p`, effort `low` | Claude subscription |
 
 ## Setup (Windows, PowerShell)

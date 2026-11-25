@@ -82,6 +82,8 @@ review:                  # python -m reviewbench review <file>
     - results/ollama-full-v1
     - results/gemini-full-v1
     - results/claude-full-v1
+    - results/gemini-lite-full-v1
+    - results/gemini-argon-full-v1
     - results/natural-plus-v1
     - results/natural-mbpp-v1
   fallback: [gemini, ollama, claude]  # order when no results match an available reviewer
