@@ -20,6 +20,7 @@ def test_rank_by_f1_best_first():
     ranking = rank_reviewers(calls, "neutral_v1", MODELS)
     assert [r["reviewer"] for r in ranking] == ["gemini", "ollama"]
     assert ranking[0]["f1"] == 1.0 and ranking[0]["n"] == 8
+    assert ranking[0]["usd_per_call"] == 0.0
 
 
 def test_rank_ignores_other_prompt_and_old_model():
@@ -31,8 +32,20 @@ def test_rank_ignores_other_prompt_and_old_model():
 
 
 def test_pick_skips_unavailable_and_falls_back():
-    ranking = [{"reviewer": "claude", "f1": 0.9, "n": 8}, {"reviewer": "gemini", "f1": 0.8, "n": 8}]
+    ranking = [{"reviewer": "claude", "f1": 0.9, "n": 8, "usd_per_call": 0.01},
+               {"reviewer": "gemini", "f1": 0.8, "n": 8, "usd_per_call": 0.001}]
     assert pick_reviewer(ranking, ["gemini", "ollama"], ["ollama"])[0] == "gemini"
     name, reason = pick_reviewer(ranking, ["ollama"], ["gemini", "ollama"])
     assert name == "ollama" and "fallback" in reason
     assert pick_reviewer(ranking, [], ["gemini"]) is None
+
+
+def test_pick_cheapest_within_f1_tolerance():
+    ranking = [{"reviewer": "argon", "f1": 0.793, "n": 9, "usd_per_call": 0.005},
+               {"reviewer": "claude", "f1": 0.782, "n": 9, "usd_per_call": 0.007},
+               {"reviewer": "flash", "f1": 0.775, "n": 9, "usd_per_call": 0.0015},
+               {"reviewer": "ollama", "f1": 0.637, "n": 9, "usd_per_call": 0.0}]
+    everyone = ["argon", "claude", "flash", "ollama"]
+    assert pick_reviewer(ranking, everyone, [], f1_tolerance=0.02)[0] == "flash"
+    assert pick_reviewer(ranking, everyone, [], f1_tolerance=0.0)[0] == "argon"
+    assert pick_reviewer(ranking, everyone, [], f1_tolerance=0.2)[0] == "ollama"

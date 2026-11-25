@@ -86,4 +86,5 @@ review:                  # python -m reviewbench review <file>
     - results/gemini-argon-full-v1
     - results/natural-plus-v1
     - results/natural-mbpp-v1
+  f1_tolerance: 0.02     # reviewers this close to the best F1 count as tied; the cheapest per call wins
   fallback: [gemini, ollama, claude]  # order when no results match an available reviewer

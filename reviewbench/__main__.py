@@ -254,7 +254,15 @@ def review(
         dirs = [ROOT / d for d in rcfg["results"] if (ROOT / d / "calls.jsonl").exists()]
         models = {name: c["model"] for name, c in cfg["reviewers"].items()}
         ranking = rank_reviewers(load_calls(dirs), key, models)
-        picked = pick_reviewer(ranking, list(built), rcfg["fallback"])
+        tol = rcfg.get("f1_tolerance", 0.0)
+        picked = pick_reviewer(ranking, list(built), rcfg["fallback"], tol)
+        rt = Table(title=f"benchmark ranking ({key}, {len(dirs)} runs; cost = API list-price equivalent)")
+        for col in ("reviewer/model", "F1", "calls", "$/call", "available"):
+            rt.add_column(col)
+        for r in ranking:
+            rt.add_row(f"{r['reviewer']}/{r['model']}", f"{r['f1']:.3f}", str(r["n"]),
+                       f"{r['usd_per_call']:.4f}", "yes" if r["reviewer"] in built else "no")
+        console.print(rt)
         if not picked:
             console.print("[red]No reviewer available.[/]")
             raise typer.Exit(1)

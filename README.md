@@ -210,9 +210,12 @@ python -m reviewbench review path	oile.py --reviewer gemini --task "Return the 
 ```
 
 `review` sends one whole file (numbered lines) and prints the verdict, the reported line and the
-explanation. Without `--reviewer` it picks the available reviewer with the best F1 in the benchmark runs
-listed under `review.results` in `config.yaml`, counting only calls with the same prompt (`neutral_v1` by
-default) and the model now in config; if none match, it uses the `review.fallback` order. Without
+explanation. Without `--reviewer` it prints the benchmark ranking (F1 and cost per call in the runs listed
+under `review.results` in `config.yaml`, counting only calls with the same prompt, `neutral_v1` by default,
+and the model now in config). Reviewers within `review.f1_tolerance` (0.02) of the best F1 count as tied,
+and the cheapest per call among the available ones is used; if no results match, it uses the
+`review.fallback` order. Cost per call is the logged API list-price equivalent, so a price change after
+the runs (Argon's on 2026-12-01) is not reflected. Without
 `--task` the reviewer is told to infer the intent from the code. One reviewer, one verdict, one line:
 a file with several bugs gets only the first one the reviewer reports.
 

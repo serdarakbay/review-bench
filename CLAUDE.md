@@ -125,7 +125,7 @@ tests/             # pytest
 - **Concurrency is per reviewer name**, shared by its prompt variants, so a local backend is never queued and latency stays honest.
 - **Quota stops, it does not retry:** daily-limit, usage-limit and 402 (no prepaid credits) errors are not retried; that reviewer stops for the run and resume picks it up later.
 - **Statistics:** Wilson 95% CI on every rate; exact McNemar on the same samples for catch and false alarm, only for prompt-effect pairs and same-prompt reviewer pairs, Holm-adjusted across the report.
-- **`review` default reviewer:** best F1 among available reviewers in the runs listed under `review.results`, same prompt (`neutral_v1`) and same model as config; whole file in one call, `--task` optional.
+- **`review` default reviewer:** F1 from the runs listed under `review.results` (same prompt `neutral_v1`, same model as config); among available reviewers within `f1_tolerance` (0.02) of the best F1, the cheapest per call wins, because such small F1 gaps are not significant. Whole file in one call, `--task` optional.
 - **Natural bugs** (Claude Sonnet as writer, same model as the claude reviewer) live in `data/natural_v1.jsonl`, separate from `samples_v1`; their bug line is unknown, so localization is not scored for them. Writer outputs are cached in `data/natural_v1_raw.jsonl`.
 
 ## Working rules
