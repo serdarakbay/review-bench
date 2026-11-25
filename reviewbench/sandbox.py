@@ -57,3 +57,39 @@ def build_test_program(code: str, test: str, entry_point: str) -> str:
 
 def run_tests(code: str, test: str, entry_point: str, timeout_s: float = DEFAULT_TIMEOUT_S) -> RunResult:
     return run_program(build_test_program(code, test, entry_point), timeout_s)
+
+
+_MBPP_LOOP = re.compile(
+    r"^for i, \(inp, exp\) in enumerate\(zip\(inputs, results\)\):\n    assertion\((\w+)\(\*inp\), exp, (.+)\)\s*$",
+    re.MULTILINE,
+)
+
+# Replaces the MBPP+ test loop: report the first failing input instead of a bare AssertionError.
+_REPORT_LOOP = r"""
+import sys
+for inp, exp in zip(inputs, results):
+    try:
+        got = {fn}(*inp)
+    except Exception as e:
+        got = f"{{type(e).__name__}}: {{e}}"
+    try:
+        assertion(got, exp, {atol})
+    except Exception:
+        sys.stderr.write(f"input {{inp!r}}\nexpected {{exp!r}}\ngot {{got!r}}"[:600])
+        sys.exit(1)
+"""
+
+
+def first_failure(code: str, test: str, timeout_s: float = DEFAULT_TIMEOUT_S) -> str:
+    """For manual review: the first MBPP+ input where `code` fails, as 'input / expected / got' lines.
+
+    Runs in the sandbox subprocess like every other test run.
+    """
+    m = _MBPP_LOOP.search(test)
+    if not m:
+        return "(not an MBPP+ test loop)"
+    program = f"{code}\n\n{test[:m.start()]}{_REPORT_LOOP.format(fn=m.group(1), atol=m.group(2))}"
+    r = run_program(program, timeout_s)
+    if r.timed_out:
+        return "(timeout)"
+    return r.stderr.strip() if not r.passed else "(no failing input)"

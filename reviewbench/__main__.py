@@ -19,23 +19,31 @@ def main() -> None:
 
 
 @app.command("build-dataset")
-def build_dataset(force: bool = typer.Option(False, "--force", help="Overwrite an existing dataset file.")) -> None:
-    """Build data/samples_v1.jsonl: HumanEval canonical solutions + one injected bug per task."""
-    from reviewbench.dataset import build_samples, load_humaneval, write_jsonl
+def build_dataset(
+    force: bool = typer.Option(False, "--force", help="Overwrite an existing dataset file."),
+    version: str = typer.Option("v1", help="v1: HumanEval (config 'dataset'); v2: subtle MBPP+ bugs ('dataset_v2')."),
+) -> None:
+    """Build a paired sample set: canonical solutions + one injected bug per task (output path from config)."""
+    from reviewbench.dataset import build_samples, load_humaneval, load_mbppplus, write_jsonl
 
+    if version not in ("v1", "v2"):
+        console.print(f"[red]unknown version {version!r}[/] (v1 or v2)")
+        raise typer.Exit(1)
     cfg = load_config()
-    out = ROOT / cfg["dataset"]["output"]
+    dcfg = cfg["dataset" if version == "v1" else "dataset_v2"]
+    out = ROOT / dcfg["output"]
     if out.exists() and not force:
         console.print(f"[red]{out} already exists.[/] Use --force to overwrite.")
         raise typer.Exit(1)
 
-    tasks = load_humaneval(cfg)
+    tasks = load_humaneval(cfg) if version == "v1" else load_mbppplus(dcfg["hf_name"], dcfg.get("exclude", []))
     samples = build_samples(
         tasks,
-        n_tasks=cfg["dataset"]["n_tasks"],
+        n_tasks=dcfg["n_tasks"],
         seed=cfg["seed"],
-        timeout_s=cfg["sandbox"]["timeout_s"],
-        max_tries=cfg["dataset"]["max_mutant_tries"],
+        timeout_s=dcfg.get("test_timeout_s", cfg["sandbox"]["timeout_s"]),
+        max_tries=dcfg["max_mutant_tries"],
+        subtle=dcfg.get("subtle", False),
     )
     write_jsonl(samples, out, force=force)
 
@@ -208,6 +216,43 @@ def report(
     adj = json.loads(adjudication.read_text(encoding="utf-8")) if adjudication else None
     path = write_report(run_dirs, out_dir, adj)
     console.print(f"wrote {path} (+ rates.png, bug_types.png, cost_f1.png)")
+
+
+@app.command("mutant-sheet")
+def mutant_sheet(
+    dataset: Path = typer.Option(None, help="Samples JSONL (default: dataset_v2.output)."),
+    out: Path = typer.Option(None, help="Markdown output (default: docs/<dataset name>_sheet.md)."),
+) -> None:
+    """Manual-review sheet for MBPP+ mutants: task, diff, first failing MBPP+ input (expected vs got)."""
+    import difflib
+    from concurrent.futures import ThreadPoolExecutor
+
+    from reviewbench.dataset import load_mbppplus, read_jsonl
+    from reviewbench.sandbox import first_failure
+
+    cfg = load_config()
+    dcfg = cfg["dataset_v2"]
+    dataset = dataset or ROOT / dcfg["output"]
+    out = out or ROOT / "docs" / f"{dataset.stem}_sheet.md"
+    samples = read_jsonl(dataset)
+    correct = {s["task_id"]: s for s in samples if not s["is_buggy"]}
+    buggy = [s for s in samples if s["is_buggy"]]
+    tasks = {t.task_id: t for t in load_mbppplus(dcfg["hf_name"], dcfg.get("exclude", []))}
+
+    def entry(s: dict) -> str:
+        diff = difflib.unified_diff(correct[s["task_id"]]["code"].splitlines(), s["code"].splitlines(),
+                                    "correct", "mutant", n=1, lineterm="")
+        fail = first_failure(s["code"], tasks[s["task_id"]].test, dcfg["test_timeout_s"])
+        task = s["task_prompt"].strip().strip('"').strip()
+        return (f"### {s['sample_id']} (bug line {s['bug_line']})\n\n{task}\n\n"
+                f"```diff\n" + "\n".join(list(diff)[2:]) + f"\n```\n\nFirst failing MBPP+ input:\n\n"
+                f"```\n{fail}\n```\n\nclass: \n")
+
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        entries = list(pool.map(entry, buggy))
+    out.write_text(f"# Review sheet: {dataset.name} ({len(buggy)} mutants)\n\n" + "\n".join(entries),
+                   encoding="utf-8")
+    console.print(f"wrote {out}")
 
 
 @app.command("review")

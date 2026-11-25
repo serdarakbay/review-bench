@@ -246,13 +246,16 @@ ADJUDICATION_MEANING = {
     "claude_bug": "the writer's output contradicts the docstring: `BUG` is right",
     "reference_bug": "the writer follows the docstring, the test oracle does not: `OK` is right",
     "arguable": "the docstring does not settle it",
+    # samples_v2 (subtle mutants)
+    "visible_bug": "the mutant breaks behaviour the task sentence or its example fixes: `BUG` is right",
+    "out_of_spec": "the mutant differs only on inputs the task does not admit or define: `OK` is defensible",
 }
 
 
 def adjudicated_markdown(groups: dict[tuple, list[dict]], adjudication: dict[str, str]) -> str:
     """Per-sample verdict table for manually adjudicated samples (too few for rates)."""
     ids = [s for s in adjudication if not s.startswith("_")]
-    order = {"claude_bug": 0, "reference_bug": 1, "arguable": 2}
+    order = {c: i for i, c in enumerate(ADJUDICATION_MEANING)}
     ids.sort(key=lambda s: (order.get(adjudication[s], 9), s))
     keys = list(groups)
     verdict = {(k, c["sample_id"]): c for k in keys for c in groups[k] if c.get("error") is None}
@@ -263,7 +266,8 @@ def adjudicated_markdown(groups: dict[tuple, list[dict]], adjudication: dict[str
         f"class. {adjudication.get('_note', '')} `B` = reviewer said BUG, `.` = OK, `?` = parse error, "
         "blank = no call.",
         "",
-        *[f"- **{cls}**: {meaning}" for cls, meaning in ADJUDICATION_MEANING.items()],
+        *[f"- **{cls}**: {meaning}" for cls, meaning in ADJUDICATION_MEANING.items()
+          if cls in {adjudication[s] for s in ids}],
         "",
         "| sample | class | " + " | ".join(label(k) for k in keys) + " |",
         "|---|---|" + "---|" * len(keys),

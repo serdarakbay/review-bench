@@ -64,3 +64,23 @@ def test_write_jsonl_refuses_overwrite(tmp_path):
         write_jsonl([{"a": 2}], path)
     write_jsonl([{"a": 2}], path, force=True)
     assert read_jsonl(path) == [{"a": 2}]
+
+
+WEAK = "def check(f):\n    assert f([1, -2, 3]) == 4\n"
+
+
+def test_subtle_mutants_pass_weak_tests_and_fail_full_tests():
+    tasks = [Task(t.task_id, t.prompt, t.canonical_solution, t.test, t.entry_point, weak_test=WEAK)
+             for t in make_tasks(3)]
+    samples = build_samples(tasks, n_tasks=2, seed=0, timeout_s=10, max_tries=50, subtle=True)
+    task_map = {t.task_id: t for t in tasks}
+    for s in samples:
+        if s["is_buggy"]:
+            t = task_map[s["task_id"]]
+            assert run_tests(s["code"], WEAK, t.entry_point).passed
+            assert not run_tests(s["code"], t.test, t.entry_point).passed
+
+
+def test_mbpp_task_code_excludes_prompt():
+    t = Task("Mbpp/1", '"""\nAdd.\n"""\n', "def add(a, b):\n    return a + b\n", "", "add", code_has_prompt=False)
+    assert t.canonical_code == "def add(a, b):\n    return a + b\n" and t.prompt_lines == 0

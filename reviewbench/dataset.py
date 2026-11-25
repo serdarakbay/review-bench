@@ -25,16 +25,18 @@ class Task:
     canonical_solution: str
     test: str
     entry_point: str
+    code_has_prompt: bool = True  # HumanEval: prompt is the code prefix; MBPP+: prompt is only the task text
+    weak_test: str | None = None  # MBPP+: the original 3 MBPP asserts (much weaker than `test`)
 
     @property
     def canonical_code(self) -> str:
-        """Full function: HumanEval prompt (signature + docstring) + body."""
-        return self.prompt + self.canonical_solution
+        """Full solution: HumanEval prompt (signature + docstring) + body, or the MBPP+ code alone."""
+        return self.prompt + self.canonical_solution if self.code_has_prompt else self.canonical_solution
 
     @property
     def prompt_lines(self) -> int:
-        """Number of lines taken by the prompt; the solution body starts after them."""
-        return self.prompt.count("\n")
+        """Number of prompt lines in canonical_code; the solution body starts after them."""
+        return self.prompt.count("\n") if self.code_has_prompt else 0
 
 
 def load_humaneval(cfg: dict | None = None) -> list[Task]:
@@ -103,6 +105,8 @@ def load_mbppplus(hf_name: str, exclude: list[str]) -> list[Task]:
             canonical_solution=r["code"],
             test=(imports + "\n\n" if imports else "") + r["test"],
             entry_point=mbpp_entry_point(r["test"]),
+            code_has_prompt=False,
+            weak_test=(imports + "\n\n" if imports else "") + "\n".join(r["test_list"]) + "\n",
         ))
     return tasks
 
@@ -116,11 +120,19 @@ def verify_canonical(tasks: list[Task], timeout_s: float, workers: int = 4) -> d
         return dict(pool.map(check, tasks))
 
 
-def _killing_mutant(task: Task, op: str, rng: random.Random, max_tries: int, timeout_s: float) -> Mutant | None:
-    """A random mutant of the solution body that FAILS the tests (non-equivalent), or None."""
+def _killing_mutant(task: Task, op: str, rng: random.Random, max_tries: int, timeout_s: float,
+                    subtle: bool = False) -> Mutant | None:
+    """A random mutant of the solution body that FAILS the tests (non-equivalent), or None.
+
+    subtle=True keeps only mutants that also PASS the task's weak tests: the bug shows only
+    on inputs the original tests (and the example in the prompt) do not cover.
+    """
     mutants = find_mutants(task.canonical_code, op, min_line=task.prompt_lines)
     rng.shuffle(mutants)
     for m in mutants[:max_tries]:
+        # Weak tests first: they are fast and reject most mutants.
+        if subtle and not run_tests(m.code, task.weak_test, task.entry_point, timeout_s).passed:
+            continue
         if not run_tests(m.code, task.test, task.entry_point, timeout_s).passed:
             return m
     return None
@@ -139,11 +151,13 @@ def _sample(task: Task, code: str, mutant: Mutant | None) -> dict:
     }
 
 
-def build_samples(tasks: list[Task], n_tasks: int, seed: int, timeout_s: float, max_tries: int = 5) -> list[dict]:
+def build_samples(tasks: list[Task], n_tasks: int, seed: int, timeout_s: float, max_tries: int = 5,
+                  subtle: bool = False) -> list[dict]:
     """Paired design: each selected task gives one correct sample and one buggy sample.
 
     Tasks are taken in a seeded random order. For each task, the operator used
     least so far is tried first, so bug types end up roughly balanced.
+    subtle=True: buggy samples must pass the weak tests and fail the full tests.
     """
     rng = random.Random(seed)
     order = list(tasks)
@@ -156,7 +170,7 @@ def build_samples(tasks: list[Task], n_tasks: int, seed: int, timeout_s: float, 
         if not run_tests(task.canonical_code, task.test, task.entry_point, timeout_s).passed:
             continue
         for op in sorted(OP_PRIORITY, key=lambda o: (counts[o], OP_PRIORITY.index(o))):
-            mutant = _killing_mutant(task, op, rng, max_tries, timeout_s)
+            mutant = _killing_mutant(task, op, rng, max_tries, timeout_s, subtle)
             if mutant:
                 counts[op] += 1
                 samples += [_sample(task, task.canonical_code, None), _sample(task, mutant.code, mutant)]
