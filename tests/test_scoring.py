@@ -106,3 +106,26 @@ def test_group_by_and_by_bug_type():
     assert set(bt) == {"arith_op", "off_by_one"}
     assert bt["arith_op"]["catch_rate"] == Rate(2, 2)
     assert bt["off_by_one"]["catch_rate"] == Rate(0, 2)  # missed + parse error; API error excluded
+
+
+def _c(reviewer, sid, buggy, verdict, line=None, cost=0.1, error=None):
+    return {"reviewer": reviewer, "model": reviewer + "-m", "sample_id": sid, "is_buggy": buggy,
+            "verdict": verdict, "reported_line": line, "cost_usd": cost, "latency_s": 1.0, "error": error}
+
+
+def test_ensemble_and_or():
+    from reviewbench.scoring import ensemble
+
+    a = [_c("a", "s1", True, "BUG", 3), _c("a", "s2", True, "OK"), _c("a", "s3", False, "BUG", 5),
+         _c("a", "s4", False, "OK", error="boom")]
+    b = [_c("b", "s1", True, "OK"), _c("b", "s2", True, "BUG", 7), _c("b", "s3", False, "BUG", 6),
+         _c("b", "s4", False, "BUG", 1)]
+    both = {c["sample_id"]: c for c in ensemble(a, b, "AND")}
+    either = {c["sample_id"]: c for c in ensemble(a, b, "OR")}
+    assert set(both) == {"s1", "s2", "s3"}  # s4 dropped: A's call failed
+    assert [both[s]["verdict"] for s in ("s1", "s2", "s3")] == ["OK", "OK", "BUG"]
+    assert [either[s]["verdict"] for s in ("s1", "s2", "s3")] == ["BUG", "BUG", "BUG"]
+    assert either["s1"]["reported_line"] == 3 and either["s2"]["reported_line"] == 7
+    assert both["s1"]["reported_line"] is None
+    assert both["s3"]["reviewer"] == "a&b" and either["s3"]["reviewer"] == "a|b"
+    assert abs(both["s3"]["cost_usd"] - 0.2) < 1e-9

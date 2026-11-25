@@ -124,6 +124,37 @@ failures, Flash-Lite 2–3%, the others none.
   after Holm adjustment.
 - 10 real bugs are still few: these are qualitative counts, not rates with tight intervals.
 
+### Two reviewers together (ensembles, no new calls)
+
+Two reviewers' logged verdicts on the same samples, combined: **AND** = BUG only if both say BUG,
+**OR** = BUG if either does. Every pair with the same prompt is in each report's "Two-reviewer
+ensembles" section; each ensemble is compared with its better member (McNemar, Holm-adjusted within that
+section only).
+
+| set | ensemble | catch | false alarm | F1 | better member alone |
+|---|---|---|---|---|---|
+| synthetic | Claude AND Argon (neutral) | 100% [96–100] | 4% [2–10] | 0.980 | Claude: 100%, 10%, 0.952 |
+| synthetic | Flash-Lite AND Qwen (neutral) | 91% [84–95] | 24% [17–33] | 0.847 | Flash-Lite: 96%, 28%, 0.857 |
+| synthetic | Claude OR Qwen (neutral) | 100% [96–100] | 38% [29–48] | 0.840 | Claude: 100%, 10%, 0.952 |
+
+On the MBPP+ natural bugs, counted against the 10 manually confirmed Claude bugs:
+
+| ensemble (OR) | prompt | real Claude bugs flagged | false alarm on correct code (n=46) |
+|---|---|---|---|
+| Claude alone | neutral / adversarial | 4 / 5 of 10 | 0% / 0% |
+| Claude OR Gemini Flash | neutral / adversarial | 5 / 6 of 10 | 4.3% / 2.2% |
+| Claude OR Gemini Argon | neutral | 5 of 10 | 0% |
+| Claude OR Qwen | neutral / adversarial | 7 / 7 of 10 | 28.3% / 15.2% |
+
+- **No ensemble is significantly better than its better member** on any set. AND removes some false
+  alarms (Claude AND Argon: 10% to 4% on synthetic code), but not significantly.
+- **Two cheap reviewers do not add up to a strong one.** Flash-Lite AND Qwen keeps 24% false alarms on
+  synthetic code, against 7–10% for Claude alone.
+- **OR with a strong second reviewer adds a few real bugs at little cost.** On Claude's own MBPP+ code,
+  adding Gemini Flash or Argon as a second opinion raises the real bugs flagged from 4–5 to 5–6 of 10, with
+  0–4% false alarms. OR with Qwen reaches 7 of 10 but with Qwen's false alarms. With 10 bugs this is a
+  qualitative count, not a significant result.
+
 ## What is measured
 
 For every reviewer and prompt variant:

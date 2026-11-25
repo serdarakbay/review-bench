@@ -157,3 +157,35 @@ def by_bug_type(calls: list[dict]) -> dict[str, dict]:
     for (bug_type,), group in group_by([c for c in calls if c["is_buggy"]], ("bug_type",)).items():
         out[bug_type] = {"catch_rate": catch_rate(group), "localization": localization(group)}
     return out
+
+
+ENSEMBLE_RULES = {"AND": "&", "OR": "|"}
+
+
+def ensemble(a: list[dict], b: list[dict], rule: str) -> list[dict]:
+    """Combine two reviewers' calls on the same samples into one virtual reviewer.
+
+    AND: BUG only if both say BUG (fewer false alarms). OR: BUG if either says BUG (more
+    catches). Samples where either call failed (API error) are dropped. The reported line
+    is A's if A said BUG, else B's. Cost is the sum; latency the max (the two run in parallel).
+    """
+    if rule not in ENSEMBLE_RULES:
+        raise ValueError(f"unknown rule {rule!r}")
+    b_by = {x["sample_id"]: x for x in _scored(b)}
+    out = []
+    for x in _scored(a):
+        y = b_by.get(x["sample_id"])
+        if y is None:
+            continue
+        flags = (x["verdict"] == "BUG", y["verdict"] == "BUG")
+        bug = all(flags) if rule == "AND" else any(flags)
+        out.append({
+            **x,
+            "reviewer": f"{x['reviewer']}{ENSEMBLE_RULES[rule]}{y['reviewer']}",
+            "model": f"{x['model']}+{y['model']}",
+            "verdict": "BUG" if bug else "OK",
+            "reported_line": (x["reported_line"] if flags[0] else y["reported_line"]) if bug else None,
+            "cost_usd": (x.get("cost_usd") or 0.0) + (y.get("cost_usd") or 0.0),
+            "latency_s": max(x.get("latency_s") or 0.0, y.get("latency_s") or 0.0),
+        })
+    return out

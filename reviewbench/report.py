@@ -17,7 +17,8 @@ from matplotlib.colors import LinearSegmentedColormap  # noqa: E402
 
 from reviewbench.dataset import read_jsonl  # noqa: E402
 from reviewbench.scoring import (  # noqa: E402
-    GROUP_KEYS, by_bug_type, group_by, holm, mcnemar_exact, paired_counts, summarize,
+    ENSEMBLE_RULES, GROUP_KEYS, by_bug_type, ensemble, group_by, holm, mcnemar_exact, paired_counts,
+    summarize,
 )
 
 # Reference palette (light mode): categorical slots in fixed order, text inks, surface.
@@ -288,8 +289,71 @@ def write_report(run_dirs: list[Path], out_dir: Path, adjudication: dict[str, st
     plot_bug_types(groups, out_dir / plots[1])
     plot_cost_f1(groups, out_dir / plots[2])
     md = build_markdown(calls, groups, comparisons(groups), [d.name for d in run_dirs], plots)
+    md += "\n" + ensemble_markdown(ensemble_rows(groups), groups)
     if adjudication:
         md += "\n" + adjudicated_markdown(groups, adjudication)
     path = out_dir / "report.md"
     path.write_text(md, encoding="utf-8")
     return path
+
+
+# --- two-reviewer ensembles ------------------------------------------------------
+
+
+def ensemble_rows(groups: dict[tuple, list[dict]]) -> list[dict]:
+    """Every pair of different reviewers with the same prompt, combined with AND and OR.
+
+    Each ensemble is compared with its better member (higher F1) by exact McNemar on catches
+    and on false alarms. Holm adjustment runs over this section only, so adding ensembles
+    leaves the main comparison table unchanged.
+    """
+    rows = []
+    for ka, kb in combinations(groups, 2):
+        if ka[2:] != kb[2:] or ka[:2] == kb[:2]:
+            continue
+        best_key = max((ka, kb), key=lambda k: summarize(groups[k])["f1"] or 0.0)
+        for rule in ENSEMBLE_RULES:
+            calls = ensemble(groups[ka], groups[kb], rule)
+            s = summarize(calls)
+            row = {"a": ka, "b": kb, "rule": rule, "summary": s, "best": best_key, "tests": {}}
+            for metric, buggy in (("catch", True), ("false alarm", False)):
+                n, only_e, only_m = paired_counts(calls, groups[best_key], buggy)
+                row["tests"][metric] = {"n": n, "only_e": only_e, "only_m": only_m,
+                                        "p": mcnemar_exact(only_e, only_m)}
+            rows.append(row)
+    tests = [t for r in rows for t in r["tests"].values()]
+    for t, adjusted in zip(tests, holm([t["p"] for t in tests])):
+        t["p_holm"] = adjusted
+    return rows
+
+
+def ensemble_markdown(rows: list[dict], groups: dict[tuple, list[dict]]) -> str:
+    n_tests = sum(len(r["tests"]) for r in rows)
+    lines = [
+        "## Two-reviewer ensembles",
+        "",
+        "Two reviewers on the same samples and prompt, combined: **AND** = BUG only if both say BUG, "
+        "**OR** = BUG if either does. Cost is the sum of both. Each ensemble is compared with its better "
+        "member (higher F1) by exact McNemar; `+`/`-` = ensemble-only / member-only flags. p-values are "
+        f"Holm-adjusted across the {n_tests} tests in this section only.",
+        "",
+        "| ensemble | rule | catch rate | false alarm | F1 | cost | better member (F1) "
+        "| catch +/- (p Holm) | false alarm +/- (p Holm) |",
+        "|---|---|---|---|---|---|---|---|---|",
+    ]
+    for r in rows:
+        s = r["summary"]
+        best_f1 = summarize(groups[r["best"]])["f1"]
+
+        def cell(t: dict) -> str:
+            star = " *" if t["p_holm"] < 0.05 else ""
+            return f"+{t['only_e']}/-{t['only_m']} ({t['p_holm']:.3g}){star}"
+
+        f1_text = "-" if s["f1"] is None else f"{s['f1']:.3f}"
+        lines.append(
+            f"| {label(r['a'])} + {r['b'][1]} | {r['rule']} | {pct(s['catch_rate'])} "
+            f"| {pct(s['false_alarm_rate'])} | {f1_text} | ${s['cost_usd']:.2f} "
+            f"| {r['best'][1]} ({best_f1:.3f}) | {cell(r['tests']['catch'])} | {cell(r['tests']['false alarm'])} |"
+        )
+    lines += ["", "* = significant at 0.05 after Holm adjustment (within this section).", ""]
+    return "\n".join(lines)
