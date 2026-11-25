@@ -151,13 +151,15 @@ def _sample(task: Task, code: str, mutant: Mutant | None) -> dict:
     }
 
 
-def build_samples(tasks: list[Task], n_tasks: int, seed: int, timeout_s: float, max_tries: int = 5,
-                  subtle: bool = False) -> list[dict]:
+def build_samples(tasks: list[Task], n_tasks: int | None, seed: int, timeout_s: float,
+                  max_tries: int | None = 5, subtle: bool = False, on_task=None) -> list[dict]:
     """Paired design: each selected task gives one correct sample and one buggy sample.
 
     Tasks are taken in a seeded random order. For each task, the operator used
     least so far is tried first, so bug types end up roughly balanced.
     subtle=True: buggy samples must pass the weak tests and fail the full tests.
+    n_tasks=None takes every usable task; max_tries=None tries every mutant.
+    on_task(task_id, operator or None) is called after each task, for progress output.
     """
     rng = random.Random(seed)
     order = list(tasks)
@@ -165,17 +167,21 @@ def build_samples(tasks: list[Task], n_tasks: int, seed: int, timeout_s: float, 
     counts = {op: 0 for op in OP_PRIORITY}
     samples: list[dict] = []
     for task in order:
-        if len(samples) == 2 * n_tasks:
+        if n_tasks is not None and len(samples) == 2 * n_tasks:
             break
         if not run_tests(task.canonical_code, task.test, task.entry_point, timeout_s).passed:
             continue
+        used = None
         for op in sorted(OP_PRIORITY, key=lambda o: (counts[o], OP_PRIORITY.index(o))):
             mutant = _killing_mutant(task, op, rng, max_tries, timeout_s, subtle)
             if mutant:
                 counts[op] += 1
                 samples += [_sample(task, task.canonical_code, None), _sample(task, mutant.code, mutant)]
+                used = op
                 break
-    if len(samples) < 2 * n_tasks:
+        if on_task:
+            on_task(task.task_id, used)
+    if not samples or (n_tasks is not None and len(samples) < 2 * n_tasks):
         raise ValueError(f"only {len(samples) // 2} usable tasks, wanted {n_tasks}")
     return samples
 

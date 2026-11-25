@@ -44,6 +44,7 @@ def build_dataset(
         timeout_s=dcfg.get("test_timeout_s", cfg["sandbox"]["timeout_s"]),
         max_tries=dcfg["max_mutant_tries"],
         subtle=dcfg.get("subtle", False),
+        on_task=lambda tid, op: console.print(f"  {tid:<10} -> {op or 'no usable mutant'}"),
     )
     write_jsonl(samples, out, force=force)
 

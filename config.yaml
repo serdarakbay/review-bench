@@ -10,9 +10,9 @@ dataset:
 dataset_v2:              # python -m reviewbench build-dataset --version v2
   hf_name: evalplus/mbppplus
   output: data/samples_v2.jsonl
-  n_tasks: 100
+  n_tasks: null          # every usable task: with 20 tries per operator only 66 of 377 tasks gave a subtle mutant
   subtle: true           # keep a mutant only if it PASSES the 3 original MBPP asserts and FAILS MBPP+ tests
-  max_mutant_tries: 20   # subtle mutants are rare: try more per (task, operator)
+  max_mutant_tries: null # try every mutant of each (task, operator); subtle mutants are rare
   test_timeout_s: 60     # MBPP+ tests are large (slowest canonical run: 33.5 s)
   exclude: [Mbpp/590]    # canonical fails its own test (float precision)
 

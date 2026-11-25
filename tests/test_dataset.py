@@ -84,3 +84,10 @@ def test_subtle_mutants_pass_weak_tests_and_fail_full_tests():
 def test_mbpp_task_code_excludes_prompt():
     t = Task("Mbpp/1", '"""\nAdd.\n"""\n', "def add(a, b):\n    return a + b\n", "", "add", code_has_prompt=False)
     assert t.canonical_code == "def add(a, b):\n    return a + b\n" and t.prompt_lines == 0
+
+
+def test_build_samples_takes_all_usable_tasks_when_n_tasks_is_none():
+    seen = []
+    samples = build_samples(make_tasks(3), n_tasks=None, seed=0, timeout_s=10, max_tries=None,
+                            on_task=lambda tid, op: seen.append((tid, op)))
+    assert len(samples) == 6 and len(seen) == 3 and all(op for _, op in seen)
