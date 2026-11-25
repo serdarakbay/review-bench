@@ -113,3 +113,17 @@ def test_assemble_code_for_mbpp_task():
     task = Task("Mbpp/1", mbpp_prompt("Add.", "assert add(1, 2) == 3"), "", "assert add(1, 2) == 3\n", "add")
     code = "def add(a, b):\n    return a + b\n"
     assert assemble_code(task, code) == code  # docstring prompt has no imports to prepend
+
+
+def test_build_writer_picks_adapter_and_counts_cached_spend(tmp_path):
+    from reviewbench.writer import ClaudeWriter, GeminiWriter, build_writer
+
+    raw = tmp_path / "raw.jsonl"
+    raw.write_text('{"task_id": "a", "cost_usd": 0.4}\n{"task_id": "b", "cost_usd": 0.35}\n', encoding="utf-8")
+    g = build_writer({"adapter": "gemini", "model": "g", "max_cost_usd": 0.7, "prompt": "writer_mbpp_v1"}, raw)
+    assert isinstance(g, GeminiWriter) and abs(g.spent_usd - 0.75) < 1e-9
+    import pytest
+    from reviewbench.writer import BudgetExceeded
+    with pytest.raises(BudgetExceeded):
+        g.write("task")  # over budget: refuses before any API call
+    assert isinstance(build_writer({"model": "c"}, raw), ClaudeWriter)

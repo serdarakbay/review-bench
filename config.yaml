@@ -97,3 +97,20 @@ review:                  # python -m reviewbench review <file>
     - results/natural-mbpp-v1
   f1_tolerance: 0.02     # reviewers this close to the best F1 count as tied; the cheapest per call wins
   fallback: [gemini, ollama, claude]  # order when no results match an available reviewer
+
+natural_mbpp_gemini:     # python -m reviewbench build-natural --source mbpp-gemini (writer x reviewer matrix)
+  hf_name: evalplus/mbppplus
+  output: data/natural_mbpp_gemini_v1.jsonl
+  raw: data/natural_mbpp_gemini_v1_raw.jsonl
+  test_timeout_s: 60
+  exclude: [Mbpp/590]
+  balance: true
+  writer:
+    adapter: gemini
+    model: gemini-3.8-flash   # same model as the gemini reviewer (same-model question, other direction)
+    thinking_level: low
+    usd_per_mtok_input: 0.75
+    usd_per_mtok_output: 3.75
+    concurrency: 2
+    max_cost_usd: 1.0         # writer budget across resumes (sum of cached cost_usd)
+    prompt: writer_mbpp_v1    # same writer prompt as Claude got

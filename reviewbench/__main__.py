@@ -61,28 +61,33 @@ def build_dataset(
 def build_natural(
     force: bool = typer.Option(False, "--force", help="Overwrite an existing natural dataset file."),
     limit: int = typer.Option(0, help="Only the first N tasks (0 = all)."),
-    source: str = typer.Option("humaneval", help="Task source: humaneval (config 'natural') or mbpp (config 'natural_mbpp')."),
+    source: str = typer.Option("humaneval", help="humaneval (config 'natural'), mbpp ('natural_mbpp') "
+                                                  "or mbpp-gemini ('natural_mbpp_gemini': Gemini as writer)."),
 ) -> None:
-    """Claude writes solutions; failing ones become natural-bug samples (output path from config)."""
+    """A writer model solves tasks; failing solutions become natural-bug samples (output path from config)."""
     from reviewbench.dataset import load_humaneval, load_mbppplus, write_jsonl
     from reviewbench.dataset import with_tests_from
-    from reviewbench.writer import ClaudeWriter, balance, build_natural_samples, generate_solutions
+    from reviewbench.writer import ClaudeWriter, balance, build_natural_samples, build_writer, generate_solutions
 
-    if source not in ("humaneval", "mbpp"):
-        console.print(f"[red]unknown source {source!r}[/] (humaneval or mbpp)")
+    sections = {"humaneval": "natural", "mbpp": "natural_mbpp", "mbpp-gemini": "natural_mbpp_gemini"}
+    if source not in sections:
+        console.print(f"[red]unknown source {source!r}[/] ({', '.join(sections)})")
         raise typer.Exit(1)
     cfg = load_config()
-    ncfg = cfg["natural" if source == "humaneval" else "natural_mbpp"]
+    ncfg = cfg[sections[source]]
     out, raw_path = ROOT / ncfg["output"], ROOT / ncfg["raw"]
     if out.exists() and not force:
         console.print(f"[red]{out} already exists.[/] Use --force to overwrite.")
         raise typer.Exit(1)
-    writer = ClaudeWriter(ncfg["writer"])
-    if not writer.exe:
+    writer = build_writer(ncfg["writer"], raw_path)
+    if isinstance(writer, ClaudeWriter) and not writer.exe:
         console.print("[red]claude CLI not found.[/]")
         raise typer.Exit(1)
+    if hasattr(writer, "is_available") and not writer.is_available()[0]:
+        console.print(f"[red]writer not available:[/] {writer.is_available()[1]}")
+        raise typer.Exit(1)
 
-    if source == "mbpp":
+    if source.startswith("mbpp"):
         tasks = load_mbppplus(ncfg["hf_name"], ncfg.get("exclude", []))
     else:
         tasks = load_humaneval(cfg)

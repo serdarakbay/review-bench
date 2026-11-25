@@ -78,6 +78,74 @@ class ClaudeWriter:
         }
 
 
+class BudgetExceeded(RuntimeError):
+    """Writer spend reached max_cost_usd; not retried (resume after raising the cap)."""
+
+
+class GeminiWriter:
+    """Gemini as writer via google-genai: same settings as the Gemini reviewer (temperature 0, low thinking)."""
+
+    name = "gemini"
+
+    def __init__(self, cfg: dict, spent_usd: float = 0.0):
+        from reviewbench.reviewers.gemini import GeminiReviewer
+
+        self.model = cfg["model"]
+        self.concurrency = int(cfg.get("concurrency", 1))
+        self.prompt = cfg.get("prompt", WRITER_PROMPT)
+        self.template = (ROOT / "prompts" / f"{self.prompt}.txt").read_text(encoding="utf-8")
+        self.max_cost_usd = cfg.get("max_cost_usd")
+        self.spent_usd = spent_usd  # cost already in the raw cache, so the cap holds across resumes
+        self._lock = threading.Lock()
+        # Reuse the reviewer's client and generation config; only the prompt differs.
+        self._gemini = GeminiReviewer(cfg, prompt=None)
+
+    def is_available(self) -> tuple[bool, str]:
+        return self._gemini.is_available()
+
+    def write(self, task_prompt: str) -> dict:
+        import time
+
+        with self._lock:
+            if self.max_cost_usd is not None and self.spent_usd >= self.max_cost_usd:
+                raise BudgetExceeded(f"writer budget max_cost_usd={self.max_cost_usd} reached")
+        text = self.template.replace("{task_prompt}", task_prompt.strip("\n"))
+        start = time.perf_counter()
+        resp = self._gemini.client().models.generate_content(
+            model=self.model, contents=text, config=self._gemini.config()
+        )
+        latency = time.perf_counter() - start
+        u = resp.usage_metadata
+        input_tokens = u.prompt_token_count or 0
+        thinking = u.thoughts_token_count or 0
+        output_tokens = (u.candidates_token_count or 0) + thinking  # thinking is billed as output
+        cost = (input_tokens * self._gemini.price_in + output_tokens * self._gemini.price_out) / 1e6
+        with self._lock:
+            self.spent_usd += cost
+        return {
+            "raw": resp.text or "",
+            "latency_s": round(latency, 3),
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "thinking_tokens": thinking,
+            "cost_usd": cost,
+        }
+
+
+def build_writer(cfg: dict, raw_path: Path):
+    """ClaudeWriter or GeminiWriter from a writer config (`adapter`, default claude)."""
+    adapter = cfg.get("adapter", "claude")
+    if adapter == "claude":
+        return ClaudeWriter(cfg)
+    if adapter == "gemini":
+        spent = 0.0
+        if raw_path.exists():
+            with open(raw_path, encoding="utf-8") as f:
+                spent = sum(json.loads(line).get("cost_usd") or 0.0 for line in f if line.strip())
+        return GeminiWriter(cfg, spent)
+    raise KeyError(f"no writer adapter {adapter!r}")
+
+
 def _cached(raw_path: Path) -> dict[str, dict]:
     """task_id -> successful cached writer row."""
     rows = {}
