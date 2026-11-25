@@ -109,3 +109,17 @@ def test_gemini_review_tokens_and_cost():
 def test_build_reviewer_unknown_raises():
     with pytest.raises(KeyError):
         build_reviewer("codex", {"reviewers": {}}, PROMPT)
+
+
+def test_build_reviewer_adapter_key_reuses_class_with_own_name():
+    cfg = {"reviewers": {"gemini": {"model": "g-flash"},
+                         "gemini-lite": {"adapter": "gemini", "model": "g-lite", "thinking_level": "minimal"}}}
+    main, lite = build_reviewer("gemini", cfg, PROMPT), build_reviewer("gemini-lite", cfg, PROMPT)
+    assert type(main) is type(lite)
+    assert (main.name, main.model) == ("gemini", "g-flash")
+    assert (lite.name, lite.model, lite.thinking_level) == ("gemini-lite", "g-lite", "minimal")
+
+
+def test_build_reviewer_unknown_adapter_raises():
+    with pytest.raises(KeyError):
+        build_reviewer("x", {"reviewers": {"x": {"adapter": "nope", "model": "m"}}}, PROMPT)

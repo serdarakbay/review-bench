@@ -28,6 +28,22 @@ reviewers:
     usd_per_mtok_output: 3.75 # includes thinking tokens; price rises on 2027-01-01
     concurrency: 2
     max_cost_usd: 2.0         # hard budget per run directory (list-price estimate); runner stops gemini here
+  gemini-lite:
+    adapter: gemini
+    model: gemini-3.5-flash-lite  # stable; cheaper 3.1-flash-lite has no status label (checked docs 2026-11-25)
+    thinking_level: minimal       # lowest level this model allows
+    usd_per_mtok_input: 0.30
+    usd_per_mtok_output: 2.50
+    concurrency: 2
+    max_cost_usd: 1.0
+  gemini-argon:
+    adapter: gemini
+    model: gemini-4-argon         # stable, large Gemini 4 model (checked docs 2026-11-25)
+    thinking_level: low           # lowest level this model allows
+    usd_per_mtok_input: 2.00      # intro price through 2026-11-30; $4.00 from 2026-12-01
+    usd_per_mtok_output: 10.00    # intro price through 2026-11-30; $20.00 from 2026-12-01
+    concurrency: 2
+    max_cost_usd: 1.0             # per run dir; 3 run dirs -> at most $3 (credit left: ~165 TRY)
   claude:
     model: claude-sonnet-5-5  # full id, not the alias: the logged model must not change silently
     effort: low               # lowest; Sonnet still thinks briefly on some calls (~80 tokens), logged as thinking=true

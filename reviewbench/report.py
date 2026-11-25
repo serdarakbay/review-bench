@@ -24,7 +24,7 @@ from reviewbench.scoring import (  # noqa: E402
 SURFACE, INK, INK_2, GRID = "#fcfcfb", "#0b0b0b", "#52514e", "#e4e3df"
 SLOTS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#6250d6", "#e34948"]
 # Color follows the entity: a reviewer keeps its color in every chart and report.
-REVIEWER_ORDER = ["ollama", "gemini", "claude", "codex"]
+REVIEWER_ORDER = ["ollama", "gemini", "claude", "codex", "gemini-lite", "gemini-argon"]
 PROMPT_STYLE = {"neutral": ("o", SLOTS[0]), "adversarial": ("^", SLOTS[1])}
 BLUES = LinearSegmentedColormap.from_list("blues", ["#cde2fb", "#86b6ef", "#3987e5", "#1c5cab"])
 
