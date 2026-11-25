@@ -12,7 +12,7 @@ local model replace a paid one?
 ## Results
 
 All numbers come from logged calls (runs `ollama-full-v1`, `gemini-full-v1`, `claude-full-v1`,
-`natural-plus-v1`; 2,178 calls, 0 API errors). Brackets are Wilson 95% CIs. Significance = exact McNemar
+`natural-plus-v1`, `natural-mbpp-v1`; 2,730 calls, 0 API errors). Brackets are Wilson 95% CIs. Significance = exact McNemar
 on the same samples, Holm-adjusted across the comparisons in each report. Reproduce with
 `python -m reviewbench report <run dirs...>`.
 
@@ -65,12 +65,45 @@ bugs**; 3 are bugs in the HumanEval+ reference itself and 2 are arguable
 
 ![catch and false-alarm rates, natural](docs/img/natural_rates.png)
 
-- **Claude did not find its own bugs; Gemini found one with the right cause.** This points toward
-  "a different model reviews better", but it rests on 2 bugs: a qualitative observation, not a result.
+- **Claude did not find its own bugs; Gemini found one with the right cause.** This pointed toward
+  "a different model reviews better", but it rests on 2 bugs, and it does not repeat on the larger MBPP+
+  set below.
 - **On Claude's correct code, Claude and Gemini almost never raise false alarms; Qwen does** (p < 0.001 in
   all four comparisons).
 - For Qwen, the neutral prompt gives significantly *more* false alarms than the adversarial one
   (p = 0.007), the opposite of the hypothesis.
+
+### Natural bugs (`natural_mbpp_v1`: Claude-written solutions, MBPP+ tests)
+
+To get more than 2 real bugs, Claude Sonnet also solved the 377 MBPP+ tasks (one excluded: its reference
+fails its own test). 46 solutions fail the MBPP+ tests; the set holds these 46 plus 46 passing solutions
+drawn with seed 42. Manual review shows **10 of the 46 are Claude bugs**, 15 are bugs in the MBPP+
+reference (the test oracle), and 21 are not settled by the one-sentence task
+([docs/natural_mbpp_review.md](docs/natural_mbpp_review.md)).
+
+| reviewer | prompt | catch rate, test labels (n=46) | flagged the 10 real Claude bugs | flagged the 15 reference bugs | false alarm on correct code (n=46) |
+|---|---|---|---|---|---|
+| Claude Sonnet 5.5 | neutral | 13% [6–26] | 4 of 10 | 0 of 15 | 0% [0–8] |
+| Claude Sonnet 5.5 | adversarial | 17% [9–31] | 5 of 10 | 0 of 15 | 0% [0–8] |
+| Gemini 3.8 Flash | neutral | 11% [5–23] | 4 of 10 | 0 of 15 | 4.3% [1–15] |
+| Gemini 3.8 Flash | adversarial | 9% [3–20] | 4 of 10 | 0 of 15 | 2.2% [0–11] |
+| Qwen 3.5 9B | neutral | 35% [23–49] | 6 of 10 | 2 of 15 | 28.3% [17–43] |
+| Qwen 3.5 9B | adversarial | 35% [23–49] | 5 of 10 | 5 of 15 | 15.2% [8–28] |
+
+Cost for the 184 calls per reviewer: Gemini $0.35 (billed), Claude $1.27 API list-price equivalent
+(subscription), Qwen $0 (local). Qwen had 3.3% parse failures; the others none.
+
+![catch and false-alarm rates, natural MBPP+](docs/img/natural_mbpp_rates.png)
+
+- **Same-model review did about as well as different-model review.** Claude flagged 4–5 of its own 10 real
+  bugs, Gemini 4. No Claude–Gemini difference is significant (catch or false alarm, either prompt).
+- **Low test-label catch rates mostly reflect the test oracle, not the reviewers.** Claude and Gemini
+  never flagged a sample where the MBPP+ reference is the one that is wrong; they side with the task.
+- **Qwen flags more, but separates buggy from correct code poorly.** Under the neutral prompt it flags 35%
+  of buggy and 28% of correct samples; its false-alarm rate is significantly higher than Claude's
+  (p = 0.004) and Gemini's (p = 0.017). Under the adversarial prompt the differences are not significant
+  after Holm adjustment.
+- 10 real bugs are still few: these are qualitative counts, not rates with tight intervals.
 
 ## What is measured
 
@@ -97,9 +130,11 @@ are broken down by bug type and by prompt.
    `off_by_one`, `comparison_flip`, `arith_op`, `bool_op`, `wrong_return`, `remove_branch`. Mutants that
    still pass the tests (equivalent mutants) are discarded. The edit is spliced into the original source,
    so a buggy sample differs from the correct one only on the bug line.
-2. **Natural bugs** (`data/natural_plus_v1.jsonl`). Claude writes solutions to HumanEval tasks;
-   solutions that fail the stricter HumanEval+ tests become buggy samples, passing ones extra correct
-   samples. This is the realistic "review Claude's code" setting.
+2. **Natural bugs** (`data/natural_plus_v1.jsonl`, `data/natural_mbpp_v1.jsonl`). Claude writes
+   solutions to HumanEval and MBPP+ tasks; solutions that fail the stricter HumanEval+ / MBPP+ tests become
+   buggy samples, passing ones correct samples (for MBPP+, as many as there are bugs). This is the
+   realistic "review Claude's code" setting. Failing solutions are reviewed by hand, because a failing
+   test is not always a bug in the solution.
 3. **Reviewers** see only the task description and the line-numbered code — never the tests or the bug
    type — and answer `{"verdict": "BUG"|"OK", "line": int|null, "explanation": str}`. Two prompts:
    `neutral_v1` ("is it correct?") and `adversarial_v1` ("this code may contain a bug, try hard to find it").
@@ -136,10 +171,12 @@ A reviewer whose auth is missing is skipped with a message.
 python -m pytest -q
 python -m reviewbench build-dataset                      # -> data/samples_v1.jsonl (refuses to overwrite without --force)
 python -m reviewbench build-natural                      # -> data/natural_plus_v1.jsonl (Claude as writer, HumanEval+ tests)
+python -m reviewbench build-natural --source mbpp        # -> data/natural_mbpp_v1.jsonl (MBPP+ tasks and tests, balanced)
 python -m reviewbench run --reviewers ollama --limit 5   # smoke run
 python -m reviewbench run --reviewers ollama,gemini,claude --run-id my-run
 python -m reviewbench run --reviewers claude --dataset data/natural_plus_v1.jsonl --run-id natural
 python -m reviewbench report results/my-run              # terminal table + report.md + plots
+python -m reviewbench report results/natural-mbpp-v1 --adjudication docs/natural_mbpp_v1_adjudication.json
 ```
 
 Re-running `run` with the same `--run-id` continues where it stopped.
@@ -155,12 +192,15 @@ Re-running `run` with the same `--run-id` continues where it stopped.
 - Reviewers do not run under identical settings: thinking cannot be fully turned off for Gemini or
   Claude (each uses its lowest level, logged per call), and `claude -p` has no temperature control.
 - Natural bugs have no known bug line, so localization is not scored for them.
+- Test labels for natural bugs are noisy: of 53 failing Claude solutions (7 HumanEval+, 46 MBPP+), only
+  12 are clear Claude bugs on manual review. MBPP tasks are one sentence plus one example, so many
+  expected behaviours are never stated. The manual classes are one person's judgement.
 
 ## Project layout
 
 ```
 reviewbench/
-  dataset.py    HumanEval loading, canonical verification, build-dataset
+  dataset.py    HumanEval and MBPP+ loading, canonical verification, build-dataset
   mutate.py     AST mutation operators
   sandbox.py    run code + tests in a subprocess with a timeout
   writer.py     natural bugs: Claude as writer
@@ -168,7 +208,7 @@ reviewbench/
   runner.py     resume, retries, per-reviewer concurrency, budget cap, JSONL logging
   scoring.py    metrics, Wilson CI, McNemar, Holm
   report.py     report.md + plots
-prompts/        neutral_v1, adversarial_v1, writer_v1
+prompts/        neutral_v1, adversarial_v1, writer_v1, writer_mbpp_v1
 config.yaml     models, prices, budgets, concurrency
 tests/          pytest
 ```
