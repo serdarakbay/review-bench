@@ -124,6 +124,25 @@ failures, Flash-Lite 2–3%, the others none.
   after Holm adjustment.
 - 10 real bugs are still few: these are qualitative counts, not rates with tight intervals.
 
+### Right verdict, right reason?
+
+Natural bugs have no known bug line, so a `BUG` verdict can be right for the wrong reason. Every `BUG` on
+the 12 manually confirmed Claude bugs (2 HumanEval+, 10 MBPP+) was graded by hand against the actual defect
+([docs/right_reason_review.md](docs/right_reason_review.md)):
+
+| reviewer | prompt | BUG on the 12 real bugs | right reason | partial | wrong reason |
+|---|---|---|---|---|---|
+| Claude Sonnet 5.5 | neutral / adversarial | 4 / 5 | 4 / 4 | 0 / 0 | 0 / 1 |
+| Gemini 3.8 Flash | neutral / adversarial | 5 / 5 | 4 / 4 | 1 / 0 | 0 / 1 |
+| Gemini 4 Argon | neutral | 4 | 4 | 0 | 0 |
+| Gemini 3.5 Flash-Lite | neutral / adversarial | 5 / 6 | 2 / 2 | 1 / 2 | 2 / 2 |
+| Qwen 3.5 9B | neutral / adversarial | 8 / 6 | 2 / 1 | 0 / 0 | 6 / 5 |
+
+- **Qwen's higher count of "caught" real bugs is mostly luck**: it names the actual defect in 3 of its 14
+  `BUG`s. Counted by right reasons, Claude, Gemini Flash and Argon (4 each) lead.
+- The strong reviewers flag fewer real bugs, but 20 of their 23 `BUG`s give the actual defect.
+- One person's grading of 12 bugs: qualitative, not a rate with a confidence interval.
+
 ### Two reviewers together (ensembles, no new calls)
 
 Two reviewers' logged verdicts on the same samples, combined: **AND** = BUG only if both say BUG,
