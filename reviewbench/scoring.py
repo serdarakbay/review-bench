@@ -151,6 +151,19 @@ def paired_counts(a: list[dict], b: list[dict], buggy: bool) -> tuple[int, int, 
     return len(common), only_a, only_b
 
 
+def paired_difference(n: int, b: int, c: int, z: float = Z95) -> tuple[float, float, float]:
+    """Paired difference of two proportions on the same n samples, B minus A, with a Wald 95% CI.
+
+    b = samples where only A has the event, c = only B (as returned by paired_counts).
+    Returns (difference, low, high) as fractions, clipped to [-1, 1].
+    """
+    if n == 0:
+        return 0.0, 0.0, 0.0
+    diff = (c - b) / n
+    se = math.sqrt(max(0.0, b + c - (c - b) ** 2 / n)) / n
+    return diff, max(-1.0, diff - z * se), min(1.0, diff + z * se)
+
+
 def by_bug_type(calls: list[dict]) -> dict[str, dict]:
     """Catch rate and localization per bug type (false alarms have no bug type)."""
     out = {}

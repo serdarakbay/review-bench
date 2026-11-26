@@ -108,7 +108,7 @@ reviewbench/
   runner.py        # concurrency, retries, cache, JSONL logging
   scoring.py       # metrics
   report.py        # tables, report.md, plots
-  figures.py       # cross-run README figures (writer x reviewer, persona effect)
+  figures.py       # cross-run README figures (writer x reviewer, persona effect, samples_v3)
   writer.py        # natural bugs: Claude or Gemini as writer
   review.py        # `review` command
 prompts/neutral_v1.txt

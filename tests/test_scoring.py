@@ -141,3 +141,14 @@ def test_run_agreement_counts_flips():
     r = run_agreement(a, b)
     assert r["n"] == 4  # s5 dropped: first run's call failed
     assert (r["agreement"].k, r["bug_only_first"], r["bug_only_second"]) == (2, 1, 1)
+
+
+def test_paired_difference_is_b_minus_a_with_wald_ci():
+    from reviewbench.scoring import paired_difference
+    assert paired_difference(0, 0, 0) == (0.0, 0.0, 0.0)
+    assert paired_difference(10, 0, 0) == (0.0, 0.0, 0.0)
+    diff, lo, hi = paired_difference(100, 5, 15)
+    assert diff == pytest.approx(0.10)
+    assert lo == pytest.approx(0.10 - 1.959964 * 19 ** 0.5 / 100, abs=1e-4)
+    assert hi == pytest.approx(0.10 + 1.959964 * 19 ** 0.5 / 100, abs=1e-4)
+    assert paired_difference(4, 0, 4) == (1.0, 1.0, 1.0)

@@ -166,7 +166,7 @@ python -m reviewbench run --reviewers ollama,gemini,claude --run-id my-run
 python -m reviewbench run --reviewers claude --dataset data/natural_plus_v1.jsonl --run-id natural
 python -m reviewbench report results/my-run              # terminal table + report.md + plots
 python -m reviewbench report results/natural-mbpp-v1 --adjudication docs/natural_mbpp_v1_adjudication.json
-python -m reviewbench figures                            # README figures: writer x reviewer, persona effect
+python -m reviewbench figures                            # README figures: writer x reviewer, persona effect, samples_v3
 python -m reviewbench compare-runs results/samples-v2 results/samples-v2-repeat   # repeatability
 ```
 
@@ -229,7 +229,7 @@ reviewbench/
   runner.py     resume, retries, per-reviewer concurrency, budget cap, JSONL logging
   scoring.py    metrics, Wilson CI, McNemar, Holm
   report.py     report.md + plots
-  figures.py    cross-run README figures (writer x reviewer, persona effect)
+  figures.py    cross-run README figures (writer x reviewer, persona effect, samples_v3)
   review.py     review command: rank reviewers by benchmark F1, pick the best available
 prompts/        neutral_v1, adversarial_v1, edgecases_v1, writer_v1, writer_mbpp_v1
   personas/     7 persona system prompts (MIT, sources in each file header) + LICENSES.md

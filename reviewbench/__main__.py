@@ -239,7 +239,7 @@ def report(
 def figures(
     out: Path = typer.Option(ROOT / "docs" / "img", help="Output dir for the README figures."),
 ) -> None:
-    """README figures (writer x reviewer matrix, persona effect) from results/ and docs/; rerun after new runs."""
+    """README figures (writer x reviewer matrix, persona effect, samples_v3 rates) from results/ and docs/; rerun after new runs."""
     from reviewbench.figures import build_figures
 
     for path in build_figures(out):
