@@ -9,6 +9,8 @@ known-correct code, and scores what they say.
 **Research question:** is a different-model reviewer better than a same-model reviewer, and can a free
 local model replace a paid one?
 
+![writer x reviewer: real bugs flagged and right reasons](docs/img/writer_reviewer_matrix.png)
+
 ## Key findings
 
 1. **No same-model effect.** Claude Sonnet 5.5 and Gemini 3.8 Flash each wrote solutions to the same 377
@@ -71,10 +73,6 @@ manual reviews are in **[docs/results.md](docs/results.md)**:
 - [Writer × reviewer: Gemini-written code](docs/results.md#writer--reviewer-gemini-written-code-natural_mbpp_gemini_v1-mbpp-tests)
 - [Prompt variants, repeatability, right reasons, ensembles](docs/results.md#a-third-prompt-list-edge-cases-first-edgecases_v1-claude-and-qwen-samples_v2)
 - [Persona results](docs/results.md#persona-results-role-prompts-from-popular-claude-code-agents)
-
-**Same-model question.** Real bugs flagged and named for the right reason, by writer and reviewer:
-
-![writer x reviewer: real bugs flagged and right reasons](docs/img/writer_reviewer_matrix.png)
 
 **Harder code raises false alarms, not misses** (`samples_v3`, BigCodeBench):
 
