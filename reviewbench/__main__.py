@@ -21,22 +21,29 @@ def main() -> None:
 @app.command("build-dataset")
 def build_dataset(
     force: bool = typer.Option(False, "--force", help="Overwrite an existing dataset file."),
-    version: str = typer.Option("v1", help="v1: HumanEval (config 'dataset'); v2: subtle MBPP+ bugs ('dataset_v2')."),
+    version: str = typer.Option("v1", help="v1: HumanEval (config 'dataset'); v2: subtle MBPP+ bugs ('dataset_v2'); "
+                                           "v3: BigCodeBench ('dataset_v3')."),
 ) -> None:
     """Build a paired sample set: canonical solutions + one injected bug per task (output path from config)."""
-    from reviewbench.dataset import build_samples, load_humaneval, load_mbppplus, write_jsonl
+    from reviewbench.dataset import build_samples, load_bigcodebench, load_humaneval, load_mbppplus, write_jsonl
 
-    if version not in ("v1", "v2"):
-        console.print(f"[red]unknown version {version!r}[/] (v1 or v2)")
+    if version not in ("v1", "v2", "v3"):
+        console.print(f"[red]unknown version {version!r}[/] (v1, v2 or v3)")
         raise typer.Exit(1)
     cfg = load_config()
-    dcfg = cfg["dataset" if version == "v1" else "dataset_v2"]
+    dcfg = cfg[{"v1": "dataset", "v2": "dataset_v2", "v3": "dataset_v3"}[version]]
     out = ROOT / dcfg["output"]
     if out.exists() and not force:
         console.print(f"[red]{out} already exists.[/] Use --force to overwrite.")
         raise typer.Exit(1)
 
-    tasks = load_humaneval(cfg) if version == "v1" else load_mbppplus(dcfg["hf_name"], dcfg.get("exclude", []))
+    if version == "v1":
+        tasks = load_humaneval(cfg)
+    elif version == "v2":
+        tasks = load_mbppplus(dcfg["hf_name"], dcfg.get("exclude", []))
+    else:
+        exclude = [f"BigCodeBench/{i}" for i in dcfg.get("exclude_ids", [])]
+        tasks = load_bigcodebench(dcfg["hf_name"], dcfg["split"], dcfg.get("extra_libs", []), exclude)
     samples = build_samples(
         tasks,
         n_tasks=dcfg["n_tasks"],
@@ -117,7 +124,7 @@ def build_natural(
 @app.command("run")
 def run(
     reviewers: str = typer.Option("ollama", help="Comma-separated reviewer names."),
-    prompts: str = typer.Option("", help="Comma-separated prompt keys (default: all in config.yaml)."),
+    prompts: str = typer.Option("", help="Comma-separated prompt keys (default: all in config.yaml); \"personas\" = every prompts/personas/*.md."),
     limit: int = typer.Option(0, help="Only the first N samples (0 = all)."),
     run_id: str = typer.Option("", help="Resume/extend this run id (default: new timestamped id)."),
     dataset: Path = typer.Option(None, help="Samples JSONL (default: dataset.output from config)."),
@@ -134,7 +141,11 @@ def run(
     samples = read_jsonl(dataset or ROOT / cfg["dataset"]["output"])
     if limit:
         samples = samples[:limit]
+    from reviewbench.reviewers.base import persona_keys
+
     prompt_keys = [p for p in prompts.split(",") if p] or cfg["prompts"]
+    # "personas" = every prompts/personas/*.md file (adding a persona = adding one file)
+    prompt_keys = [k for p in prompt_keys for k in (persona_keys() if p == "personas" else [p])]
 
     active = []
     for name in [r.strip() for r in reviewers.split(",") if r.strip()]:
@@ -222,6 +233,39 @@ def report(
     adj = json.loads(adjudication.read_text(encoding="utf-8")) if adjudication else None
     path = write_report(run_dirs, out_dir, adj)
     console.print(f"wrote {path} (+ rates.png, bug_types.png, cost_f1.png)")
+
+
+@app.command("figures")
+def figures(
+    out: Path = typer.Option(ROOT / "docs" / "img", help="Output dir for the README figures."),
+) -> None:
+    """README figures (writer x reviewer matrix, persona effect) from results/ and docs/; rerun after new runs."""
+    from reviewbench.figures import build_figures
+
+    for path in build_figures(out):
+        console.print(f"wrote {path}")
+
+
+@app.command("compare-runs")
+def compare_runs(
+    first: Path = typer.Argument(..., help="results/<run_id> of the first run."),
+    second: Path = typer.Argument(..., help="results/<run_id> of the repeat run (same samples)."),
+) -> None:
+    """Repeatability: verdict agreement of each reviewer/prompt between two runs on the same samples."""
+    from reviewbench.report import load_calls
+    from reviewbench.scoring import GROUP_KEYS, group_by, run_agreement
+
+    a, b = group_by(load_calls([first]), GROUP_KEYS), group_by(load_calls([second]), GROUP_KEYS)
+    t = Table(title=f"{first.name} vs {second.name}: same reviewer, prompt and samples")
+    for col in ("reviewer/model", "prompt", "n", "same verdict", "BUG only 1st", "BUG only 2nd", "McNemar p"):
+        t.add_column(col)
+    for key in a:
+        if key not in b:
+            continue
+        r = run_agreement(a[key], b[key])
+        t.add_row(f"{key[0]}/{key[1]}", f"{key[2]}_{key[3]}", str(r["n"]), _fmt(r["agreement"]),
+                  str(r["bug_only_first"]), str(r["bug_only_second"]), f"{r['p']:.3g}")
+    console.print(t)
 
 
 @app.command("mutant-sheet")

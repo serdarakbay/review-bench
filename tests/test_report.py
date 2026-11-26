@@ -58,3 +58,17 @@ def test_adjudicated_view_lists_samples_by_class(tmp_path):
     assert "| b0 | claude_bug | B | . |" in section  # gemini BUG, ollama OK
     assert "| b1 | reference_bug | . |  |" in section  # ollama has no call for b1
     assert "_note" not in section
+
+
+def test_real_bug_flags_counts_only_adjudicated_real_bugs():
+    from reviewbench.figures import real_bug_flags
+
+    adj = {"a": "claude_bug", "b": "claude_bug", "c": "reference_bug"}
+    calls = [
+        {"sample_id": "a", "is_buggy": True, "verdict": "BUG"},
+        {"sample_id": "b", "is_buggy": True, "verdict": "OK"},
+        {"sample_id": "c", "is_buggy": True, "verdict": "BUG"},  # not a real bug: ignored
+        {"sample_id": "d", "is_buggy": False, "verdict": "BUG"},  # correct sample: ignored
+    ]
+    r = real_bug_flags(calls, adj, "claude_bug")
+    assert (r.k, r.n) == (1, 2)
