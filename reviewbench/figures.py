@@ -71,6 +71,12 @@ def _ci_err(rate: Rate) -> list[list[float]]:
     return [[max(0.0, rate.value - lo) * 100], [max(0.0, hi - rate.value) * 100]]
 
 
+def _signed(value: float) -> str:
+    """'+3', '−4', '0': a real minus sign, and no sign on a rounded zero."""
+    text = f"{value:+.0f}"
+    return "0" if text in ("+0", "-0") else text.replace("-", "−")
+
+
 def _yticks(ax, labels: list[str], bold: list[bool]) -> None:
     ax.set_yticks(range(len(labels)), labels, color=INK, fontsize=9.5)
     for tick, b in zip(ax.get_yticklabels(), bold):
@@ -86,6 +92,8 @@ def plot_writer_reviewer(path: Path) -> dict:
     fig, axes = plt.subplots(2, 2, figsize=(9.6, 6.9), facecolor=SURFACE,
                              gridspec_kw={"width_ratios": [3.6, 1.6], "hspace": 0.42, "wspace": 0.06})
     plotted = {}
+    fa_lim = 50 if all(false_alarm_rate(g).ci[1] <= 0.45 for _, _, run, _, _ in WRITERS
+                       for g in (select(load_run(run), rev, "neutral") for rev in REVIEWERS) if g) else 100
     for row, (wkey, wlabel, run, adj_file, real_class) in enumerate(WRITERS):
         calls = load_run(run)
         adj = json.loads((ROOT / "docs" / adj_file).read_text(encoding="utf-8"))
@@ -120,9 +128,10 @@ def plot_writer_reviewer(path: Path) -> dict:
                 text += "  ·  reasons not graded yet"
             ax_bug.text(flags.k + 0.15, y, text, va="center", color=INK_2, fontsize=8.5)
             if fa.n:
-                ax_fa.errorbar(fa.value * 100, y, xerr=_ci_err(fa), fmt="o", color=color, markersize=8,
-                               elinewidth=2, capsize=0, markeredgecolor=SURFACE, markeredgewidth=1.5)
-                ax_fa.text(fa.ci[1] * 100 + 2, y, f"{fa.k}/{fa.n}", va="center", color=INK_2, fontsize=8.5)
+                ax_fa.errorbar(fa.value * 100, y, xerr=_ci_err(fa), fmt="o", color=color, markersize=7,
+                               elinewidth=1.8, capsize=3.5, capthick=1.8)
+                ax_fa.text(fa.ci[1] * 100 + fa_lim * 0.05, y, f"{fa.k}/{fa.n}", va="center", color=INK_2,
+                           fontsize=8.5)
             plotted[(wkey, rev)] = {"flagged": f"{flags.k}/{flags.n}", "right_partial": graded,
                                     "false_alarm": f"{fa.k}/{fa.n}"}
             if same:  # shade the same-model row in both panels
@@ -134,14 +143,14 @@ def plot_writer_reviewer(path: Path) -> dict:
         ax_bug.set_xlim(0, 13.2)  # room for the bar labels; the axis itself stops at 10
         ax_bug.set_xticks(range(0, 11, 2))
         ax_bug.spines["bottom"].set_bounds(0, 10)
-        ax_fa.set_xlim(-5, 100)  # a 0% dot is drawn whole, not cut by the axis
-        ax_fa.set_xticks([0, 25, 50, 75, 100])
-        ax_fa.spines["bottom"].set_bounds(0, 100)
+        ax_fa.set_xlim(-fa_lim * 0.05, fa_lim * 1.12)  # a 0% dot is drawn whole; room for the n labels
+        ax_fa.set_xticks(range(0, fa_lim + 1, fa_lim // 4 if fa_lim == 100 else 10))
+        ax_fa.spines["bottom"].set_bounds(0, fa_lim)
         ax_bug.set_title(f"Code written by {wlabel}", color=INK, fontsize=11, loc="left", fontweight="bold")
         ax_bug.set_xlabel(f"real bugs flagged (of {n_real or 10})", color=INK_2, fontsize=9)
         ax_fa.set_title(f"False alarms ({n_correct} correct)", color=INK, fontsize=10,
                         loc="left")
-        ax_fa.set_xlabel("%  (bars: Wilson 95% CI)", color=INK_2, fontsize=9)
+        ax_fa.set_xlabel("%  (whiskers: 95% CI)", color=INK_2, fontsize=9)
     legend = [Patch(color=INK_2, alpha=0.25, label="flagged BUG"),
               Patch(color=INK_2, label="right reason (manual)"),
               Patch(facecolor="none", edgecolor=INK_2, hatch="////", label="partial reason")]
@@ -222,17 +231,15 @@ def plot_persona_effect(path: Path) -> dict:
             for y, (_, _, prompt, st) in enumerate(mine):
                 diff, lo, hi, b, c = st[metric]
                 lo, hi = max(lo, -lim / 100), min(hi, lim / 100)
-                ax.plot([lo * 100, hi * 100], [y, y], color=color, linewidth=2.2, solid_capstyle="round",
-                        zorder=2)
-                ax.plot(diff * 100, y, "o", color=color, markersize=8.5, markeredgecolor=SURFACE,
-                        markeredgewidth=1.5, zorder=3)
-                ax.text(hi * 100 + lim * 0.04, y, f"{diff * 100:+.0f} pp", va="center", ha="left",
+                ax.errorbar(diff * 100, y, xerr=[[(diff - lo) * 100], [(hi - diff) * 100]], fmt="o",
+                            color=color, markersize=7.5, elinewidth=1.8, capsize=3.5, capthick=1.8, zorder=3)
+                ax.text(hi * 100 + lim * 0.04, y, _signed(diff * 100) + " pp", va="center", ha="left",
                         color=INK_2, fontsize=8.5)
                 plotted[(title, prompt, metric)] = f"+{c} / -{b}"
             ax.set_ylim(len(mine) - 0.5, -0.5)
             ax.set_xlim(-lim, lim)
             ticks = [-lim, -lim // 2, 0, lim // 2, lim]
-            ax.set_xticks(ticks, [f"{t:+d}" if t else "0" for t in ticks])
+            ax.set_xticks(ticks, [_signed(t) for t in ticks])
             ax.tick_params(labelsize=8.5)
             if col == 0:
                 ax.set_yticks(range(len(mine)), [label[r[2]] for r in mine], color=INK, fontsize=9.5)
@@ -245,12 +252,12 @@ def plot_persona_effect(path: Path) -> dict:
         box = axes[0][col].get_position()
         fig.text(box.x0, 1 - 1.0 / height, head, color=INK, fontsize=11.5, ha="left", fontweight="bold")
         fig.text((box.x0 + box.x1) / 2, 1 - 1.25 / height, hint, color=INK_2, fontsize=8.5, ha="center")
-        axes[-1][col].set_xlabel("percentage points (line: 95% CI of the paired difference)", color=INK_2,
+        axes[-1][col].set_xlabel("percentage points (whiskers: 95% CI of the paired difference)", color=INK_2,
                                  fontsize=8.5)
-    fig.text(0.01, 1 - 0.3 / height, "Do role prompts (personas) help a reviewer?", ha="left", va="center",
+    fig.text(0.01, 1 - 0.3 / height, "Role prompts (personas) do not make strong reviewers better", ha="left", va="center",
              color=INK, fontsize=14, fontweight="bold")
     fig.text(0.01, 1 - 0.62 / height, "Each dot: the same reviewer with a persona system prompt minus without "
-             "one, on the same samples. A line crossing 0 = no clear effect.", va="center", color=INK_2,
+             "one, on the same samples. Whiskers crossing 0 = no clear effect.", va="center", color=INK_2,
              fontsize=9)
     fig.savefig(path, dpi=150, facecolor=SURFACE)
     plt.close(fig)
@@ -272,17 +279,21 @@ def plot_v3_rates(path: Path) -> dict:
     fig, (ax_c, ax_f) = plt.subplots(1, 2, figsize=(9.6, height), facecolor=SURFACE,
                                      gridspec_kw={"width_ratios": [1.3, 2.7], "wspace": 0.2})
     plotted = {}
-    for ax, idx, lim, ticks in ((ax_c, 1, (85, 101), [85, 90, 95, 100]),
+    for ax, idx, lim, ticks in ((ax_c, 1, (84, 100.8), [85, 90, 95, 100]),
                                 (ax_f, 2, (-3, 103), [0, 25, 50, 75, 100])):
         _style(ax)
         for y, row in enumerate(stats):
             rate, color = row[idx], reviewer_color(row[0])
             lo, hi = rate.ci
-            ax.plot([lo * 100, hi * 100], [y, y], color=color, linewidth=2.2, solid_capstyle="round", zorder=2)
-            ax.plot(rate.value * 100, y, "o", color=color, markersize=9, markeredgecolor=SURFACE,
-                    markeredgewidth=1.5, zorder=3)
+            if idx == 2:  # the false-alarm axis starts at 0, so a light bar shows the size from 0
+                ax.barh(y, rate.value * 100, height=0.56, color=color, alpha=0.18, linewidth=0, zorder=1)
+            ax.errorbar(rate.value * 100, y, xerr=[[(rate.value - lo) * 100], [(hi - rate.value) * 100]],
+                        fmt="o", color=color, markersize=8, elinewidth=1.8, capsize=4, capthick=1.8, zorder=3)
+            text = f"{rate.value * 100:.0f}%  [{lo * 100:.0f}–{hi * 100:.0f}]"
             if idx == 2:
-                ax.text(hi * 100 + 2, y, f"{rate.value * 100:.0f}%  ({rate.k}/{rate.n})", va="center",
+                ax.text(hi * 100 + 2, y, text, va="center", color=INK_2, fontsize=8.5)
+            else:  # catch rates sit near 100%: the label goes on the empty left side of the panel
+                ax.text(84.3, y, f"{rate.value * 100:.0f}%  ({rate.k}/{rate.n})", va="center", ha="left",
                         color=INK_2, fontsize=8.5)
             plotted[(row[0], idx)] = f"{rate.k}/{rate.n}"
         ax.set_xlim(*lim)
@@ -290,7 +301,7 @@ def plot_v3_rates(path: Path) -> dict:
         ax.spines["bottom"].set_bounds(ticks[0], ticks[-1])
         ax.set_ylim(len(stats) - 0.5, -0.5)
         ax.tick_params(labelsize=8.5)
-        ax.set_xlabel("%  (line: Wilson 95% CI)", color=INK_2, fontsize=8.5)
+        ax.set_xlabel("%", color=INK_2, fontsize=9)
     ax_c.set_yticks(range(len(stats)), [REVIEWER_LABEL[r[0]] for r in stats], color=INK, fontsize=9.5)
     ax_f.set_yticks(range(len(stats)), [""] * len(stats))
     ax_c.set_title("Catch rate (axis from 85%)", color=INK, fontsize=10.5, loc="left", fontweight="bold")
@@ -299,7 +310,8 @@ def plot_v3_rates(path: Path) -> dict:
     fig.text(0.01, 1 - 0.28 / height, "Harder code (BigCodeBench): bugs are still caught, false alarms "
              "separate the reviewers", ha="left", va="center", color=INK, fontsize=12.5, fontweight="bold")
     fig.text(0.01, 1 - 0.58 / height, f"samples_v3: {n} injected bugs + {n} correct solutions, neutral prompt. "
-             "Sorted by false-alarm rate.", color=INK_2, fontsize=9, va="center")
+             "Dot = measured rate, whiskers and [ ] = 95% confidence interval.", color=INK_2,
+             fontsize=9, va="center")
     fig.subplots_adjust(left=0.19, right=0.97, top=1 - 1.05 / height, bottom=0.55 / height)
     fig.savefig(path, dpi=150, facecolor=SURFACE)
     plt.close(fig)
