@@ -7,3 +7,5 @@ rich>=13.7
 matplotlib>=3.8
 pytest>=8.0
 google-genai>=3.6
+faker>=40.0         # BigCodeBench tests (samples_v3)
+pyfakefs>=6.3       # BigCodeBench tests (samples_v3)

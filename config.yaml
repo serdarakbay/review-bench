@@ -16,6 +16,19 @@ dataset_v2:              # python -m reviewbench build-dataset --version v2
   test_timeout_s: 60     # MBPP+ tests are large (slowest canonical run: 33.5 s)
   exclude: [Mbpp/590]    # canonical fails its own test (float precision)
 
+dataset_v3:              # python -m reviewbench build-dataset --version v3 (harder tasks, see docs/results.md)
+  hf_name: bigcode/bigcodebench
+  split: v0.1.4
+  output: data/samples_v3.jsonl
+  n_tasks: 150
+  extra_libs: [numpy, pandas]  # plus the standard library; network modules excluded (467 of 515 such tasks pass)
+  max_mutant_tries: 5
+  test_timeout_s: 60
+  # canonical solution fails or times out on this machine (Windows paths, test-only libs, timing):
+  exclude_ids: [15, 201, 205, 219, 256, 258, 265, 313, 361, 362, 363, 408, 409, 410, 435, 454, 459, 460,
+                464, 465, 495, 503, 535, 538, 539, 562, 565, 602, 631, 638, 672, 708, 711, 730, 762, 781,
+                797, 810, 812, 832, 875, 882, 889, 918, 939, 972, 973, 1104]
+
 sandbox:
   timeout_s: 10
 
@@ -26,7 +39,7 @@ reviewers:
     url: http://localhost:11434
     model: qwen3.5:9b
     think: false        # Qwen3.5 thinking mode off; any <think> block is stripped anyway
-    num_ctx: 8192
+    num_ctx: 16384      # was 8192 for runs before personas-v1; persona system prompts reach ~4.5k tokens
     num_predict: 8192   # output cap: some prompts make Qwen loop forever; max seen before the cap was 7777
     timeout_s: 600
     concurrency: 1
@@ -49,10 +62,10 @@ reviewers:
     adapter: gemini
     model: gemini-4-argon         # stable, large Gemini 4 model (checked docs 2026-11-25)
     thinking_level: low           # lowest level this model allows
-    usd_per_mtok_input: 2.00      # intro price through 2026-11-30; $4.00 from 2026-12-01
-    usd_per_mtok_output: 10.00    # intro price through 2026-11-30; $20.00 from 2026-12-01
+    usd_per_mtok_input: 4.00      # list price; runs logged at the earlier intro price (half) keep their logged cost
+    usd_per_mtok_output: 20.00
     concurrency: 2
-    max_cost_usd: 1.0             # per run dir; 3 run dirs -> at most $3 (credit left: ~165 TRY)
+    max_cost_usd: 2.5             # per run dir; v3 (300 long samples) needs ~$2.2 at the current price
   claude:
     model: claude-sonnet-5-5  # full id, not the alias: the logged model must not change silently
     effort: low               # lowest; Sonnet still thinks briefly on some calls (~80 tokens), logged as thinking=true
@@ -95,6 +108,8 @@ review:                  # python -m reviewbench review <file>
     - results/gemini-argon-full-v1
     - results/natural-plus-v1
     - results/natural-mbpp-v1
+    - results/samples-v2
+    - results/natural-mbpp-gemini-v1   # Gemini-written code (writer x reviewer)
   f1_tolerance: 0.02     # reviewers this close to the best F1 count as tied; the cheapest per call wins
   fallback: [gemini, ollama, claude]  # order when no results match an available reviewer
 

@@ -91,3 +91,23 @@ def test_build_samples_takes_all_usable_tasks_when_n_tasks_is_none():
     samples = build_samples(make_tasks(3), n_tasks=None, seed=0, timeout_s=10, max_tries=None,
                             on_task=lambda tid, op: seen.append((tid, op)))
     assert len(samples) == 6 and len(seen) == 3 and all(op for _, op in seen)
+
+
+def test_bigcodebench_usable_libraries():
+    from reviewbench.dataset import bigcodebench_usable
+
+    assert bigcodebench_usable(["random", "itertools"], [])
+    assert bigcodebench_usable(["numpy", "os"], ["numpy", "pandas"])
+    assert not bigcodebench_usable(["sklearn"], ["numpy", "pandas"])
+    assert not bigcodebench_usable(["socket"], [])  # network: never used
+    assert not bigcodebench_usable(["requests"], ["numpy", "pandas"])
+
+
+def test_unittest_style_tests_run_in_sandbox():
+    from reviewbench.dataset import UNITTEST_MAIN
+    from reviewbench.sandbox import run_tests
+
+    test = ("import unittest\nclass TestCases(unittest.TestCase):\n"
+            "    def test_add(self):\n        self.assertEqual(task_func(2, 3), 5)\n") + UNITTEST_MAIN
+    assert run_tests("def task_func(a, b):\n    return a + b\n", test, "task_func", 30).passed
+    assert not run_tests("def task_func(a, b):\n    return a - b\n", test, "task_func", 30).passed

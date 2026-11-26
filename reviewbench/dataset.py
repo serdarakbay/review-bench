@@ -111,6 +111,45 @@ def load_mbppplus(hf_name: str, exclude: list[str]) -> list[Task]:
     return tasks
 
 
+UNITTEST_MAIN = "\n\nimport unittest\nunittest.main(argv=['t'], exit=True)\n"
+
+
+def bigcodebench_usable(libs: list[str], extra_libs: list[str]) -> bool:
+    """Task needs only the standard library plus `extra_libs` (network libraries are never in either)."""
+    import sys
+
+    return set(libs) <= set(sys.stdlib_module_names) - BCB_NETWORK_LIBS | set(extra_libs)
+
+
+# Standard-library modules that reach the network: excluded so no test depends on it.
+BCB_NETWORK_LIBS = {"socket", "smtplib", "urllib", "http", "ftplib", "ssl", "email"}
+
+
+def load_bigcodebench(hf_name: str, split: str, extra_libs: list[str], exclude: list[str]) -> list[Task]:
+    """BigCodeBench tasks whose libraries are all available locally (see bigcodebench_usable).
+
+    The prompt (imports, signature, docstring) is the code prefix, as in HumanEval; the test is a
+    unittest class, run as a script by appending unittest.main.
+    """
+    import ast
+
+    from datasets import load_dataset
+
+    tasks = []
+    for r in load_dataset(hf_name, split=split):
+        libs = ast.literal_eval(r["libs"]) if isinstance(r["libs"], str) else r["libs"]
+        if r["task_id"] in exclude or not bigcodebench_usable(libs, extra_libs):
+            continue
+        tasks.append(Task(
+            task_id=r["task_id"],
+            prompt=r["complete_prompt"],
+            canonical_solution=r["canonical_solution"],
+            test=r["test"] + UNITTEST_MAIN,
+            entry_point=r["entry_point"],
+        ))
+    return tasks
+
+
 def verify_canonical(tasks: list[Task], timeout_s: float, workers: int = 4) -> dict[str, RunResult]:
     """Run every canonical solution against its tests. Returns task_id -> result."""
     def check(t: Task) -> tuple[str, RunResult]:

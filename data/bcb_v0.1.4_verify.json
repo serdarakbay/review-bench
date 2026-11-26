@@ -1,0 +1,5993 @@
+{
+ "_note": "BigCodeBench v0.1.4 canonical solutions run in reviewbench.sandbox on Windows (stdlib + numpy/pandas tasks, no network libs), timeout 60 s, 6 parallel; faker and pyfakefs installed. v3 prep, see V3_NOTES.md.",
+ "results": [
+  {
+   "task_id": "BigCodeBench/0",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 14.2,
+   "libs": [
+    "itertools",
+    "random"
+   ],
+   "stderr_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 13.850s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "random",
+    "string"
+   ],
+   "stderr_tail": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/2",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "statistics"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/3",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "numpy",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/4",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "itertools"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/5",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "math",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/6",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "os",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/7",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "csv",
+    "operator"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.110s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/8",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "itertools",
+    "random"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/10",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "itertools",
+    "numpy",
+    "random",
+    "statistics"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/11",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "itertools",
+    "numpy",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.016s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/12",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "datetime",
+    "json",
+    "os",
+    "subprocess"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.009s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/14",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "configparser",
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": "arning: unclosed file <_io.TextIOWrapper name=3 encoding='cp1254'>\n  content = os.popen(f\"unzip -l {archive_file}\").read()\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n....\n----------------------------------------------------------------------\nRan 4 tests in 0.248s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/15",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "csv",
+    "os",
+    "subprocess"
+   ],
+   "stderr_tail": ": 'not found' not found in \"'invalid_command_abc' is not recognized as an internal or external command,\\noperable program or batch file.\\n\\nError executing command, exited with code 1\"\n\n----------------------------------------------------------------------\nRan 6 tests in 0.356s\n\nFAILED (failures=2)\n"
+  },
+  {
+   "task_id": "BigCodeBench/16",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "glob",
+    "os",
+    "subprocess"
+   ],
+   "stderr_tail": "l/Temp/tmp9xvchhxi/file_1.log\na Users/user/AppData/Local/Temp/tmp9xvchhxi/file_2.log\na Users/user/AppData/Local/Temp/tmp9xvchhxi/file_3.log\na Users/user/AppData/Local/Temp/tmp9xvchhxi/file_4.log\n.\n----------------------------------------------------------------------\nRan 4 tests in 0.100s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/18",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "csv",
+    "glob",
+    "os",
+    "random",
+    "subprocess"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.263s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/19",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "glob",
+    "os",
+    "zipfile"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.113s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/22",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "itertools",
+    "random"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/23",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "itertools",
+    "numpy"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/24",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.7,
+   "libs": [
+    "base64",
+    "hashlib",
+    "os"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.461s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/25",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "base64",
+    "json",
+    "zlib"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/27",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "base64",
+    "datetime",
+    "json"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/30",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "json",
+    "os",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.065s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/33",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "functools",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/55",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.017s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/60",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "json",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.061s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/67",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "os",
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.051s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/70",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.7,
+   "libs": [
+    "json",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 2.087s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/72",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.6,
+   "libs": [
+    "ast",
+    "numpy",
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.506s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/84",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "l be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.sort_values(\"Profit\", ascending=False, inplace=True)\n..\n----------------------------------------------------------------------\nRan 12 tests in 0.075s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/85",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 7.1,
+   "libs": [
+    "datetime",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 5.421s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/86",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 4.6,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "s deprecated and will be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.sort_values(\"Score\", inplace=True)\n.\n----------------------------------------------------------------------\nRan 6 tests in 2.849s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/87",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.6,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "ill be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.sort_values(\"Rating\", ascending=False, inplace=True)\n.\n----------------------------------------------------------------------\nRan 6 tests in 0.020s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/88",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 4.3,
+   "libs": [
+    "datetime",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 2.554s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/90",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "math",
+    "numpy"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.009s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/95",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.012s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/96",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "collections",
+    "csv",
+    "operator"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.010s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/97",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "functools",
+    "itertools",
+    "math"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/98",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/113",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "collections",
+    "json",
+    "random"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/117",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "numpy",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.012s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/118",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.026s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/120",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "datetime",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/121",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 4.1,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.686s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/122",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "numpy",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.209s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/123",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.8,
+   "libs": [
+    "glob",
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.107s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/125",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "collections",
+    "itertools",
+    "json",
+    "random"
+   ],
+   "stderr_tail": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/126",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.7,
+   "libs": [
+    "numpy",
+    "pandas",
+    "random",
+    "statistics"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.015s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/127",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "glob",
+    "hashlib",
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.032s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/130",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "base64",
+    "binascii",
+    "hashlib",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/131",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "base64",
+    "binascii",
+    "hashlib",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/141",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.9,
+   "libs": [
+    "numpy",
+    "pandas",
+    "statistics"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.015s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/145",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "csv",
+    "ipaddress"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.012s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/146",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "ipaddress",
+    "subprocess"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/149",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.7,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.015s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/150",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.4,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.538s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/152",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.9,
+   "libs": [
+    "numpy",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.084s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/154",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "glob",
+    "mimetypes",
+    "os",
+    "re"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.115s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/159",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "gzip",
+    "io",
+    "struct"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/161",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.6,
+   "libs": [
+    "datetime",
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.079s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/163",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 2.4,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.189s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/171",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "collections",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/172",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "datetime",
+    "json"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/173",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/174",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.012s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/178",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "json",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/190",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "csv",
+    "io",
+    "pandas",
+    "sqlite3"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.044s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/193",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "numpy",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/195",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 45.5,
+   "libs": [
+    "platform",
+    "subprocess",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 45.038s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/201",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "bisect",
+    "statistics"
+   ],
+   "stderr_tail": "          ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_v_swgqu9\\program.py\", line 39, in task_func\n    data.sort()\nValueError: sort array is read-only\n\n----------------------------------------------------------------------\nRan 6 tests in 0.011s\n\nFAILED (errors=3)\n"
+  },
+  {
+   "task_id": "BigCodeBench/202",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "json",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/205",
+   "passed": false,
+   "timed_out": true,
+   "seconds": 60.2,
+   "libs": [
+    "multiprocessing",
+    "subprocess"
+   ],
+   "stderr_tail": "timeout"
+  },
+  {
+   "task_id": "BigCodeBench/206",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "csv",
+    "json",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.084s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/216",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "collections",
+    "json",
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.154s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/219",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "math",
+    "numpy",
+    "statistics"
+   ],
+   "stderr_tail": "1)\n\nFirst differing element 5:\n1985\n6641\n\n- (32.5, 32.5, 5, 4718, 2431, 1985)\n?                              ---\n\n+ (32.5, 32.5, 5, 4718, 2431, 6641)\n?                             +++\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.037s\n\nFAILED (failures=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/220",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 20.5,
+   "libs": [
+    "random",
+    "time",
+    "turtle"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 20.023s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/228",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.009s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/229",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "datetime",
+    "json",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.122s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/232",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "collections",
+    "pandas"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.014s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/240",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/243",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.040s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/250",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "itertools",
+    "json",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/253",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.0,
+   "libs": [
+    "numpy",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.731s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/254",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "json",
+    "math"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/256",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "datetime",
+    "hashlib",
+    "json",
+    "random"
+   ],
+   "stderr_tail": "Traceback (most recent call last):\n  File \"C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_d86o1442\\program.py\", line 60, in <module>\n    import pytz\nModuleNotFoundError: No module named 'pytz'\n"
+  },
+  {
+   "task_id": "BigCodeBench/257",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 2.5,
+   "libs": [
+    "math",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.221s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/258",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "json",
+    "random"
+   ],
+   "stderr_tail": "Traceback (most recent call last):\n  File \"C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_m2iiwcxy\\program.py\", line 58, in <module>\n    import pytz\nModuleNotFoundError: No module named 'pytz'\n"
+  },
+  {
+   "task_id": "BigCodeBench/260",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "glob",
+    "json",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.167s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/263",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "glob",
+    "os",
+    "shutil",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.024s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/265",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "json",
+    "os"
+   ],
+   "stderr_tail": "self.json_file.name)\nPermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\tmpgfyf3lpm'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.024s\n\nFAILED (errors=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/266",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "collections",
+    "csv",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.113s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/268",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/270",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.7,
+   "libs": [
+    "collections",
+    "re"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/271",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "hashlib",
+    "random",
+    "string",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/275",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "itertools",
+    "numpy"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/277",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "itertools",
+    "math",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.101s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/279",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "random"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.004s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/281",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "collections",
+    "os",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.140s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/283",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "collections",
+    "json",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.177s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/286",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "collections",
+    "csv",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.277s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/287",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.8,
+   "libs": [
+    "collections",
+    "json",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.241s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/288",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "collections",
+    "json",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.135s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/295",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.7,
+   "libs": [
+    "itertools",
+    "statistics"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.113s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/297",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "itertools"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/299",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "itertools",
+    "math",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/305",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "itertools",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/306",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "logging",
+    "os"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/308",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "pandas",
+    "random",
+    "statistics"
+   ],
+   "stderr_tail": "ting dtype int64 cannot hold the value being set, so the result has dtype float64. Cast the object to float64 before this operation to retain the current behavior.\n  df.loc['Average'] = df.apply(mean)\n.\n----------------------------------------------------------------------\nRan 6 tests in 0.054s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/310",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "csv",
+    "os",
+    "random",
+    "statistics"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.032s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/313",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "datetime",
+    "os",
+    "re",
+    "shutil"
+   ],
+   "stderr_tail": "\nPermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\tmp0fgdnx4g/test/test_file1.txt'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.096s\n\nFAILED (errors=4)\n"
+  },
+  {
+   "task_id": "BigCodeBench/316",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/320",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "os",
+    "random",
+    "subprocess"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/322",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "os",
+    "shutil",
+    "subprocess",
+    "sys"
+   ],
+   "stderr_tail": "ial character failed\n.Failed to execute the file: File not executable\n.Failed to backup the file: [Errno 2] No such file or directory: 'c:\\\\Program Files\\\\VMware\\\\VMware Server\\\\nonexistent_file.bat'\n..\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/324",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 4.4,
+   "libs": [
+    "subprocess",
+    "threading",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 4.009s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/325",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "glob",
+    "os",
+    "pathlib",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.047s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/326",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "glob",
+    "os",
+    "subprocess",
+    "sys"
+   ],
+   "stderr_tail": "Failed to execute the file: file1.bat. Error: Mocked exception\n.Failed to execute the file: file3.bat. Error: Mocked exception\n....\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/327",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "csv",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.065s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/328",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "queue",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/329",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "json",
+    "os",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.074s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/330",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "heapq",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/331",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "bisect",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.003s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/333",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "heapq",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/335",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "queue",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/336",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "glob",
+    "os",
+    "pathlib",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.124s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/342",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "re",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/344",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.033s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/346",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 2.7,
+   "libs": [
+    "os",
+    "subprocess",
+    "sys",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 2.455s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/347",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "numpy",
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.173s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/348",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 5.3,
+   "libs": [
+    "os",
+    "signal",
+    "subprocess",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 5.006s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/349",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/350",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "glob",
+    "os",
+    "shutil",
+    "subprocess"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.192s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/351",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.010s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/352",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 2.1,
+   "libs": [
+    "collections",
+    "pandas"
+   ],
+   "stderr_tail": ".C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\unittest\\case.py:1176: DeprecationWarning: assertDictContainsSubset is deprecated\n  warnings.warn('assertDictContainsSubset is deprecated',\n.\n----------------------------------------------------------------------\nRan 5 tests in 0.867s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/353",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/358",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "itertools",
+    "json"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/361",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "logging",
+    "pandas"
+   ],
+   "stderr_tail": "esktop\\review-bench\\.venv\\Lib\\site-packages\\pandas\\io\\excel\\_openpyxl.py\", line 54, in __init__\n    from openpyxl.workbook import Workbook\nModuleNotFoundError: No module named 'openpyxl'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.072s\n\nFAILED (errors=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/362",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": "esktop\\review-bench\\.venv\\Lib\\site-packages\\pandas\\io\\excel\\_openpyxl.py\", line 54, in __init__\n    from openpyxl.workbook import Workbook\nModuleNotFoundError: No module named 'openpyxl'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.065s\n\nFAILED (errors=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/363",
+   "passed": false,
+   "timed_out": true,
+   "seconds": 60.3,
+   "libs": [
+    "math",
+    "multiprocessing"
+   ],
+   "stderr_tail": "timeout"
+  },
+  {
+   "task_id": "BigCodeBench/365",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "json",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.051s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/368",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "os",
+    "random",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.175s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/370",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "glob",
+    "json",
+    "os",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.098s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/379",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.0,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.012s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/380",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.8,
+   "libs": [
+    "os",
+    "re",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.033s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/384",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.8,
+   "libs": [
+    "collections",
+    "itertools",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/386",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.3,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.039s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/388",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.4,
+   "libs": [
+    "collections",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.021s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/389",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "os",
+    "re",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.090s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/391",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "glob",
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.051s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/394",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "collections",
+    "random",
+    "string"
+   ],
+   "stderr_tail": "C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_t1sjikbv\\program.py:42: DeprecationWarning: Please use assertEqual instead.\n  self.assertEquals(result, {})\n.....\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/398",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "json",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.091s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/400",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "glob",
+    "json"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.177s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/408",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 3.9,
+   "libs": [
+    "pandas",
+    "sqlite3"
+   ],
+   "stderr_tail": "enerate_test_data_with_file\n    os.remove(db_file)\nPermissionError: [WinError 32] The process cannot access the file because it is being used by another process: './temp_test_db.sqlite3'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.344s\n\nFAILED (errors=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/409",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 3.2,
+   "libs": [
+    "numpy",
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": "esktop\\review-bench\\.venv\\Lib\\site-packages\\pandas\\io\\excel\\_openpyxl.py\", line 54, in __init__\n    from openpyxl.workbook import Workbook\nModuleNotFoundError: No module named 'openpyxl'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.087s\n\nFAILED (errors=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/410",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 3.2,
+   "libs": [
+    "datetime",
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": "esktop\\review-bench\\.venv\\Lib\\site-packages\\pandas\\io\\excel\\_openpyxl.py\", line 54, in __init__\n    from openpyxl.workbook import Workbook\nModuleNotFoundError: No module named 'openpyxl'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.067s\n\nFAILED (errors=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/411",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.2,
+   "libs": [
+    "json",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.093s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/412",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "base64",
+    "json",
+    "unicodedata"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.021s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/414",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 11.0,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 6.760s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/415",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.1,
+   "libs": [
+    "codecs",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.028s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/433",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.8,
+   "libs": [
+    "base64",
+    "binascii",
+    "hashlib",
+    "hmac"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/434",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.2,
+   "libs": [
+    "pandas",
+    "random",
+    "re"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.052s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/435",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 3.2,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "\"C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_0eazg46n\\program.py\", line 61, in test_case_1\n    self.assertTrue(\nAssertionError: False is not true : Column Name has incorrect type str\n\n----------------------------------------------------------------------\nRan 8 tests in 0.070s\n\nFAILED (failures=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/437",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 13.7,
+   "libs": [
+    "os",
+    "pickle"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 10.353s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/453",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "random",
+    "re",
+    "string"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.009s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/454",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "glob",
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ")\nAssertionError: Expected 'move' to be called once. Called 2 times.\nCalls: [call('/fake/source/file1.txt', '/fake/destination'),\n call('/fake/source/file2.txt', '/fake/destination')].\n\n----------------------------------------------------------------------\nRan 5 tests in 0.029s\n\nFAILED (failures=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/457",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 20.4,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".............\n----------------------------------------------------------------------\nRan 13 tests in 16.138s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/458",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.0,
+   "libs": [
+    "json",
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.021s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/459",
+   "passed": false,
+   "timed_out": true,
+   "seconds": 3288.8,
+   "libs": [
+    "datetime",
+    "os",
+    "subprocess",
+    "time"
+   ],
+   "stderr_tail": "timeout"
+  },
+  {
+   "task_id": "BigCodeBench/460",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 7.4,
+   "libs": [
+    "pandas",
+    "subprocess"
+   ],
+   "stderr_tail": "\n    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nOSError: [WinError 193] %1 is not a valid Win32 application\n\n----------------------------------------------------------------------\nRan 9 tests in 0.416s\n\nFAILED (errors=8)\n"
+  },
+  {
+   "task_id": "BigCodeBench/462",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 17.4,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 8.579s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/463",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 15.1,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 8.329s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/464",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "datetime",
+    "decimal",
+    "json"
+   ],
+   "stderr_tail": "Traceback (most recent call last):\n  File \"C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_467psi2s\\program.py\", line 45, in <module>\n    import pytz  # Assuming pytz is used for timezone information in datetime objects\n    ^^^^^^^^^^^\nModuleNotFoundError: No module named 'pytz'\n"
+  },
+  {
+   "task_id": "BigCodeBench/465",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "datetime",
+    "decimal",
+    "json",
+    "numpy"
+   ],
+   "stderr_tail": "Traceback (most recent call last):\n  File \"C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_3y2x2vx_\\program.py\", line 53, in <module>\n    import pytz\nModuleNotFoundError: No module named 'pytz'\n"
+  },
+  {
+   "task_id": "BigCodeBench/466",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.7,
+   "libs": [
+    "enum",
+    "json"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/468",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 9.1,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 3.276s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/471",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.5,
+   "libs": [
+    "collections",
+    "pandas"
+   ],
+   "stderr_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.048s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/475",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 8.2,
+   "libs": [
+    "datetime",
+    "pandas"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 2.760s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/478",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.7,
+   "libs": [
+    "pandas",
+    "random",
+    "re"
+   ],
+   "stderr_tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.135s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/479",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 5.4,
+   "libs": [
+    "pandas",
+    "random",
+    "string"
+   ],
+   "stderr_tail": "...........\n----------------------------------------------------------------------\nRan 11 tests in 0.079s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/480",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 4.8,
+   "libs": [
+    "pandas",
+    "random",
+    "re"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.090s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/481",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.9,
+   "libs": [
+    "pandas",
+    "random",
+    "re"
+   ],
+   "stderr_tail": "...........\n----------------------------------------------------------------------\nRan 11 tests in 0.089s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/482",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.4,
+   "libs": [
+    "pandas",
+    "random",
+    "re"
+   ],
+   "stderr_tail": "...........\n----------------------------------------------------------------------\nRan 11 tests in 0.050s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/483",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.5,
+   "libs": [
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.079s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/484",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.0,
+   "libs": [
+    "datetime",
+    "math",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.069s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/486",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 9.8,
+   "libs": [
+    "datetime",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 5.072s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/487",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.0,
+   "libs": [
+    "os",
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.072s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/488",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 8.3,
+   "libs": [
+    "datetime",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 4.389s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/489",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.9,
+   "libs": [
+    "datetime",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.641s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/492",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.6,
+   "libs": [
+    "datetime",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.049s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/495",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.7,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "l\\Temp\\rb_sandbox_8n7oyx9m\\program.py\", line 70, in _test_report_data\n    self.assertTrue(pd.api.types.is_datetime64_ns_dtype(report.index))\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 6 tests in 0.085s\n\nFAILED (failures=5, errors=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/503",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.6,
+   "libs": [
+    "datetime",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "y\", line 6434, in __getattr__\n    return object.__getattribute__(self, name)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'DataFrame' object has no attribute 'applymap'\n\n----------------------------------------------------------------------\nRan 8 tests in 0.023s\n\nFAILED (errors=3)\n"
+  },
+  {
+   "task_id": "BigCodeBench/505",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "hashlib",
+    "hmac"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/507",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.6,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "..............\n----------------------------------------------------------------------\nRan 14 tests in 0.021s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/508",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "hashlib",
+    "io",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.047s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/509",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "csv",
+    "difflib",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.083s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/510",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "difflib",
+    "gzip"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.029s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/512",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 5.5,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 3.373s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/526",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "collections",
+    "json",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "ems()\nC:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_pdc4s86s\\program.py:50: RuntimeWarning: All-NaN slice encountered\n  k: {\"mean\": np.nanmean(v), \"median\": np.nanmedian(v)} for k, v in stats.items()\n..\n----------------------------------------------------------------------\nRan 9 tests in 0.100s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/533",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "base64",
+    "hashlib",
+    "numpy",
+    "secrets"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.183s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/535",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.7,
+   "libs": [
+    "numpy",
+    "random",
+    "sqlite3"
+   ],
+   "stderr_tail": "ink(path)\nPermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\tmpcjod9wjc\\\\test.db'\n\n----------------------------------------------------------------------\nRan 13 tests in 0.190s\n\nFAILED (errors=10)\n"
+  },
+  {
+   "task_id": "BigCodeBench/536",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.6,
+   "libs": [
+    "os",
+    "pandas",
+    "sqlite3"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.140s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/538",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 3.5,
+   "libs": [
+    "pandas",
+    "sqlite3"
+   ],
+   "stderr_tail": "th)\nPermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\tmp0ka_xfxv\\\\another_test.db'\n\n----------------------------------------------------------------------\nRan 9 tests in 1.252s\n\nFAILED (errors=9)\n"
+  },
+  {
+   "task_id": "BigCodeBench/539",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "os",
+    "random",
+    "sqlite3"
+   ],
+   "stderr_tail": "h)\nPermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\tmpho9tmx8g\\\\test_function.db'\n\n----------------------------------------------------------------------\nRan 6 tests in 0.054s\n\nFAILED (errors=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/541",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "importlib",
+    "os",
+    "pkgutil",
+    "sys"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.195s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/542",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "hashlib",
+    "random",
+    "struct"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/543",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "base64",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/544",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "struct",
+    "zlib"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/545",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "codecs",
+    "random",
+    "struct"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/547",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.8,
+   "libs": [
+    "base64",
+    "hashlib",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.574s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/548",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "base64",
+    "random",
+    "string",
+    "zlib"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/549",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "base64",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.022s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/550",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "collections",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/554",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "numpy",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.028s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/556",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "difflib",
+    "numpy",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.032s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/562",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "ctypes",
+    "os",
+    "subprocess",
+    "sys"
+   ],
+   "stderr_tail": "C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_zw6qy4cm\\program.py\", line 51, in task_func\n    uname = os.uname()\n            ^^^^^^^^\nAttributeError: module 'os' has no attribute 'uname'\n\n----------------------------------------------------------------------\nRan 6 tests in 0.009s\n\nFAILED (errors=3)\n"
+  },
+  {
+   "task_id": "BigCodeBench/563",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "ctypes",
+    "glob",
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.031s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/565",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "binascii",
+    "ctypes",
+    "hashlib"
+   ],
+   "stderr_tail": "e(self.filepath)\nPermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\user\\\\AppData\\\\Local\\\\Temp\\\\tmp45ex1hoc.dll'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.016s\n\nFAILED (errors=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/566",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "inspect",
+    "types"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/569",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "inspect",
+    "math",
+    "types"
+   ],
+   "stderr_tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/570",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "inspect",
+    "json",
+    "types"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/571",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.6,
+   "libs": [
+    "inspect",
+    "pandas"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.090s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/573",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 23.4,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ", out=arrmean,\nC:\\Users\\user\\Desktop\\review-bench\\.venv\\Lib\\site-packages\\numpy\\_core\\_methods.py:211: RuntimeWarning: invalid value encountered in scalar divide\n  ret = ret.dtype.type(ret / rcount)\n.\n----------------------------------------------------------------------\nRan 5 tests in 1.933s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/575",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "numpy",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.021s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/576",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.8,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/577",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "hashlib",
+    "os",
+    "pathlib",
+    "unicodedata"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.023s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/592",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "csv",
+    "datetime",
+    "os",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.040s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/594",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "csv",
+    "datetime",
+    "os",
+    "random",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.038s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/595",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 5.3,
+   "libs": [
+    "array",
+    "bisect",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.013s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/597",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 20.9,
+   "libs": [
+    "pandas",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.031s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/598",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 20.6,
+   "libs": [
+    "pandas",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.049s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/599",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 39.8,
+   "libs": [
+    "pandas",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.696s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/600",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 16.0,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.072s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/602",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 19.4,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "y\", line 6434, in __getattr__\n    return object.__getattribute__(self, name)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'DataFrame' object has no attribute 'applymap'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.109s\n\nFAILED (errors=2)\n"
+  },
+  {
+   "task_id": "BigCodeBench/603",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 19.2,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/604",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 5.7,
+   "libs": [
+    "logging",
+    "subprocess"
+   ],
+   "stderr_tail": "ib/libmingw32.a(lib64_libmingw32_a-crtexewin.o):crtexewin.c:(.text+0x130): undefined reference to `WinMain'\ncollect2.exe: error: ld returned 1 exit status\n..INFO:root:Successfully compiled example.cpp\n.\n----------------------------------------------------------------------\nRan 5 tests in 4.640s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/609",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 23.6,
+   "libs": [
+    "itertools",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 4.612s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/612",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 14.1,
+   "libs": [
+    "numpy",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.025s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/615",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.010s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/620",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/625",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "math",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/627",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "random",
+    "statistics"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/629",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "os",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.018s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/630",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.066s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/631",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "csv",
+    "os"
+   ],
+   "stderr_tail": "+ 1:], result_path[result_path.rindex('/') + 1: ])\n                                                                                ^^^^^^^^^^^^^^^^^^^^^^^\nValueError: substring not found\n\n----------------------------------------------------------------------\nRan 5 tests in 0.022s\n\nFAILED (errors=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/632",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.024s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/638",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "ile \"C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_a4gdc9dn\\program.py\", line 52, in test_case_5\n    self.assertTrue((df.dtypes == 'int64').all())\nAssertionError: np.False_ is not true\n\n----------------------------------------------------------------------\nRan 5 tests in 0.009s\n\nFAILED (failures=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/641",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "os",
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.027s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/642",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "binascii",
+    "hashlib",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.029s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/643",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "numpy",
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.014s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/644",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "base64",
+    "hashlib"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.042s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/645",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.042s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/651",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 2.3,
+   "libs": [
+    "pandas",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.935s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/665",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "fnmatch",
+    "itertools",
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.071s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/666",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "itertools",
+    "math"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/667",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "heapq"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/668",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "itertools",
+    "math"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/669",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "itertools",
+    "math"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/670",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "itertools",
+    "math"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/671",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "json",
+    "os",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.223s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/672",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "csv",
+    "sys"
+   ],
+   "stderr_tail": "ertEqual(txt, expected)\nAssertionError: 'm,n,o,p,q,r\\n\\ng,h,i,j,k,l\\n\\na,b,c,d,e,f\\n\\n' != 'm,n,o,p,q,r\\ng,h,i,j,k,l\\na,b,c,d,e,f\\n'\n  m,n,o,p,q,r\n- \n  g,h,i,j,k,l\n- \n  a,b,c,d,e,f\n- \n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.092s\n\nFAILED (failures=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/673",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.060s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/674",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.109s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/675",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.064s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/676",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.014s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/678",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "json",
+    "os",
+    "pandas",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.071s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/679",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "collections",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/681",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "json",
+    "pandas"
+   ],
+   "stderr_tail": "p is deprecated and will be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  df.drop(key, axis=1, inplace=True)\n.\n----------------------------------------------------------------------\nRan 5 tests in 0.112s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/682",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "math"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/684",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/685",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "itertools"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/692",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "math",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/694",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "itertools",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/696",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "math",
+    "numpy",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/700",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.013s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/704",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "itertools",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.009s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/707",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "json",
+    "numpy"
+   ],
+   "stderr_tail": "..C:\\Users\\user\\Desktop\\review-bench\\.venv\\Lib\\site-packages\\pandas\\core\\arraylike.py:438: RuntimeWarning: divide by zero encountered in log10\n  result = getattr(ufunc, method)(*inputs, **kwargs)\n...\n----------------------------------------------------------------------\nRan 5 tests in 0.134s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/708",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "base64",
+    "csv",
+    "json",
+    "os"
+   ],
+   "stderr_tail": "qual(task_func(raw_string, filename, output_dir), expected)\nAssertionError: './output\\\\data.csv' != './output/data.csv'\n- ./output\\data.csv\n?         ^\n+ ./output/data.csv\n?         ^\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nFAILED (failures=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/709",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "base64",
+    "html",
+    "re",
+    "textwrap"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/711",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "csv",
+    "json"
+   ],
+   "stderr_tail": "t differing element 1:\n[]\n['99']\n\nFirst list contains 2 additional elements.\nFirst extra element 2:\n['99']\n\n- [['zzz'], [], ['99'], []]\n?           ----      --- -\n\n+ [['zzz'], ['99']]\n\n----------------------------------------------------------------------\nRan 5 tests in 0.102s\n\nFAILED (failures=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/712",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "glob",
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.048s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/713",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.016s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/714",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "pathlib",
+    "sys"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.015s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/715",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "subprocess",
+    "sys"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/716",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "datetime",
+    "json",
+    "sys"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.039s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/717",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "configparser",
+    "sys"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.029s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/719",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "glob",
+    "os",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.003s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/720",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "csv",
+    "datetime",
+    "os",
+    "random"
+   ],
+   "stderr_tail": "name='task_func_data/Output.txt' mode='r' encoding='cp1254'>\n  final_line_count = sum(1 for line in open(self.file_path))\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.....\n----------------------------------------------------------------------\nRan 5 tests in 0.080s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/721",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "csv",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.044s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/724",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "json",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.051s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/725",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "codecs",
+    "glob",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.046s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/728",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "csv",
+    "io"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.010s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/729",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "os",
+    "pickle",
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.232s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/730",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "os",
+    "pickle"
+   ],
+   "stderr_tail": "Traceback (most recent call last):\n  File \"C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_iai2bp03\\program.py\", line 38, in <module>\n    import pytz\nModuleNotFoundError: No module named 'pytz'\n"
+  },
+  {
+   "task_id": "BigCodeBench/733",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "re",
+    "string"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/735",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "itertools",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/737",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "math",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/739",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "random",
+    "struct"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/740",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "heapq"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/741",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "itertools",
+    "operator"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/743",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "json",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.012s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/745",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "random",
+    "subprocess"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/747",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "math",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/751",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/753",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "math",
+    "random",
+    "statistics"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/754",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "datetime",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.009s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/755",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "glob",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.020s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/756",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "pathlib",
+    "shutil",
+    "typing"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.109s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/757",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "datetime",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.174s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/759",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "fnmatch",
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/760",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "codecs",
+    "datetime",
+    "numpy",
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.022s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/761",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "json",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/762",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "codecs",
+    "os",
+    "zipfile"
+   ],
+   "stderr_tail": "\u00f3n')  # Since we used utf-8 encoding, the content should match\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'Sopet\u00c3\u00b3n' != 'Sopet\u00f3n'\n- Sopet\u00c3\u00b3n\n?      ^^\n+ Sopet\u00f3n\n?      ^\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.142s\n\nFAILED (failures=2)\n"
+  },
+  {
+   "task_id": "BigCodeBench/763",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "collections",
+    "csv",
+    "json",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.109s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/764",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.8,
+   "libs": [
+    "csv",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.201s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/765",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "os",
+    "pathlib",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.022s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/766",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "re"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/767",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/768",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "glob",
+    "os",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.124s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/769",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "itertools",
+    "operator"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/771",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "csv",
+    "os",
+    "pathlib",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/773",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "os",
+    "re",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/775",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "re",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/777",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "re",
+    "zipfile"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/778",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.7,
+   "libs": [
+    "collections",
+    "itertools",
+    "operator"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.015s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/779",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.005s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/781",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "datetime",
+    "os"
+   ],
+   "stderr_tail": "\", str(context.exception))\nAssertionError: 'No such file or directory' not found in \"Error: [WinError 2] The system cannot find the file specified: 'task_func_data\\\\\\\\nonexistent.txt'\"\n\n----------------------------------------------------------------------\nRan 5 tests in 0.037s\n\nFAILED (failures=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/782",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "numpy",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.021s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/783",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.028s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/784",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "csv",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.155s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/785",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "glob",
+    "os",
+    "subprocess"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.162s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/786",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "csv",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.036s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/787",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "itertools",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/791",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "itertools",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/793",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "numpy",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/794",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "random",
+    "string"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/795",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "math"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/796",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.040s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/797",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": "y\", line 6434, in __getattr__\n    return object.__getattribute__(self, name)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'DataFrame' object has no attribute 'applymap'\n\n----------------------------------------------------------------------\nRan 8 tests in 0.014s\n\nFAILED (errors=7)\n"
+  },
+  {
+   "task_id": "BigCodeBench/798",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/799",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.6,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "n a future version. The shorter sequences are currently padded with NaN; make all sequences the same length before constructing instead.\n  dataframe = pd.DataFrame(sampled_rows, columns=col_names)\n....\n----------------------------------------------------------------------\nRan 12 tests in 0.043s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/800",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "collections",
+    "csv",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/801",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "collections",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.091s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/802",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "itertools",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.027s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/804",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "datetime",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/805",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.5,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/810",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "re",
+    "subprocess"
+   ],
+   "stderr_tail": "self.assertNotIn(os.path.normpath(\"C:\\\\TestDir\\\\special$file.exe\"), found_files)\nAssertionError: 'C:\\\\TestDir\\\\special$file.exe' unexpectedly found in ['C:\\\\TestDir\\\\special$file.exe']\n\n----------------------------------------------------------------------\nRan 5 tests in 0.004s\n\nFAILED (failures=2)\n"
+  },
+  {
+   "task_id": "BigCodeBench/811",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.019s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/812",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "pathlib",
+    "re",
+    "tarfile"
+   ],
+   "stderr_tail": "e 103, in test_with_subdirectories\n    self.assertIn(os.path.join('subdir', 'AcroTray.exe'), archived_files)\nAssertionError: 'subdir\\\\AcroTray.exe' not found in ['subdir/AcroTray.exe']\n\n----------------------------------------------------------------------\nRan 5 tests in 0.125s\n\nFAILED (failures=2)\n"
+  },
+  {
+   "task_id": "BigCodeBench/813",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "itertools",
+    "pandas"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.014s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/814",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "re",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.048s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/815",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.4,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/816",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/817",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "logging"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.050s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/818",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "re",
+    "string"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/819",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 10.6,
+   "libs": [
+    "random",
+    "time"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 10.417s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/820",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/821",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 19.0,
+   "libs": [
+    "threading",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 18.420s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/822",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/823",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 7.3,
+   "libs": [
+    "numpy",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 6.915s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/824",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "re",
+    "string"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/825",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "itertools",
+    "numpy",
+    "string"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.030s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/826",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "os",
+    "re",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.025s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/828",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "errno",
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.036s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/829",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "pandas",
+    "statistics"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.019s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/830",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "json",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.038s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/831",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "math",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/832",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "os",
+    "pickle"
+   ],
+   "stderr_tail": "last):\n  File \"C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_nqh49rp5\\program.py\", line 61, in test_serialization_failure\n    self.assertFalse(result)\nAssertionError: True is not false\n\n----------------------------------------------------------------------\nRan 3 tests in 0.013s\n\nFAILED (failures=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/833",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "random",
+    "statistics"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/834",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "binascii",
+    "gzip",
+    "io"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/835",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.013s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/836",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "csv",
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/839",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.7,
+   "libs": [
+    "csv",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.086s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/840",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.109s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/841",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "json",
+    "re",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/842",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.3,
+   "libs": [
+    "random",
+    "sqlite3"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.215s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/843",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/846",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "collections",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.009s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/847",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "os",
+    "random",
+    "re",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.046s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/848",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "heapq",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/850",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "pandas",
+    "random",
+    "statistics"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/851",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "re",
+    "textwrap"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/852",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/853",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "os",
+    "shutil",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.026s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/854",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "functools",
+    "itertools",
+    "math"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/855",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/856",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "functools",
+    "itertools",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.023s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/857",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 5.3,
+   "libs": [
+    "glob",
+    "os",
+    "shutil",
+    "time",
+    "warnings"
+   ],
+   "stderr_tail": "p\\rb_sandbox_ieksljvm\\program.py:43: UserWarning: Unable to move file C:\\Users\\user\\AppData\\Local\\Temp\\tmpq76vgoil\\source_dir\\file2.csv: \n  warnings.warn(f\"Unable to move file {src_file}: {str(e)}\")\n.\n----------------------------------------------------------------------\nRan 5 tests in 5.035s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/858",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.1,
+   "libs": [
+    "collections",
+    "random",
+    "string"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/860",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "re",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/861",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/862",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/863",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "math",
+    "numpy"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/864",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.8,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": "x is deprecated and will be removed in a future version (PDEP-8).\nSee https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.\n  expected.sort_index(inplace=True)\n..\n----------------------------------------------------------------------\nRan 6 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/867",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "re",
+    "string"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/868",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "itertools",
+    "random"
+   ],
+   "stderr_tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/869",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.8,
+   "libs": [
+    "itertools",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/870",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.8,
+   "libs": [
+    "itertools",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/871",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "itertools",
+    "numpy"
+   ],
+   "stderr_tail": "C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_liv9bzhl\\program.py:56: RuntimeWarning: Mean of empty slice\n  mean_values.append(np.nanmean(numeric_values))\n.....\n----------------------------------------------------------------------\nRan 5 tests in 0.019s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/872",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "itertools",
+    "numpy"
+   ],
+   "stderr_tail": "Local\\Temp\\rb_sandbox_2_xhiuj_\\program.py:38: RuntimeWarning: Mean of empty slice\n  mean_values = [np.nanmean([val for val in column if isinstance(val, (int, float))]) for column in unzipped_data]\n.....\n----------------------------------------------------------------------\nRan 5 tests in 0.129s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/873",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.6,
+   "libs": [
+    "csv",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.159s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/875",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.8,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": " File \"C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_m04jwgq8\\program.py\", line 98, in test_random_fill\n    self.assertTrue(df.loc[1, 'Name'] is None)\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 7 tests in 0.010s\n\nFAILED (failures=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/876",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "operator",
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.022s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/881",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.067s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/882",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "os",
+    "pandas",
+    "sqlite3"
+   ],
+   "stderr_tail": "sserters.py\", line 782, in raise_assert_detail\n    raise AssertionError(msg)\nAssertionError: DataFrame are different\n\nDataFrame shape mismatch\n[left]:  (0, 2)\n[right]: (5, 2)\n\n----------------------------------------------------------------------\nRan 5 tests in 0.092s\n\nFAILED (failures=2, errors=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/886",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "collections",
+    "pandas"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.015s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/887",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "itertools",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/888",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.115s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/889",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "numpy",
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": "(column name=\"Age\") values are different (33.33333 %)\n[index]: [0, 1, 2]\n[left]:  [25.0, nan, 30.0]\n[right]: [25.0, 27.5, 30.0]\nAt positional index 1, first diff: nan != 27.5\n\n----------------------------------------------------------------------\nRan 6 tests in 0.092s\n\nFAILED (failures=1, errors=2)\n"
+  },
+  {
+   "task_id": "BigCodeBench/890",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "os",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.078s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/892",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/893",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "datetime",
+    "re"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/896",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "itertools",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/898",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/899",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "numpy",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/900",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/902",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "collections",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/905",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "csv",
+    "glob",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.048s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/906",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "re",
+    "shutil",
+    "zipfile"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.061s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/907",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "os",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.014s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/909",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "itertools",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/911",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "functools",
+    "operator",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/912",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "itertools"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/918",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": "y\", line 6434, in __getattr__\n    return object.__getattribute__(self, name)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'DataFrame' object has no attribute 'applymap'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.013s\n\nFAILED (errors=5)\n"
+  },
+  {
+   "task_id": "BigCodeBench/922",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/923",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "random",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/924",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "os",
+    "pandas",
+    "sys"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.079s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/925",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.010s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/926",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "sqlite3"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.106s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/928",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "itertools",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/930",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/931",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "re"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/932",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "re"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/934",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "hashlib"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/935",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "pandas",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/937",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "re"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/938",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.012s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/939",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "glob",
+    "os",
+    "re"
+   ],
+   "stderr_tail": " 33, in task_func\n    os.rename(file_path, new_path)\nFileExistsError: [WinError 183] Cannot create a file when that file already exists: 'temp_test_dir\\\\$$$ .txt' -> 'temp_test_dir\\\\txt'\n\n----------------------------------------------------------------------\nRan 5 tests in 0.017s\n\nFAILED (errors=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/946",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "numpy",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/947",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "datetime",
+    "numpy",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/949",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.003s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/951",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "numpy",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/952",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "datetime",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.013s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/954",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "re"
+   ],
+   "stderr_tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.007s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/956",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "re",
+    "string"
+   ],
+   "stderr_tail": "...............\n----------------------------------------------------------------------\nRan 15 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/957",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "re",
+    "string"
+   ],
+   "stderr_tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/958",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "re"
+   ],
+   "stderr_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/959",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "string"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/960",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/961",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "glob",
+    "os"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.023s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/962",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "glob",
+    "os",
+    "pathlib",
+    "shutil"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.072s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/963",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "glob",
+    "os",
+    "pathlib",
+    "zipfile"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.265s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/965",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "os",
+    "re",
+    "shutil"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.025s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/971",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "datetime",
+    "os",
+    "pathlib"
+   ],
+   "stderr_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.039s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/972",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "os",
+    "pathlib"
+   ],
+   "stderr_tail": "iffering element 0:\n'\\\\'\n'Docs'\n\nFirst list contains 1 additional elements.\nFirst extra element 3:\n'Scripts'\n\n- ['\\\\', 'Docs', 'src', 'Scripts']\n?  ------\n\n+ ['Docs', 'src', 'Scripts']\n\n----------------------------------------------------------------------\nRan 7 tests in 0.001s\n\nFAILED (failures=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/973",
+   "passed": false,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "os",
+    "shutil"
+   ],
+   "stderr_tail": " in disk_usage\n    total, free = nt._getdiskusage(path)\n                  ^^^^^^^^^^^^^^^^^^^^^^\nOSError: [WinError 123] The filename, directory name, or volume label syntax is incorrect\n\n----------------------------------------------------------------------\nRan 7 tests in 0.006s\n\nFAILED (errors=1)\n"
+  },
+  {
+   "task_id": "BigCodeBench/974",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "pathlib",
+    "shutil"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.050s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/975",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.006s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/981",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 2.9,
+   "libs": [
+    "datetime",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 1.623s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/985",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "json",
+    "math",
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.049s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/988",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "os",
+    "pathlib",
+    "re"
+   ],
+   "stderr_tail": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.028s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/989",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "string"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.015s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/991",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "binascii",
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/992",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "sqlite3",
+    "sys"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.072s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1009",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "csv",
+    "xml"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.063s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1021",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "binascii",
+    "hashlib"
+   ],
+   "stderr_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1022",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.2,
+   "libs": [
+    "datetime",
+    "os",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.077s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1028",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.6,
+   "libs": [
+    "json",
+    "platform",
+    "subprocess",
+    "time"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 3.292s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1029",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1030",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "itertools",
+    "pandas",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.071s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1031",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 2.8,
+   "libs": [
+    "pandas",
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.205s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1033",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.6,
+   "libs": [
+    "itertools",
+    "pandas",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.964s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1034",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 3.1,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 1.424s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1038",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "datetime",
+    "json"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.014s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1041",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "os",
+    "re"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.012s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1044",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.8,
+   "libs": [
+    "datetime",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.322s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1046",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "datetime",
+    "itertools",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1049",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.9,
+   "libs": [
+    "pandas",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.010s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1050",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "hashlib",
+    "os"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.012s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1055",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "itertools",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1057",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "itertools",
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.005s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1059",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "itertools",
+    "numpy",
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.007s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1068",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.1,
+   "libs": [
+    "pandas",
+    "sqlite3",
+    "warnings"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.011s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1070",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "pandas",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.008s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1072",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "numpy",
+    "pandas"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.006s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1086",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 1.0,
+   "libs": [
+    "numpy",
+    "pandas",
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.021s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1089",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "numpy"
+   ],
+   "stderr_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1090",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "ast",
+    "collections",
+    "json"
+   ],
+   "stderr_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1091",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "ast",
+    "glob",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.129s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1093",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "ast",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.044s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1097",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "re",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1098",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1099",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1101",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.5,
+   "libs": [
+    "glob",
+    "os",
+    "subprocess",
+    "time"
+   ],
+   "stderr_tail": ":\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_ho4t7_nj\\testdir_task_func\\sample_directory\\script3.py\", line 1, in <module>\n    a <- 42/nA <- a * 2/nprint(A)\n    ^\nNameError: name 'a' is not defined\n.....\n----------------------------------------------------------------------\nRan 5 tests in 0.338s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1102",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "datetime",
+    "shlex",
+    "subprocess"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1103",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 20.5,
+   "libs": [
+    "os",
+    "shutil",
+    "subprocess"
+   ],
+   "stderr_tail": ".  File \"C:\\Users\\user\\AppData\\Local\\Temp\\rb_sandbox_0tdzlua_\\testdir_task_func\\temp_dir\\script3.py\", line 1\n    invalid python code\n            ^^^^^^\nSyntaxError: invalid syntax\n....\n----------------------------------------------------------------------\nRan 5 tests in 20.293s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1104",
+   "passed": false,
+   "timed_out": true,
+   "seconds": 82.5,
+   "libs": [
+    "os",
+    "subprocess",
+    "threading"
+   ],
+   "stderr_tail": "timeout"
+  },
+  {
+   "task_id": "BigCodeBench/1105",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 12.4,
+   "libs": [
+    "glob",
+    "os",
+    "subprocess",
+    "time"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 12.121s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1106",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "datetime",
+    "os",
+    "pathlib"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.009s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1108",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "re"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1110",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "collections",
+    "itertools",
+    "operator"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1111",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "itertools",
+    "operator"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1112",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "csv",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.018s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1113",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "collections",
+    "csv"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.020s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1114",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.1,
+   "libs": [
+    "collections",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1115",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1116",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.1,
+   "libs": [
+    "random",
+    "statistics"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1117",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.1,
+   "libs": [
+    "collections",
+    "json",
+    "random"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1119",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "codecs",
+    "hashlib",
+    "random",
+    "string"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1126",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.1,
+   "libs": [
+    "hashlib",
+    "re"
+   ],
+   "stderr_tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.000s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1127",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "hashlib",
+    "os",
+    "re"
+   ],
+   "stderr_tail": " None), (self.test_file1, hashlib.sha256(open(self.test_file1, 'rb').read()).hexdigest()), ('-', None), ('file2.txt', None)]\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n..\n----------------------------------------------------------------------\nRan 6 tests in 0.039s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1128",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "base64",
+    "hashlib",
+    "json",
+    "os",
+    "time"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.115s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1130",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "hashlib",
+    "json",
+    "os",
+    "pathlib"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.108s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1131",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.2,
+   "libs": [
+    "binascii",
+    "hashlib"
+   ],
+   "stderr_tail": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1132",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "base64",
+    "hashlib",
+    "os"
+   ],
+   "stderr_tail": ".........\n----------------------------------------------------------------------\nRan 9 tests in 0.002s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1134",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.4,
+   "libs": [
+    "glob",
+    "hashlib",
+    "os"
+   ],
+   "stderr_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.117s\n\nOK\n"
+  },
+  {
+   "task_id": "BigCodeBench/1138",
+   "passed": true,
+   "timed_out": false,
+   "seconds": 0.3,
+   "libs": [
+    "itertools",
+    "numpy"
+   ],
+   "stderr_tail": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n"
+  }
+ ]
+}
