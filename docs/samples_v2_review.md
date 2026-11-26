@@ -35,3 +35,28 @@ sentence does not. Typical cases: `x > 0` turned into `x >= 0` where the task sa
 | Mbpp/607#remove_branch | **arguable.** The task does not say what to return when the pattern is not found; the reference returns `None`, the mutant crashes. |
 | Mbpp/639#off_by_one | **arguable.** The task only says to remove names that start with a lowercase letter; the reference also requires the rest of the name to be lowercase. On the failing input the mutant is closer to the task sentence than the reference. |
 | Mbpp/771#bool_op | **arguable.** The reference calls the empty expression unbalanced; the usual convention is that it is balanced. |
+
+## "False alarms" on the reference solutions
+
+The correct samples in samples_v2 are the MBPP+ reference solutions. 12 of the 67 were flagged by at least
+4 of the 6 strong-reviewer configurations (Claude, Gemini Flash, Gemini Argon × 2 prompts). Reading their
+explanations against the code, **11 of the 12 name a real defect** in the reference that the MBPP+ tests
+do not check:
+
+| reference | defect named by the reviewers |
+|---|---|
+| Mbpp/109 | `s[i]` raises `IndexError` when the number of rotations exceeds the string length |
+| Mbpp/113 | returns `None` instead of `False` for an empty string |
+| Mbpp/222 | `isinstance` treats `bool` as `int`; an empty tuple raises `IndexError` |
+| Mbpp/3 | 0 and negative numbers are reported as prime (`n == 1` is the only special case) |
+| Mbpp/468 | greedy single-state DP misses increasing subsequences: `[2, 10, 3, 4]` gives 20, not 24 |
+| Mbpp/559 | returns 0 for an all-negative list instead of its largest element |
+| Mbpp/576 | checks for a subsequence, not a contiguous sublist |
+| Mbpp/607 | returns the pattern (`match.re.pattern`) instead of the matched text |
+| Mbpp/620 | the list is not sorted, so `[2, 6, 3]` gives 3, not 2 |
+| Mbpp/639 | also requires the rest of the name to be lowercase, which the task does not ask |
+| Mbpp/790 | also requires odd indices to hold odd numbers, which the task does not ask |
+
+The 12th, Mbpp/92 (two-digit numbers counted as undulating), depends on a definition the task does not
+give. So a large part of the 18–30% false-alarm rate of the strong reviewers on this set is real findings
+in the reference code, as already seen with HumanEval ([false_alarm_review.md](false_alarm_review.md)).

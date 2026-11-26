@@ -1,0 +1,47 @@
+{
+  "_note": "Manual right-reason grading, copied from docs/right_reason_review.md (neutral prompt, MBPP+ real bugs only). Per writer and reviewer: how many BUG verdicts on the writer's real bugs name the actual defect (right) or point at the right spot but misdescribe it (partial). Judgement, not a metric. A missing reviewer is not graded yet.",
+  "claude": {
+    "claude": {
+      "right": 4,
+      "partial": 0
+    },
+    "gemini": {
+      "right": 3,
+      "partial": 1
+    },
+    "gemini-argon": {
+      "right": 4,
+      "partial": 0
+    },
+    "gemini-lite": {
+      "right": 1,
+      "partial": 1
+    },
+    "ollama": {
+      "right": 2,
+      "partial": 0
+    }
+  },
+  "gemini": {
+    "claude": {
+      "right": 5,
+      "partial": 0
+    },
+    "gemini": {
+      "right": 3,
+      "partial": 0
+    },
+    "gemini-argon": {
+      "right": 3,
+      "partial": 1
+    },
+    "gemini-lite": {
+      "right": 1,
+      "partial": 1
+    },
+    "ollama": {
+      "right": 2,
+      "partial": 2
+    }
+  }
+}
