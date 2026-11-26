@@ -103,3 +103,38 @@ def test_ollama_review_parses_response(monkeypatch):
     assert (res.verdict, res.line, res.explanation) == ("BUG", 2, "wrong op")
     assert (res.input_tokens, res.output_tokens, res.cost_usd) == (100, 20, 0.0)
     assert res.thinking is True  # a <think> block came back even though think=false was sent
+
+
+def test_persona_text_drops_header_and_frontmatter():
+    from reviewbench.reviewers.base import persona_text
+
+    raw = "<!--\nSource: x\n-->\n---\nname: r\ntools: Read\n---\n\nYou are a reviewer.\n\n## Rules\n- a\n"
+    assert persona_text(raw) == "You are a reviewer.\n\n## Rules\n- a\n"
+    assert persona_text("You are plain.") == "You are plain.\n"
+
+
+def test_persona_prompt_is_neutral_plus_system(tmp_path):
+    from reviewbench.reviewers.base import persona_keys
+
+    (tmp_path / "personas").mkdir()
+    (tmp_path / "neutral_v1.txt").write_text("Task: {task_prompt}\nCode: {code}\n", encoding="utf-8")
+    (tmp_path / "personas" / "qa.md").write_text("<!--\nsrc\n-->\n---\nname: qa\n---\nYou test.\n", encoding="utf-8")
+    (tmp_path / "personas" / "LICENSES.md").write_text("MIT", encoding="utf-8")
+    assert persona_keys(tmp_path) == ["persona-qa_v1"]
+    p = Prompt.load("persona-qa_v1", tmp_path)
+    neutral = Prompt.load("neutral_v1", tmp_path)
+    assert (p.name, p.version, p.system) == ("persona-qa", "v1", "You test.\n")
+    assert p.render("t", "x = 1") == neutral.render("t", "x = 1") and neutral.system is None
+
+
+def test_adapters_send_persona_as_system_prompt(tmp_path):
+    from reviewbench.reviewers.claude import SYSTEM_PROMPT, ClaudeReviewer
+
+    p = Prompt("persona-qa", "v1", "Task: {task_prompt}\nCode: {code}\n", "You test.\n")
+    body = OllamaReviewer(CFG, p).request_body("t", "x = 1")
+    assert body["messages"][0] == {"role": "system", "content": "You test.\n"}
+    assert [m["role"] for m in OllamaReviewer(CFG, Prompt.load("neutral_v1")).request_body("t", "x")["messages"]] == ["user"]
+    cmd = ClaudeReviewer({"model": "m", "cli_path": "claude.exe"}, p).command()
+    assert cmd[cmd.index("--system-prompt") + 1] == "You test.\n"
+    cmd = ClaudeReviewer({"model": "m", "cli_path": "claude.exe"}, Prompt.load("neutral_v1")).command()
+    assert cmd[cmd.index("--system-prompt") + 1] == SYSTEM_PROMPT

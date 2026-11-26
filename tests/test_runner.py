@@ -112,6 +112,7 @@ def test_daily_quota_is_not_retried():
     assert not is_retryable(DAILY_429)
     assert not is_retryable(RuntimeError("You've hit your usage limit"))
     assert not is_retryable(RuntimeError("402 RESOURCE_EXHAUSTED. Your prepayment credits are depleted."))
+    assert not is_retryable(RuntimeError("429 RESOURCE_EXHAUSTED. Your project has exceeded its monthly spending cap."))
     r = Flaky([DAILY_429])
     with pytest.raises(RuntimeError):
         review_with_retries(r, "p", "c", sleep=lambda s: None)

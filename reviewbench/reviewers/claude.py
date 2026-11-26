@@ -34,7 +34,7 @@ class ClaudeCliError(RuntimeError):
     pass
 
 
-def claude_command(exe: str, model: str, effort: str) -> list[str]:
+def claude_command(exe: str, model: str, effort: str, system_prompt: str | None = None) -> list[str]:
     """Isolated, non-interactive claude call with JSON output (shared by reviewer and writer)."""
     return [
         exe, "-p",
@@ -46,7 +46,7 @@ def claude_command(exe: str, model: str, effort: str) -> list[str]:
         "--tools", "",
         "--strict-mcp-config",
         "--no-session-persistence",
-        "--system-prompt", SYSTEM_PROMPT,
+        "--system-prompt", system_prompt or SYSTEM_PROMPT,
     ]
 
 
@@ -97,7 +97,7 @@ class ClaudeReviewer:
         return True, ""
 
     def command(self) -> list[str]:
-        return claude_command(self.exe, self.model, self.effort)
+        return claude_command(self.exe, self.model, self.effort, self.prompt.system)
 
     def review(self, task_prompt: str, code: str) -> ReviewResult:
         data, latency = call_claude(self.command(), self.prompt.render(task_prompt, code), self.timeout_s)

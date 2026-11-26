@@ -61,7 +61,8 @@ def cost_by_reviewer(calls_path: Path) -> dict[str, float]:
 
 # Long-window quotas (daily free-tier limit, subscription usage limit): retrying
 # in seconds cannot help and only burns more quota.
-_QUOTA_TEXT = ("per day", "perday", "usage limit", "limit reached", "credits are depleted", "402")
+_QUOTA_TEXT = ("per day", "perday", "usage limit", "limit reached", "credits are depleted", "402",
+               "spending cap")
 
 
 def is_quota_exhausted(e: Exception) -> bool:

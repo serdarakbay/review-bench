@@ -43,7 +43,8 @@ class OllamaReviewer:
             "stream": False,
             "think": self.think,
             "options": options,
-            "messages": [{"role": "user", "content": self.prompt.render(task_prompt, code)}],
+            "messages": ([{"role": "system", "content": self.prompt.system}] if self.prompt.system else [])
+            + [{"role": "user", "content": self.prompt.render(task_prompt, code)}],
         }
 
     def review(self, task_prompt: str, code: str) -> ReviewResult:

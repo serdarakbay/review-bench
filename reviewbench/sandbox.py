@@ -3,7 +3,9 @@
 Never exec() untrusted code in the main process.
 """
 
+import os
 import re
+import signal
 import subprocess
 import sys
 import tempfile
@@ -21,27 +23,45 @@ class RunResult:
     stderr: str
 
 
+def _kill_tree(proc: subprocess.Popen) -> None:
+    """Kill the program and every process it started. Killing only the direct child is not enough:
+    a grandchild that inherited the stdout/stderr pipes keeps communicate() waiting until it exits."""
+    if sys.platform == "win32":
+        subprocess.run(["taskkill", "/F", "/T", "/PID", str(proc.pid)], capture_output=True)
+    else:
+        os.killpg(proc.pid, signal.SIGKILL)  # the program runs in its own session (start_new_session)
+    proc.kill()
+
+
 def run_program(source: str, timeout_s: float = DEFAULT_TIMEOUT_S) -> RunResult:
     """Run `source` as a script in a temp dir. Passed = exit code 0 within timeout."""
-    with tempfile.TemporaryDirectory(prefix="rb_sandbox_") as tmp:
+    # ignore_cleanup_errors: a killed program can leave files locked on Windows.
+    with tempfile.TemporaryDirectory(prefix="rb_sandbox_", ignore_cleanup_errors=True) as tmp:
         script = Path(tmp) / "program.py"
         script.write_text(source, encoding="utf-8")
+        proc = subprocess.Popen(
+            # -I: isolated mode (ignore env vars, user site, script dir on sys.path)
+            [sys.executable, "-I", str(script)],
+            cwd=tmp,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            start_new_session=sys.platform != "win32",
+        )
         try:
-            proc = subprocess.run(
-                # -I: isolated mode (ignore env vars, user site, script dir on sys.path)
-                [sys.executable, "-I", str(script)],
-                cwd=tmp,
-                capture_output=True,
-                text=True,
-                timeout=timeout_s,
-            )
+            _, stderr = proc.communicate(timeout=timeout_s)
         except subprocess.TimeoutExpired:
+            _kill_tree(proc)
+            try:
+                proc.communicate(timeout=5)
+            except subprocess.TimeoutExpired:
+                pass  # a process outside the tree still holds the pipes; give up reading them
             return RunResult(passed=False, timed_out=True, returncode=None, stderr="timeout")
         return RunResult(
             passed=proc.returncode == 0,
             timed_out=False,
             returncode=proc.returncode,
-            stderr=proc.stderr[-2000:],
+            stderr=stderr[-2000:],
         )
 
 

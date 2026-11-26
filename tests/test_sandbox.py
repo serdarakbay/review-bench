@@ -49,3 +49,19 @@ def test_first_failure_reports_first_failing_input():
     out = first_failure("def add(a, b):\n    return abs(a) + b\n", MBPP_TEST)
     assert out == "input [-1, 5]\nexpected 4\ngot 6"
     assert "ZeroDivisionError" in first_failure("def add(a, b):\n    return (a + b) // (a + b) * (a + b)\n", MBPP_TEST)
+
+
+def test_timeout_kills_child_processes_too():
+    # A child that inherits the pipes used to keep subprocess.run waiting long after the timeout
+    # (BigCodeBench/459 ran 3,289 s with a 60 s timeout).
+    import time
+
+    source = (
+        "import subprocess, sys, time\n"
+        "subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'])\n"
+        "time.sleep(60)\n"
+    )
+    start = time.monotonic()
+    result = run_program(source, timeout_s=2)
+    assert result.timed_out and not result.passed
+    assert time.monotonic() - start < 15

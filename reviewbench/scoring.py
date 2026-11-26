@@ -189,3 +189,20 @@ def ensemble(a: list[dict], b: list[dict], rule: str) -> list[dict]:
             "latency_s": max(x.get("latency_s") or 0.0, y.get("latency_s") or 0.0),
         })
     return out
+
+
+def run_agreement(a: list[dict], b: list[dict]) -> dict:
+    """Repeatability: the same reviewer and prompt run twice on the same samples.
+
+    Pairs calls by sample_id (API errors dropped). PARSE_ERROR counts as "not BUG", as
+    everywhere else. Returns n, agreement (Rate), flips each way, and the exact McNemar
+    p-value for "BUG more often in one run than in the other".
+    """
+    b_by = {x["sample_id"]: x for x in _scored(b)}
+    pairs = [(x, b_by[x["sample_id"]]) for x in _scored(a) if x["sample_id"] in b_by]
+    bug_a = [x["verdict"] == "BUG" for x, _ in pairs]
+    bug_b = [y["verdict"] == "BUG" for _, y in pairs]
+    only_a = sum(p and not q for p, q in zip(bug_a, bug_b))
+    only_b = sum(q and not p for p, q in zip(bug_a, bug_b))
+    return {"n": len(pairs), "agreement": Rate(len(pairs) - only_a - only_b, len(pairs)),
+            "bug_only_first": only_a, "bug_only_second": only_b, "p": mcnemar_exact(only_a, only_b)}

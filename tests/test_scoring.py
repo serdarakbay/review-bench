@@ -129,3 +129,15 @@ def test_ensemble_and_or():
     assert both["s1"]["reported_line"] is None
     assert both["s3"]["reviewer"] == "a&b" and either["s3"]["reviewer"] == "a|b"
     assert abs(both["s3"]["cost_usd"] - 0.2) < 1e-9
+
+
+def test_run_agreement_counts_flips():
+    from reviewbench.scoring import run_agreement
+
+    a = [_c("r", "s1", True, "BUG"), _c("r", "s2", True, "OK"), _c("r", "s3", False, "BUG"),
+         _c("r", "s4", False, "PARSE_ERROR"), _c("r", "s5", False, "OK", error="x")]
+    b = [_c("r", "s1", True, "BUG"), _c("r", "s2", True, "BUG"), _c("r", "s3", False, "OK"),
+         _c("r", "s4", False, "OK"), _c("r", "s5", False, "BUG")]
+    r = run_agreement(a, b)
+    assert r["n"] == 4  # s5 dropped: first run's call failed
+    assert (r["agreement"].k, r["bug_only_first"], r["bug_only_second"]) == (2, 1, 1)

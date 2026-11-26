@@ -32,17 +32,32 @@ class Reviewer(Protocol):
     def review(self, task_prompt: str, code: str) -> ReviewResult: ...
 
 
+PERSONA_PREFIX = "persona-"
+PERSONA_BASE = "neutral_v1"  # user prompt of every persona variant: byte-identical to neutral_v1
+
+
 @dataclass(frozen=True)
 class Prompt:
-    """A prompt template loaded from prompts/<name>_<version>.txt, e.g. neutral_v1."""
+    """A prompt template loaded from prompts/<name>_<version>.txt, e.g. neutral_v1.
+
+    Persona variants, key `persona-<file stem>_v1`, use the neutral_v1 user prompt
+    unchanged and put the persona text from prompts/personas/<file stem>.md in the
+    system prompt, so the persona is the only difference from neutral_v1.
+    """
 
     name: str
     version: str
     template: str
+    system: str | None = None  # None: the adapter's default (minimal) system prompt
 
     @classmethod
     def load(cls, key: str, prompts_dir: Path = ROOT / "prompts") -> "Prompt":
         name, version = key.rsplit("_", 1)
+        if name.startswith(PERSONA_PREFIX):
+            stem = name[len(PERSONA_PREFIX):]
+            base = (prompts_dir / f"{PERSONA_BASE}.txt").read_text(encoding="utf-8")
+            persona = persona_text((prompts_dir / "personas" / f"{stem}.md").read_text(encoding="utf-8"))
+            return cls(name, version, base, persona)
         return cls(name, version, (prompts_dir / f"{key}.txt").read_text(encoding="utf-8"))
 
     def render(self, task_prompt: str, code: str) -> str:
@@ -50,6 +65,25 @@ class Prompt:
         return self.template.replace("{task_prompt}", task_prompt.strip("\n")).replace(
             "{code}", number_lines(code)
         )
+
+
+def persona_text(raw: str) -> str:
+    """Persona file -> system prompt text: drop our leading <!-- source/license --> header and the
+    agent's YAML frontmatter (name, tools, model: metadata that Claude Code also keeps out of the
+    system prompt). The body is used verbatim."""
+    text = raw.lstrip()
+    if text.startswith("<!--"):
+        text = text[text.index("-->") + 3:].lstrip()
+    if text.startswith("---"):
+        end = text.index("\n---", 3)
+        text = text[end + 4:]
+    return text.strip() + "\n"
+
+
+def persona_keys(prompts_dir: Path = ROOT / "prompts") -> list[str]:
+    """Every persona variant found in prompts/personas/ (adding a persona = adding one .md file)."""
+    return sorted(f"{PERSONA_PREFIX}{p.stem}_v1" for p in (prompts_dir / "personas").glob("*.md")
+                  if p.name != "LICENSES.md")
 
 
 def number_lines(code: str) -> str:

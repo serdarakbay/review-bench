@@ -45,7 +45,8 @@ class GeminiReviewer:
         from google.genai import types
 
         thinking = types.ThinkingConfig(thinking_level=self.thinking_level) if self.thinking_level else None
-        return types.GenerateContentConfig(temperature=0, thinking_config=thinking)
+        system = getattr(self.prompt, "system", None)  # persona variants; None for the writer and neutral
+        return types.GenerateContentConfig(temperature=0, thinking_config=thinking, system_instruction=system)
 
     def review(self, task_prompt: str, code: str) -> ReviewResult:
         start = time.perf_counter()

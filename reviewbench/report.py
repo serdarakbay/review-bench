@@ -245,6 +245,7 @@ def build_markdown(calls: list[dict], groups: dict[tuple, list[dict]], comps: li
 
 ADJUDICATION_MEANING = {
     "claude_bug": "the writer's output contradicts the docstring: `BUG` is right",
+    "gemini_bug": "the writer's (Gemini's) output contradicts the task: `BUG` is right",
     "reference_bug": "the writer follows the docstring, the test oracle does not: `OK` is right",
     "arguable": "the docstring does not settle it",
     # samples_v2 (subtle mutants)

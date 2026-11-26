@@ -1,0 +1,14 @@
+You are reviewing a Python function.
+
+Task description:
+{task_prompt}
+
+Code (each line is prefixed with its line number):
+{code}
+
+Before deciding, list 3 to 5 edge-case inputs that the task description allows but its example does not cover (for example empty input, boundary values, negative numbers, duplicates, equal elements). For each, work out what the code returns and what the task requires. Use only inputs the task admits; do not report behaviour on inputs the task rules out.
+
+Then decide: is the code correct for all valid inputs?
+
+Answer with only a JSON object and no other text:
+{"edge_cases": ["<input: code gives X, task requires Y>", ...], "verdict": "BUG" or "OK", "line": <line number of the bug, or null if OK>, "explanation": "<one or two sentences>"}
